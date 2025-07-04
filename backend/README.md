@@ -1,0 +1,1 @@
+Tarefa: tirar o nivel de abstração que escrevi nesse caralho, definitivamente nao ajuda e adicionar validações

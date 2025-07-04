@@ -6,9 +6,12 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarteiraDTO {
+public class respostaUsuarioDTO {
     
     private Long id;
 
+    private String nome;
+
+    private String email;
 
 }
