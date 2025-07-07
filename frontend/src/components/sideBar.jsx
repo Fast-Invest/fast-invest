@@ -43,14 +43,14 @@ export default function Sidebar() {
           onClick={() => setActiveIcon("graph")}
         />
         <RiSettings3Fill
-          className={`w-7 h-7 ${iconClass("home2")}`}
-          onClick={() => setActiveIcon("home2")}
+          className={`w-7 h-7 ${iconClass("settings")}`}
+          onClick={() => setActiveIcon("settings")}
         />
       </div>
 
       <FaInfoCircle
-        className={`w-7 h-7 m-5 ${iconClass("settings")}`}
-        onClick={() => setActiveIcon("settings")}
+        className={`w-7 h-7 m-5 ${iconClass("info")}`}
+        onClick={() => setActiveIcon("info")}
       />
     </aside>
   );
