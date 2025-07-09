@@ -35,6 +35,7 @@ public class Usuario {
     @Column(nullable=false)//nao vazio
     private String senha;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true) // o orphan removal é que se apagar a carteira da lista e ter o usuario salva a carteira é apagada
-    private List<Carteira> carteiras = new ArrayList<>();
+    // Não faz muito sentido
+    // @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true) // o orphan removal é que se apagar a carteira da lista e ter o usuario salva a carteira é apagada
+    //    private List<Carteira> carteiras = new ArrayList<>();
 }
