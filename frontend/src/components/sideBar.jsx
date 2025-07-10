@@ -19,7 +19,7 @@ export default function Sidebar() {
   return (
     <aside
       className="h-screen w-18 bg-primary text-white flex flex-col items-center 4
-      justify-between py-4 shadow-md shadow-white/10"
+      justify-between py-4 shadow-md shadow-white/20"
     >
       <div className="flex flex-col items-center gap-10">
         {/* Logo */}

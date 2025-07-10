@@ -1,15 +1,13 @@
 import "./App.css";
-import MenuWelcome from "./components/menuWelcome";
-import Sidebar from "./components/sideBar";
+import NavBar from "./components/navBar.jsx";
+import Sidebar from "./components/sideBar.jsx";
 
 function App() {
   return (
     <>
       <div className="flex bg-primary min-h-screen">
         <Sidebar />
-        <main className="flex-1 p-6 text-white">
-          <MenuWelcome />
-        </main>
+        <NavBar />
       </div>
     </>
   );
