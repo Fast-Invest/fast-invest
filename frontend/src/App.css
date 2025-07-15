@@ -3,6 +3,32 @@
 @theme {
   --color-gray: #605e68;
   --color-white: #f6f6f6;
-  --color-primary: #15151a;
+  --color-primary: #161621;
   --color-secondary: #00ff9c;
+}
+
+@keyframes bell-shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-15deg);
+  }
+  40% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(-10deg);
+  }
+  80% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.bell-hover:hover {
+  animation: bell-shake 0.4s ease-in-out;
+  transform-origin: top center;
 }
