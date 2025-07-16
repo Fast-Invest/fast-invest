@@ -15,12 +15,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 class Carteira {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne
-    @JoinColumn(name="usuario_id")
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "carteira", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Filtro> filtros;
 }

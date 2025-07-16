@@ -21,21 +21,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor//cria construtor sem argumentos
 @Table(name="usuarios")
 public class Usuario {
-
-    @Id //diz que é o id da tabela
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //isso daqui diz que é auto increment
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)//nao vazio
+    @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false,unique = true) //email unico, nao vazio
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable=false)//nao vazio
+    @Column(nullable = false)
     private String senha;
 
-    // Não faz muito sentido
-    // @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true) // o orphan removal é que se apagar a carteira da lista e ter o usuario salva a carteira é apagada
-    //    private List<Carteira> carteiras = new ArrayList<>();
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Carteira> carteiras;
 }
