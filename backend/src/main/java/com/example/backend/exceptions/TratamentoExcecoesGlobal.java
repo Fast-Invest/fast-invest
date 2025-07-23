@@ -37,7 +37,8 @@ public class TratamentoExcecoesGlobal{//Aqui ria um handler para exceções pers
 
     //erro na validacao
     @ExceptionHandler(MethodArgumentNotValidException.class)//isso é lançado quando falha na validação
-    public ResponseEntity<Map<String,String>> handleValidacao(MethodArgumentNotValidException ex){
+    public ResponseEntity<Map<String,String>> handleValidacao(MethodArgumentNotValidException ex)
+    {
         String msg = ex.getBindingResult()//retorna o objeto com todos erros de validação detecdados
                     .getFieldErrors()//pega os campos onde houve erro individualmente,devolve uma lista
                     .stream() //para operar com o fluxo de dados da lista

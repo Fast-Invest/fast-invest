@@ -21,7 +21,8 @@ import com.example.backend.forms.resetSenhaForm;
 
 @RestController("/esqueci-senha")
 @Validated
-public class resetSenhaController {
+public class resetSenhaController 
+{
     
     //inicializa o serviço de envio de email
     @Autowired
@@ -29,7 +30,8 @@ public class resetSenhaController {
 
     
     @PostMapping
-    public ResponseEntity<Map<String,String>> request_token(@RequestBody @Valid emailForm form){
+    public ResponseEntity<Map<String,String>> request_token(@RequestBody @Valid emailForm form)
+    {
         try{
         mail.enviarEmail(form.getEmail(), Token.gerarToken(4));}//envia o email com o token
         catch(MessagingException ex){ //se der erro cai aqui e retira
@@ -42,7 +44,8 @@ public class resetSenhaController {
 
 
     @PostMapping("/reset")
-    public ResponseEntity<Map<String,String>> reseting(@RequestBody @Valid resetSenhaForm form){
+    public ResponseEntity<Map<String,String>> reseting(@RequestBody @Valid resetSenhaForm form)
+    {
         //String token=dto.getToken();
         //String email=dto.getEmail();
         //String novaSenha=dto.getNovaSenha();

@@ -32,7 +32,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 @Validated
 @RequestMapping("/usuario")
-public class UsuarioController {
+public class UsuarioController 
+{
     
 
     //inicializa o serviço de usuario que realiza o crud em si
@@ -44,7 +45,8 @@ public class UsuarioController {
 
     ////////////////////////////////////////////////////////////////////// CRIAR //////////////////////////////////////////////////////////////////////
     @PostMapping
-    public ResponseEntity<UsuarioDTO> criar(@Valid @RequestBody  UsuarioForm usuario) {
+    public ResponseEntity<UsuarioDTO> criar(@Valid @RequestBody  UsuarioForm usuario) 
+    {
         //se o campo nao for valido tem uma exceção para lidar com isso
         UsuarioDTO resp=service.criarUsuario(usuario);//chama o serviço de criar o usuario, retorna o usuario criado
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);//responde com 201, com usuario criado
@@ -55,19 +57,22 @@ public class UsuarioController {
 
     /////////////////////////////////////////////////////////////////////////// BUSCAR //////////////////////////////////////////////////////////////////////
     @GetMapping("/{id}") //busca o usuario por id
-    public ResponseEntity<UsuarioDTO> getId(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> getId(@PathVariable Long id)
+    {
         UsuarioDTO resp=service.listarUsuarioId(id);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
     
     @GetMapping("/email") //busca o usuario pelo email
-    public ResponseEntity<UsuarioDTO> getEmail(@RequestBody String email) {
+    public ResponseEntity<UsuarioDTO> getEmail(@RequestBody String email) 
+    {
         UsuarioDTO resp=service.listarUsuarioEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }    
 
     @GetMapping //busca todos usuarios
-    public ResponseEntity<List<UsuarioDTO>> getUsuarios(){
+    public ResponseEntity<List<UsuarioDTO>> getUsuarios()
+    {
         List<UsuarioDTO> resp=service.listarUsuarios();
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
@@ -79,14 +84,16 @@ public class UsuarioController {
 
     /////////////////////////////////////////////////////////////////////// DELETAR //////////////////////////////////////////////////////////////////////
     @DeleteMapping("/{id}") //deleta por id
-    public ResponseEntity<String> deleteId(@PathVariable Long id){
+    public ResponseEntity<String> deleteId(@PathVariable Long id)
+    {
         service.deletarUsuarioId(id);
         return ResponseEntity.status(HttpStatus.OK).body("usuario deletado");
     }
 
     
     @DeleteMapping("/email") //deleta por email
-    public ResponseEntity<String> deleteEmail(@RequestBody String email){
+    public ResponseEntity<String> deleteEmail(@RequestBody String email)
+    {
         service.deletarUsuarioEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body("usuario deletado");
     }
