@@ -13,12 +13,25 @@ public class TratamentoExcecoesGlobal{//Aqui ria um handler para exceções pers
 
     
 
-    // Usuario ja existente
     @ExceptionHandler(UsuariojaExiste.class)
     public ResponseEntity<String> handleUsuarioJaExiste(UsuariojaExiste ex){ 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
+    @ExceptionHandler(UsuarioNaoEncontrado.class)
+    public ResponseEntity<String> handleUsuarioNaoEncontrado(UsuarioNaoEncontrado ex){ 
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }   
+
+    @ExceptionHandler(UsuariojaExiste.class)
+    public ResponseEntity<String> handleTokenInvalido(TokenInvalido ex){ 
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }   
+    
+    @ExceptionHandler(TokenInvalido.class)
+    public ResponseEntity<String> handleTokenExpirado(TokenExpirado ex){ 
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 
 
 
