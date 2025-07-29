@@ -32,5 +32,3 @@ A plataforma foi projetada para oferecer ferramentas avançadas de filtragem, mo
 * **Notificações inteligentes**: receba alertas sobre melhorias no desempenho de ações relacionadas à sua carteira.
 
 ---
-
-Se quiser, posso também criar **uma versão mais profissional e chamativa** (com badges, links para demo, imagens de tela e estrutura organizada como README de projeto open source no GitHub). Quer que eu faça?
