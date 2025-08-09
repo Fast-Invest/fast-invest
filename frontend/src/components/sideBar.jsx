@@ -18,8 +18,8 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="h-screen w-18 bg-primary text-white flex flex-col items-center 4
-      justify-between py-4 shadow-md shadow-white/10"
+      className="h-screen w-18 bg-bg text-white flex flex-col items-center 4
+      justify-between py-4"
     >
       <div className="flex flex-col items-center gap-10">
         {/* Logo */}
@@ -31,8 +31,8 @@ export default function Sidebar() {
           onClick={() => setActiveIcon("home")}
         />
         <FaMoneyBillWave
-          className={`w-7 h-7 ${iconClass("building")}`}
-          onClick={() => setActiveIcon("building")}
+          className={`w-7 h-7 ${iconClass("quotation")}`}
+          onClick={() => setActiveIcon("quotation")}
         />
         <FaWallet
           className={`w-7 h-7 ${iconClass("wallet")}`}

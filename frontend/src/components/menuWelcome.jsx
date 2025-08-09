@@ -12,7 +12,6 @@ export default function MenuWelcome() {
             Usuário!
           </span>
 
-          {/* Texto principal com gradiente visível */}
           <span className="bg-gradient-to-r from-lime-400 to-secondary text-transparent bg-clip-text">
             Usuário!
           </span>

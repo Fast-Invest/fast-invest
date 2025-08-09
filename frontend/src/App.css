@@ -1,8 +1,58 @@
 @import "tailwindcss";
 
+/* Modo Claro mas tem que ver ainda
 @theme {
-  --color-gray: #605e68;
-  --color-white: #f6f6f6;
-  --color-primary: #15151a;
-  --color-secondary: #00ff9c;
+  --color-primary: #00e07b;
+  --color-primary-dark: #00b366;
+  --color-secondary: #009f5c;
+
+  --color-bg: #f9fafb;
+  --color-bg-card: #ffffff;
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+
+  --color-gray: #d1d5db;
 }
+*/
+
+/* Modo escuro */
+@theme {
+  --color-primary: #00ff9c;
+  --color-primary-dark: #00cc7f;
+  --color-secondary: #00b36f;
+
+  --color-bg: #15151a;
+  --color-bg-card: #1f1f26;
+  --color-text: #f6f6f6;
+  --color-text-muted: #9ca3af;
+
+  --color-gray: #605e68;
+}
+
+/* Animação do sino */
+@keyframes bell-shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-15deg);
+  }
+  40% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(-10deg);
+  }
+  80% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.bell-hover:hover {
+  animation: bell-shake 0.4s ease-in-out;
+  transform-origin: top center;
+}
+
