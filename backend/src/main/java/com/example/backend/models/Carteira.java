@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.CascadeType;
 
@@ -21,7 +22,9 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-class Carteira {
+@Table(name = "carteiras")
+class Carteira 
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

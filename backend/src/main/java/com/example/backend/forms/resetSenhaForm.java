@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Data//adiciona os metodos get,set,equals e hashcode
 @AllArgsConstructor//construtor levando todos argumentos
 @NoArgsConstructor//construtor sem argumentos
-public class resetSenhaForm {
+public class ResetSenhaForm 
+{
 
     @NotBlank(message = "O token nao pode estar vazio") @Size(min=4, message = "O token nao pode ter menos de 4 digitos")
     private String token;

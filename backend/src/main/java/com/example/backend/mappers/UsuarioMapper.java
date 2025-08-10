@@ -1,4 +1,4 @@
-package com.example.backend.services;
+package com.example.backend.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -8,7 +8,8 @@ import com.example.backend.models.Usuario;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface UsuarioMapper {
+public interface UsuarioMapper 
+{
 
   //converte um form de criação na entidade que será salva no banco
   @Mapping(target = "id", ignore = true)

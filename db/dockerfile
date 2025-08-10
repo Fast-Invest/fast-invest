@@ -1,0 +1,7 @@
+FROM mysql:8.0
+
+# Copia o my.cnf para a pasta de configuração do MySQL no container
+COPY my.cnf /etc/mysql/conf.d/my.cnf
+
+# Ajusta a permissão para 644 (leitura para todos, escrita só para dono)
+RUN chmod 644 /etc/mysql/conf.d/my.cnf

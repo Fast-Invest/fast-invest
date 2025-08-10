@@ -15,8 +15,10 @@ public class EmailService{
     @Autowired
     private JavaMailSender mailSender;
 
-    public void enviarEmail(String destinatario,String token) throws MessagingException{
-        try{
+    public void enviarEmail(String destinatario,String token) throws MessagingException
+    {
+        try
+        {
         MimeMessage msg = mailSender.createMimeMessage(); //cria um objeto de email
         MimeMessageHelper helper = new MimeMessageHelper(msg,true);//true permite: Texto simples,HTML,Anexos (PDFs, imagens, etc),Imagens embutidas no corpo do HTML
 
@@ -26,7 +28,8 @@ public class EmailService{
         helper.setText(html,true);//true habilita html
         mailSender.send(msg);//envia
         }
-        catch( Exception e){
+        catch( Exception e)
+        {
             throw new RuntimeException("Erro ao enviar email", e);
         }
     }

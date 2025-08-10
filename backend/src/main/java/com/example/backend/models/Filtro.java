@@ -10,13 +10,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "filtros")
-public class Filtro {
+public class Filtro 
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String tipo;
+
+    @Column(name = "valorMin", columnDefinition = "DOUBLE")
     private Double valorMin;
+
+    @Column(name = "valorMax", columnDefinition = "DOUBLE")
     private Double valorMax;
 
     @ManyToOne

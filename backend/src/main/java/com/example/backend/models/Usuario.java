@@ -1,21 +1,26 @@
 package com.example.backend.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data//gera getters, setters, toString, equals e hashCode
 @Entity
 @AllArgsConstructor//cria construtor com todos argumentos
 @NoArgsConstructor//cria construtor sem argumentos
 @Table(name="usuarios")
-public class Usuario {
+public class Usuario 
+{
 
     @Id //diz que é o id da tabela
     @GeneratedValue(strategy = GenerationType.IDENTITY) //isso daqui diz que é auto increment
@@ -30,7 +35,6 @@ public class Usuario {
     @Column(nullable=false)//nao vazio
     private String senha;
 
-    // Não faz muito sentido
-    // @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true) 
-    //    private List<Carteira> carteiras = new ArrayList<>();                                            
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true) 
+    private List<Carteira> carteiras;
 }

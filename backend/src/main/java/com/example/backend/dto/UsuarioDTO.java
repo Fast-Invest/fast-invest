@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 @Data//adiciona os metodos get,set,equals e hashcode
 @NoArgsConstructor//construtor sem argumentos
 @AllArgsConstructor//construtor levando todos argumentos
-public class UsuarioDTO {
+public class UsuarioDTO 
+{
     
     private Long id;
 

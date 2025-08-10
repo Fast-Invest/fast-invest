@@ -1,8 +1,8 @@
-package com.example.backend.config;
+package com.example.backend.utils;
 
 import java.security.SecureRandom;
 
-public class Token
+public class EmailTokenUtil
 {
     private static final SecureRandom random = new SecureRandom();
 

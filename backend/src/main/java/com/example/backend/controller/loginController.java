@@ -1,61 +1,133 @@
 package com.example.backend.controller;
 
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.backend.services.LoginService;
-import org.springframework.http.HttpHeaders;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import java.util.Date;
+import com.example.backend.services.JwtService;
+import com.example.backend.services.LoginService;
+import com.example.backend.utils.CookieUtils;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import com.example.backend.dto.UsuarioDTO;
-import com.example.backend.forms.loginForm;
-import org.springframework.beans.factory.annotation.Value;
+import com.example.backend.exceptions.TokenInvalido;
+import com.example.backend.forms.LoginForm;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import com.example.backend.config.JWT;
 
 
 
-
+@Tag(name="Autenticação", description = "endpoints para autenticação de usuarios")
 @RestController
 @Validated
-public class loginController 
+@RequestMapping("/auth")
+public class LoginController 
 {
     
+    @Value("${jwt.access-expiration-ms}")
+    private long accessTokenExpiration;
+
+    @Value("${jwt.refresh-expiration-ms}")
+    private long refreshTokenExpiration;
 
     @Autowired
-    private LoginService loginserv;
+    private LoginService loginService;
 
     @Autowired
-    private JWT jwt;
+    private CookieUtils cookieUtils;
 
+    private final JwtService jwtService;
 
+    public LoginController(JwtService jwtService){
+        this.jwtService=jwtService;
+    }
    
 
+    @Operation(summary = "Faz o login do usuário")
+    @ApiResponse(responseCode ="200", description = "Usuario encontrado com sucesso")
+    @ApiResponse(responseCode ="400", description = "Usuario envio credenciais invalidas")
     @PostMapping("/login") //Metodo POST
-    public ResponseEntity<UsuarioDTO> logar(@RequestBody @Valid loginForm form,HttpServletResponse response)
-    { //recebe o usuario
-        UsuarioDTO resp  = loginserv.logar_usuario(form);
+    public ResponseEntity<UsuarioDTO> logar(@RequestBody @Valid LoginForm form,HttpServletResponse response)
+    {    
+        UsuarioDTO resp  = loginService.logar_usuario(form); //recebe o usuario, o logar usuario ja checa a senha tbm. Em caso de usuario não encontrado retorna null
+        if (resp!=null)
+        {
+            // Cria os tokens jwt com identity=email e um token csrf com UUID aleatorio
+            String accessToken = jwtService.criarTokenAcesso(resp.getEmail());
+            String refreshToken = jwtService.criarTokenRefresh(resp.getEmail());
+            String csrfToken = UUID.randomUUID().toString();
 
-
-        if (resp!=null){
-            String token=jwt.buildjwt(resp.getEmail());
-            ResponseCookie cookie=jwt.buildCookie(token);
-
-            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+            // Adiciona os cookies na resposta
+            cookieUtils.adicionarCookie(response, true,"ACCESS-TOKEN" ,accessToken, accessTokenExpiration);
+            cookieUtils.adicionarCookie(response, true,"REFRESH-TOKEN" ,refreshToken, refreshTokenExpiration);
+            cookieUtils.adicionarCookie(response, false, "XSRF-TOKEN", csrfToken, accessTokenExpiration);
+            
             return ResponseEntity.status(HttpStatus.OK).body(resp);
         }
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
     }
+
+
+    @Operation(summary = "Reseta os tokens jwt e csrf do usuario")
+    @ApiResponse(responseCode ="200", description = "Token resetado com sucesso")
+    @ApiResponse(responseCode ="401", description = "Sem permissão pois o token está invalido ou expirado")
+    @PostMapping("/refresh") //Metodo POST
+    public ResponseEntity<String> refresh(@CookieValue(name = "REFRESH-TOKEN", defaultValue = "") String refreshToken,HttpServletResponse response)
+    {   
+        // Se o token estiver vazio ou não presente retorna 401, não autorizado
+        if (refreshToken.isBlank()){throw new TokenInvalido("Token expirado ou invalido");}
+
+        String email = jwtService.validarTokenRefresh(refreshToken);
+
+        // Se não conseguir extrair a identity do token retorna 401, não autorizado
+        if(email == null){throw new TokenInvalido("Token expirado ou invalido");}
+
+        // Recria os cookies
+        String novoAccessToken = jwtService.criarTokenAcesso(email);
+        String novoRefreshToken = jwtService.criarTokenRefresh(email);
+        String novoCsrfToken = UUID.randomUUID().toString();
+
+        // E os adiciona na resposta
+        cookieUtils.adicionarCookie(response, true,"ACCESS-TOKEN" ,novoAccessToken, accessTokenExpiration);
+        cookieUtils.adicionarCookie(response, true,"REFRESH-TOKEN" ,novoRefreshToken, refreshTokenExpiration);
+        cookieUtils.adicionarCookie(response, false, "X-XSRF-TOKEN", novoCsrfToken, accessTokenExpiration);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Refresh realizado com sucesso");
+    }
+
+
+    @Operation(summary = "Realiza o logout do usuario")
+    @ApiResponse(responseCode = "200", description = "Retira os cookies e assim desloga o usuario")
+    @PostMapping("/logout") //Metodo POST
+    public ResponseEntity<String> sair(HttpServletResponse response)
+    {   
+        // Deleta os cookies
+        cookieUtils.deletarCookie(response, "ACCESS-TOKEN");
+        cookieUtils.deletarCookie(response, "REFRESH-TOKEN");
+        cookieUtils.deletarCookie(response,  "X-XSRF-TOKEN");
+
+        return ResponseEntity.status(HttpStatus.OK).body("Logout realizado com sucesso");
+    }
+
+
+
+
+
+
+
+
 }

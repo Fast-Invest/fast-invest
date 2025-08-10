@@ -15,7 +15,8 @@ import jakarta.validation.constraints.Size;
 @Data//adiciona os metodos get,set,equals e hashcode
 @NoArgsConstructor//construtor sem argumentos
 @AllArgsConstructor//construtor levando todos argumentos
-public class UsuarioForm {
+public class UsuarioForm 
+{
     
     @NotBlank(message = "O nome é obrigatorio") @Size(min=2, message = "O nome deve ter ao menos 2 letras")//validação
     private String nome;

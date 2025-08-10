@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Data//adiciona os metodos get,set,equals e hashcode
 @AllArgsConstructor//construtor levando todos argumentos
 @NoArgsConstructor//construtor sem argumentos
-public class loginForm {
+public class LoginForm 
+{
 
     @NotBlank(message = "O email é obrigatorio") @Email(message="Email deve ser valido") //validacao
     private String email;
@@ -21,3 +22,4 @@ public class loginForm {
     private String senha;
  
 }
+

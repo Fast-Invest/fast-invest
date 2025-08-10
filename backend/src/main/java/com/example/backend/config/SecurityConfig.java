@@ -1,13 +1,12 @@
 package com.example.backend.config;
 
 
-import com.example.backend.jwt.JwtFilter;
-import com.example.backend.repositories.UsuarioRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.example.backend.security.JwtFilter;
+
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,8 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
@@ -28,30 +27,32 @@ import java.util.List;
 public class SecurityConfig 
 {
 
-    @Value("${app.jwt.secret}")
-    private String jwtSecret;
 
+    private final JwtFilter jwtFilter;
 
-    @Autowired
-    private UsuarioRepo usuarioRepo;
+    public SecurityConfig(JwtFilter jwtFilter)
+    {
+        this.jwtFilter=jwtFilter;
+    }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){ //isso daqui é usado para dar hash no password
+    public PasswordEncoder passwordEncoder()
+    { //isso daqui é usado para dar hash no password
         return new BCryptPasswordEncoder();
     }
     
 
-
-    public CorsConfigurationSource corsConfigSource(){
-        var cors=new CorsConfiguration();
-        cors.setAllowedOrigins(List.of("http://localhost:3000")); //so permite requisicoes do localhost do react
-        cors.setAllowedMethods(List.of("GET","POST","PUT","DELETE")); //metodos permitidos
-        cors.setAllowCredentials(true); //permite o envio de credenciais no header da requisicao,necessario para cookies jwt se forem http only
-        cors.setAllowedHeaders(List.of("*")); //permite outras coisas no header
-        cors.setExposedHeaders(List.of("XSRF-TOKEN")); //permite o envio do token csrf na requisicao
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigSource()
+    {
+        CorsConfiguration cors=new CorsConfiguration();
+        cors.setAllowedOrigins(List.of("http://localhost:5173","http://localhost:80"));// so permite requisicoes do localhost do react e da porta 80 caso queiram servir o react em nginx
+        cors.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));                     // metodos permitidos
+        cors.setAllowCredentials(true);                                                           // permite o envio de credenciais no header da requisicao,necessario para cookies jwt se forem http only
+        cors.setAllowedHeaders(List.of("*"));                                                                   // permite de tudo  no header
 
         //aplica essa logica para todas rotas
-        var source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource  source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", cors);
         return source;
     }
@@ -61,19 +62,28 @@ public class SecurityConfig
 
     //Configura uma cadeia de filtros para o csrf e pro jwt
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        return http.cors(Customizer.withDefaults())
-            .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))//isso permite o token csrf ser acessado pelo js
-            .authorizeHttpRequests(auth->auth.requestMatchers("/api/public/**", "/api/auth/**").permitAll()//permite acesso sem auth em todas rotas permitadas aqui
-                                             .anyRequest().authenticated()) //qualquer outra exige autenticacao
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))// sem sessão de servidor
-            .logout(logout -> logout.logoutUrl("/api/auth/logout").deleteCookies("JWT").logoutSuccessHandler((req, res, auth) -> res.setStatus(200)))
-            .addFilterAfter(jwtFilter(), UsernamePasswordAuthenticationFilter.class)//adiciona um filtro apos o username password authentication para validar o jwt
-            .build();        
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
+    {
+        http
+            .cors(cors -> cors.configurationSource(corsConfigSource()))
+            .csrf(csrf -> csrf
+                                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/**", "OPTIONS"))
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/usuario", "POST"))
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/auth/**"))
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/swagger-ui/**")))
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                                               .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                               .requestMatchers(HttpMethod.POST,"/usuario").permitAll()
+                                               .requestMatchers( "/auth/**").permitAll()
+                                               .requestMatchers("/swagger-ui/**").permitAll()
+                                               .anyRequest().authenticated())
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
-    @Bean
-    public JwtFilter jwtFilter() {
-        return new JwtFilter(jwtSecret, usuarioRepo);
-    }
+
+
 }
 

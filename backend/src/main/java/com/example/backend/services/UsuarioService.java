@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.forms.UsuarioForm;
+import com.example.backend.mappers.UsuarioMapper;
 import com.example.backend.dto.UsuarioDTO;
 import com.example.backend.exceptions.UsuarioNaoEncontrado;
 import com.example.backend.exceptions.UsuariojaExiste;
@@ -15,7 +16,8 @@ import java.util.List;
 
 
 @Service
-public class UsuarioService {
+public class UsuarioService 
+{
 
     @Autowired
     private UsuarioRepo usuario_repo;
@@ -28,8 +30,10 @@ public class UsuarioService {
 
 
     /////////////////////////////////////////////////////////////////// Metodo para POST
-    public UsuarioDTO criarUsuario(UsuarioForm form){//basicamente antes é criado um usuario na camada dto, pode validar la
-        if(usuario_repo.existsByEmail(form.getEmail())){ 
+    public UsuarioDTO criarUsuario(UsuarioForm form)//basicamente antes é criado um usuario na camada dto, pode validar la
+    {
+        if(usuario_repo.existsByEmail(form.getEmail()))
+        { 
             throw new UsuariojaExiste("Ja existe um usuario com o email em questao");
         }
 
@@ -45,18 +49,21 @@ public class UsuarioService {
 
 
     ///////////////////////////////////////////////////////////////////////// Metodos para GET
-    public List<UsuarioDTO> listarUsuarios(){
+    public List<UsuarioDTO> listarUsuarios()
+    {
         return mapper.toResponseList(usuario_repo.findAll());
         //o findAll vai retornar a lista de objeto usuarios, e o mapper vai converter
         //numa lista de resposta de usuariosdto (sem a senha)
     }    
 
-    public UsuarioDTO listarUsuarioId(Long id){
+    public UsuarioDTO listarUsuarioId(Long id)
+    {
         Usuario usuario = usuario_repo.findById(id).orElseThrow(()-> new UsuarioNaoEncontrado("Sem usuario com id em questao"));
         return mapper.toResponse(usuario);//retorna o dto do usuario
     }  
 
-    public UsuarioDTO listarUsuarioEmail(String email){
+    public UsuarioDTO listarUsuarioEmail(String email)
+    {
         Usuario usuario = usuario_repo.findByEmail(email).orElseThrow(()-> new UsuarioNaoEncontrado("Sem usuario com email em questao"));
         return mapper.toResponse(usuario);//retorna o dto do usuario
     }    
@@ -66,14 +73,16 @@ public class UsuarioService {
 
 
     /////////////////////////////////////////////////////////////////// Metodos para DELETE
-    public void deletarUsuarioId(Long id){
+    public void deletarUsuarioId(Long id)
+    {
         Usuario morto = usuario_repo.findById(id).orElseThrow(() -> new UsuarioNaoEncontrado("Sem usuario com id em questao"));
         //busca o usuario a deletar pelo id, se nao achar lança a exceção
         usuario_repo.delete(morto);
     }  
 
 
-    public void deletarUsuarioEmail(String email){
+    public void deletarUsuarioEmail(String email)
+    {
         Usuario morto = usuario_repo.findByEmail(email).orElseThrow(() -> new UsuarioNaoEncontrado("Sem usuario com email em questao"));
         //busca o usuario a deletar pelo email, se nao achar lança a exceção
         usuario_repo.delete(morto);

@@ -1,4 +1,4 @@
-package com.example.backend.exceptions;
+package com.example.backend.controller;
 
 
 import java.util.stream.Collectors;
@@ -6,31 +6,46 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.example.backend.exceptions.TokenExpirado;
+import com.example.backend.exceptions.TokenInvalido;
+import com.example.backend.exceptions.UsuarioNaoEncontrado;
+import com.example.backend.exceptions.UsuariojaExiste;
+
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import java.util.Map;
+
+
+
+
 @RestControllerAdvice
-public class TratamentoExcecoesGlobal{//Aqui ria um handler para exceções personalizadas , se der ele causa esse retorno
+public class ExceptionsController
+{//Aqui ria um handler para exceções personalizadas , se der ele causa esse retorno
 
     
 
     @ExceptionHandler(UsuariojaExiste.class)
-    public ResponseEntity<String> handleUsuarioJaExiste(UsuariojaExiste ex){ 
+    public ResponseEntity<String> handleUsuarioJaExiste(UsuariojaExiste ex)
+    { 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
     @ExceptionHandler(UsuarioNaoEncontrado.class)
-    public ResponseEntity<String> handleUsuarioNaoEncontrado(UsuarioNaoEncontrado ex){ 
+    public ResponseEntity<String> handleUsuarioNaoEncontrado(UsuarioNaoEncontrado ex)
+    { 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }   
 
-    @ExceptionHandler(UsuariojaExiste.class)
-    public ResponseEntity<String> handleTokenInvalido(TokenInvalido ex){ 
+    @ExceptionHandler(TokenExpirado.class)
+    public ResponseEntity<String> handleTokenInvalido(TokenInvalido ex)
+    { 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }   
     
     @ExceptionHandler(TokenInvalido.class)
-    public ResponseEntity<String> handleTokenExpirado(TokenExpirado ex){ 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    public ResponseEntity<String> handleTokenExpirado(TokenExpirado ex)
+    { 
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 
 
@@ -53,7 +68,8 @@ public class TratamentoExcecoesGlobal{//Aqui ria um handler para exceções pers
 
     //Erro geral do servidor
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGeral(Exception ex) {
+    public ResponseEntity<String> handleGeral(Exception ex) 
+    {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                              .body("Erro interno: " + ex.getMessage());
     }

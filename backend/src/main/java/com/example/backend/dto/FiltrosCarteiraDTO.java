@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FiltrosCarteiraDTO {
+public class FiltrosCarteiraDTO
+ {
     // Ação
     private Double valorAcaoMin;
     private Double valorAcaoMax;

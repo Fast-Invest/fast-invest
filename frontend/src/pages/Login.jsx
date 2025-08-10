@@ -1,55 +1,73 @@
 import { useState } from "react";
+import { useNavigate,Link } from "react-router-dom"
 import "../App.css";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
+import { logar, cadastrarUsuario } from '../services/api.jsx'
+
+
+
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const themeColors = {
-    primary: "#00ff9c",
-    bg: "#15151a",
-  };
+	const [isLogin, setIsLogin] = useState(true);
+	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate=useNavigate();
+	const themeColors = {
+		primary: "#00ff9c",
+		bg: "#15151a",
+	};
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+	const validateEmail = (email) => {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return emailRegex.test(email);
+	};
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+	const handleSubmit = async (event) => {
+		event.preventDefault();
 
-    if (!validateEmail(email)) {
-      toast.error("Por favor, insira um email válido.");
-      return;
-    }
+		if (!validateEmail(email)) 
+		{
+			toast.error("Por favor, insira um email válido.");
+			return;
+		}
 
-    if (!isLogin) {
-      if (!username) {
-        toast.error("O nome de usuário é obrigatório.");
-        return;
-      }
-      if (password.length < 6) {
-        toast.error("A senha deve ter pelo menos 6 caracteres.");
-        return;
-      }
-      if (password !== confirmPassword) {
-        toast.error("As senhas não coincidem.");
-        return;
-      }
-      toast.success("Conta criada com sucesso!");
-    } else {
-      // TODO Gustavo aqui você pode adicionar a lógica de autenticação
-      if (email === "usuario@exemplo.com" && password === "senha123") {
-        toast.success("Login realizado com sucesso!");
-      } else {
-        toast.error("Email ou senha incorretos.");
-      }
-    }
+		if (!isLogin)  //CADASTRO
+		{
+			if (!username) 
+			{
+				toast.error("O nome de usuário é obrigatório.");
+				return;
+			}
+			if (password.length < 6) {
+				toast.error("A senha deve ter pelo menos 6 caracteres.");
+				return;
+			}
+			if (password !== confirmPassword) {
+				toast.error("As senhas não coincidem.");
+				return;
+			}
+
+
+
+			const resp = await cadastrarUsuario({"nome":username,"email":email,"senha":password})
+			//console.log("Errrrrroooooo")
+			//console.log(resp)
+			if (resp.status !== 201) { toast.error("Erro ao cadastrar usuario"); return;}
+			toast.success("Conta criada com sucesso!");
+		}
+
+
+		else // ################# LOGIN
+		{   
+			const resp = await logar({"email":email,"senha":password})
+			//console.log(resp)
+			if (resp.status !== 200){toast.error("Erro no login."); return;}
+      navigate("/")
+		}
   };
 
   return (
@@ -161,7 +179,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary-dark text-black font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50"
+              className="cursor-pointer w-full bg-primary hover:bg-primary-dark text-black font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50"
             >
               {isLogin ? "Entrar" : "Cadastrar"}
             </button>
@@ -171,11 +189,22 @@ export default function Login() {
             {isLogin ? "Não tem uma conta? " : "Já possui uma conta? "}
             <button
               onClick={() => setIsLogin(!isLogin)}
-              className="text-primary hover:underline font-semibold"
+              className="text-primary hover:underline font-semibold cursor-pointer"
             >
               {isLogin ? "Cadastre-se agora" : "Faça o login"}
             </button>
           </div>
+
+			{isLogin ? 
+			<div className="mt-8 text-center text-text-muted">
+				Esqueceu a senha?
+				<Link className="text-primary hover:underline font-semibold" to="/EsqueciSenha">
+					<span> Adquira uma nova</span>
+				</Link> 
+			</div>
+			: ""}
+
+
         </div>
       </div>
     </div>

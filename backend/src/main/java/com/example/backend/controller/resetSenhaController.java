@@ -13,15 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-import com.example.backend.config.Token;
 import com.example.backend.services.EmailService;
-import com.example.backend.forms.emailForm;
-import com.example.backend.forms.resetSenhaForm;
+import com.example.backend.utils.EmailTokenUtil;
+import com.example.backend.forms.EmailForm;
+//import com.example.backend.forms.ResetSenhaForm;
 
 @RestController("/esqueci-senha")
 @Validated
-public class resetSenhaController 
+public class ResetSenhaController 
 {
     
     //inicializa o serviço de envio de email
@@ -29,11 +28,12 @@ public class resetSenhaController
     private EmailService mail;
 
     
-    @PostMapping
-    public ResponseEntity<Map<String,String>> request_token(@RequestBody @Valid emailForm form)
+    @PostMapping("requisitar-reset")
+    public ResponseEntity<Map<String,String>> request_token(@RequestBody @Valid EmailForm form)
     {
-        try{
-        mail.enviarEmail(form.getEmail(), Token.gerarToken(4));}//envia o email com o token
+        try
+        {
+        mail.enviarEmail(form.getEmail(), EmailTokenUtil.gerarToken(4));}//envia o email com o token
         catch(MessagingException ex){ //se der erro cai aqui e retira
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("erro","Erro interno: " + ex.getMessage()));
 
@@ -43,13 +43,13 @@ public class resetSenhaController
     }
 
 
-    @PostMapping("/reset")
-    public ResponseEntity<Map<String,String>> reseting(@RequestBody @Valid resetSenhaForm form)
-    {
-        //String token=dto.getToken();
-        //String email=dto.getEmail();
-        //String novaSenha=dto.getNovaSenha();
-        //Resto que nao quero fazer agr
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("confirm","Senha atualizada"));
-    }
+    // @PostMapping("/reset")
+    // public ResponseEntity<Map<String,String>> reseting(@RequestBody @Valid ResetSenhaForm form)
+    // {
+    //     //String token=dto.getToken();
+    //     //String email=dto.getEmail();
+    //     //String novaSenha=dto.getNovaSenha();
+    //     //Resto que nao quero fazer agr
+    //     return ResponseEntity.status(HttpStatus.OK).body(Map.of("confirm","Senha atualizada"));
+    // }
 }
