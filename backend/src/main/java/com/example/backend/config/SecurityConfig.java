@@ -71,13 +71,17 @@ public class SecurityConfig
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/**", "OPTIONS"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/usuario", "POST"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/auth/**"))
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/swagger-ui/**")))
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/esquecisenha/**"))
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/swagger-ui/**"))
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")))
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                                .requestMatchers(HttpMethod.POST,"/usuario").permitAll()
                                                .requestMatchers( "/auth/**").permitAll()
+                                               .requestMatchers("/esquecisenha/**").permitAll()
                                                .requestMatchers("/swagger-ui/**").permitAll()
+                                               .requestMatchers("/v3/api-docs/**").permitAll()
                                                .anyRequest().authenticated())
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

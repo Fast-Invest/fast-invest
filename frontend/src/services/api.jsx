@@ -113,3 +113,20 @@ export async function deletarPorEmail(data) {
 		return { "message": "erro ao deletar usuario", "status": error.response.status };
 	}
 }
+
+/*###############################################################################################################################################
+#                                            Esqueci a Senha:envio email, envio token, reset senha                                              # 
+###############################################################################################################################################*/
+
+export async function requisitar_email(data){
+	try
+	{
+		const response = await api.post("/esquecisenha/requisitar_reset", data);
+		return { "message": "usuario deletado com sucesso", "status": response.status };
+	}
+	catch(error)
+	{
+		console.log("Erro:", error);
+		return { "message": "erro ao enviar email", "status": error.response.status };
+	}
+}

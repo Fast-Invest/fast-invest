@@ -41,13 +41,11 @@ public class JwtFilter extends OncePerRequestFilter
     protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain filterChain) throws ServletException,IOException
     {
         String token = ExtrairTokenDoCookie(request, "ACCESS-TOKEN");
-        System.out.println("TOKEN NO FILTRO: " + token);
 
         var authContext = SecurityContextHolder.getContext().getAuthentication();
         if (token != null && (authContext == null || authContext instanceof AnonymousAuthenticationToken))
         {
             String email = jwtService.validarTokenAcesso(token);
-            System.out.println("EMAIL NO FILTRO: " + email);
 
             if (email != null )
             {

@@ -17,7 +17,7 @@ function Home() {
 			try
 			{
 			const resp = await buscarUsuarioPorEmail();
-			//if (resp.status!==200){console.log('erro');throw new Error()}
+			if (resp.status!==200){console.log('erro');throw new Error()}
 
 			setEmail(resp.usuarios.email)
 			setNome(resp.usuarios.nome)

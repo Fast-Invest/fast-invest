@@ -20,6 +20,7 @@ import com.example.backend.services.UsuarioService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -34,7 +35,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 
-
+@Tag(name = "Usuario", description = "endpoints para criação, atualização, busca e exclusão de usuarios")
 @RestController
 @Validated
 @RequestMapping("/usuario")

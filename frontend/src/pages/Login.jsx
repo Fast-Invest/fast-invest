@@ -179,7 +179,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="cursor-pointer w-full bg-primary hover:bg-primary-dark text-black font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50"
+              className="cursor-pointer w-full bg-primary hover:bg-primary-dark text-black font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105 active:outline-none active:ring-4 active:ring-primary/50"
             >
               {isLogin ? "Entrar" : "Cadastrar"}
             </button>
@@ -198,7 +198,7 @@ export default function Login() {
 			{isLogin ? 
 			<div className="mt-8 text-center text-text-muted">
 				Esqueceu a senha?
-				<Link className="text-primary hover:underline font-semibold" to="/EsqueciSenha">
+        <Link className="text-primary hover:underline font-semibold" to="/esqueceusenha">
 					<span> Adquira uma nova</span>
 				</Link> 
 			</div>
