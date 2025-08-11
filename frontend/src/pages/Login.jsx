@@ -1,73 +1,72 @@
 import { useState } from "react";
-import { useNavigate,Link } from "react-router-dom"
-import "../App.css";
+import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
-import { logar, cadastrarUsuario } from '../services/api.jsx'
 
-
-
+import "../App.css";
+import { logar, cadastrarUsuario } from "../services/api.jsx";
+import LinkVoltar from "../components/utils/linkVoltar.jsx";
+import LogoBranding from "../components/login/logoBranding.jsx";
 
 export default function Login() {
+  const [isLogin, setIsLogin] = useState(true);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-	const [isLogin, setIsLogin] = useState(true);
-	const [username, setUsername] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [confirmPassword, setConfirmPassword] = useState("");
-  const navigate=useNavigate();
-	const themeColors = {
-		primary: "#00ff9c",
-		bg: "#15151a",
-	};
+  const navigate = useNavigate();
 
-	const validateEmail = (email) => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return emailRegex.test(email);
-	};
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-		if (!validateEmail(email)) 
-		{
-			toast.error("Por favor, insira um email válido.");
-			return;
-		}
+    if (!validateEmail(email)) {
+      toast.error("Por favor, insira um email válido.");
+      return;
+    }
 
-		if (!isLogin)  //CADASTRO
-		{
-			if (!username) 
-			{
-				toast.error("O nome de usuário é obrigatório.");
-				return;
-			}
-			if (password.length < 6) {
-				toast.error("A senha deve ter pelo menos 6 caracteres.");
-				return;
-			}
-			if (password !== confirmPassword) {
-				toast.error("As senhas não coincidem.");
-				return;
-			}
+    if (!isLogin) {
+      // Cadastro
+      if (!username) {
+        toast.error("O nome de usuário é obrigatório.");
+        return;
+      }
+      if (password.length < 6) {
+        toast.error("A senha deve ter pelo menos 6 caracteres.");
+        return;
+      }
+      if (password !== confirmPassword) {
+        toast.error("As senhas não coincidem.");
+        return;
+      }
 
-
-
-			const resp = await cadastrarUsuario({"nome":username,"email":email,"senha":password})
-			//console.log("Errrrrroooooo")
-			//console.log(resp)
-			if (resp.status !== 201) { toast.error("Erro ao cadastrar usuario"); return;}
-			toast.success("Conta criada com sucesso!");
-		}
-
-
-		else // ################# LOGIN
-		{   
-			const resp = await logar({"email":email,"senha":password})
-			//console.log(resp)
-			if (resp.status !== 200){toast.error("Erro no login."); return;}
-      navigate("/")
-		}
+      const resp = await cadastrarUsuario({
+        nome: username,
+        email: email,
+        senha: password,
+      });
+      //console.log("Errrrrroooooo")
+      //console.log(resp)
+      if (resp.status !== 201) {
+        toast.error("Erro ao cadastrar usuario");
+        return;
+      }
+      toast.success("Conta criada com sucesso!");
+    } // Login
+    else {
+      const resp = await logar({ email: email, senha: password });
+      //console.log(resp)
+      if (resp.status !== 200) {
+        toast.error("Erro no login.");
+        return;
+      }
+      navigate("/");
+    }
   };
 
   return (
@@ -78,17 +77,17 @@ export default function Login() {
         toastOptions={{
           // Estilos padrão para todos os toasts
           style: {
-            background: themeColors.bg,
+            background: "#15151a",
             color: "#fff",
-            border: `1px solid ${themeColors.primary}`,
+            border: `1px solid #00ff9c`,
           },
           // Estilos específicos para cada tipo de toast
           success: {
             style: {
-              border: `1px solid ${themeColors.primary}`,
+              border: `1px solid #00ff9c`,
             },
             iconTheme: {
-              primary: themeColors.primary,
+              primary: "#00ff9c",
               secondary: "#fff",
             },
           },
@@ -105,22 +104,7 @@ export default function Login() {
       />
 
       {/* Lado Esquerdo */}
-      <div className="w-1/2 flex items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/5 rounded-full filter blur-3xl"></div>
-        <div className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-primary/10 rounded-full filter blur-3xl"></div>
-
-        <div className="max-w-md text-center z-10">
-          <img
-            src="/svg/logo.svg"
-            alt="Fast Invest"
-            className="mx-auto w-400 h-100 mb-6"
-          />
-          <h1 className="text-5xl font-bold text-primary mb-4">Fast Invest</h1>
-          <p className="text-text-muted text-lg">
-            Sua plataforma moderna de investimentos e análise de mercado.
-          </p>
-        </div>
-      </div>
+      <LogoBranding />
 
       {/* Lado Direito: Formulário */}
       <div className="w-1/2 bg-bg-card flex items-center justify-center p-12 rounded-l-3xl shadow-2xl shadow-black">
@@ -185,6 +169,7 @@ export default function Login() {
             </button>
           </form>
 
+          {/* Botão para trocar entre cadastro e login */}
           <div className="mt-8 text-center text-text-muted">
             {isLogin ? "Não tem uma conta? " : "Já possui uma conta? "}
             <button
@@ -195,16 +180,23 @@ export default function Login() {
             </button>
           </div>
 
-			{isLogin ? 
-			<div className="mt-8 text-center text-text-muted">
-				Esqueceu a senha?
-        <Link className="text-primary hover:underline font-semibold" to="/esqueceusenha">
-					<span> Adquira uma nova</span>
-				</Link> 
-			</div>
-			: ""}
+          {/* Link para recuperação de senha */}
+          {isLogin ? (
+            <div className="text-sm text-center text-text-muted">
+              Esqueceu a senha?
+              <Link
+                className="hover:underline font-semibold"
+                to="/esqueceusenha"
+              >
+                <span> Adquira uma nova</span>
+              </Link>
+            </div>
+          ) : (
+            ""
+          )}
 
-
+          {/* Link para voltar ao início */}
+          <LinkVoltar to="/" />
         </div>
       </div>
     </div>

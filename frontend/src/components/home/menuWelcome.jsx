@@ -1,11 +1,9 @@
-
 export default function MenuWelcome(props) {
-
-  const nome = props.nome
+  const nome = props.nome;
   return (
     <>
       <h1 className="text-5xl font-black text-white tracking-tight">
-        Bem-vindo,{' '}
+        Bem-vindo,{" "}
         <span className="relative inline-block">
           {/* Sombra com gradiente e blur */}
           <span
