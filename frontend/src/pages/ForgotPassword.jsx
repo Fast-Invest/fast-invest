@@ -3,15 +3,24 @@ import { Link } from "react-router-dom";
 
 import Stepper from "../components/utils/Stepper.jsx";
 import EmailFase from "../components/forgotpassword/emailFase.jsx";
+import TokenFase from "../components/forgotpassword/tokenFase.jsx";
+import PasswordFase from "../components/forgotpassword/passwordFase.jsx";
+
 import LogoBranding from "../components/login/logoBranding.jsx";
 import LinkVoltar from "../components/utils/linkVoltar.jsx";
 
 export default function ForgotPassword() {
   const [etapaAtual, setEtapa] = useState(0);
+  const [email,setEmail]=useState('')
+  const [tokenSeguranca, setTokenSeguranca] = useState("");
+
   const NUM_ETAPAS = 3;
 
   const etapas = [
-    { label: "Requirir token", component: <EmailFase mudarEtapa={setEtapa} /> },
+    { label: "Requirir token", component: <EmailFase mudarEtapa={setEtapa} setEmail={setEmail} setTokenSeguranca={setTokenSeguranca} email={email} /> },
+    { label: "Confirmar token", component: <TokenFase mudarEtapa={setEtapa} tokenSeguranca={tokenSeguranca}/> },
+    { label: "Recuperar senha", component: <PasswordFase email={email}/> },
+
   ];
 
   return (

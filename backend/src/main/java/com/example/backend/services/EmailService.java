@@ -23,9 +23,8 @@ public class EmailService{
         MimeMessage msg = mailSender.createMimeMessage(); //cria um objeto de email
 
         MimeMessageHelper helper = new MimeMessageHelper(msg,true);//true permite: Texto simples,HTML,Anexos (PDFs, imagens, etc),Imagens embutidas no corpo do HTML
-
+        
         String html = Files.readString(Paths.get("src/main/resources/static/emailTemplate.html")).replace("{token}", token);
-
         helper.setTo(destinatario);
         helper.setSubject("token de recuperação"); 
         helper.setText(html,true);//true habilita html

@@ -16,7 +16,7 @@ export default function NavBar(props) {
         <button className="p-2 rounded-full bg-bg-card text-white">
           <FaMoon className="text-xl" />
         </button>
-        <UserBar nome={props.nome} email={props.email} />
+        <UserBar nome={props.nome} email={props.email} isLogged={props.isLogged} setIsLogged={props.setIsLogged}   setNome={props.setNome}/>
       </div>
     </header>
   );

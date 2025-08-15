@@ -13,13 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor//construtor sem argumentos
 public class ResetSenhaForm 
 {
-
-    @NotBlank(message = "O token nao pode estar vazio") @Size(min=4, message = "O token nao pode ter menos de 4 digitos")
-    private String token;
-
-    @Email(message ="Email deve ser valido")
+    @NotBlank(message = "O email é obrigatorio") @Email(message="Email deve ser valido") //validacao
     private String email;
-
+    
     @NotBlank @Size(min=8,message = "A senha deve ter ao menos 8 caracteres") @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$",message = "Senha invalida")
-    private String novaSenha;
+    private String senha;
 }

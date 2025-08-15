@@ -8,6 +8,7 @@ import { buscarUsuarioPorEmail } from "../services/api.jsx";
 function Home() {
   const [nome, setNome] = useState("Usuário!");
   const [email, setEmail] = useState("Usuário!");
+  const [isLogged,setIsLogged]=useState(false)
 
   useEffect(() => {
     (async () => {
@@ -15,13 +16,16 @@ function Home() {
         const resp = await buscarUsuarioPorEmail();
         if (resp.status !== 200) {
           console.log("erro");
+          setIsLogged(false)
           throw new Error();
         }
 
         setEmail(resp.usuarios.email);
         setNome(resp.usuarios.nome);
+        setIsLogged(true)        
       } catch (error) {
-        console.log("hyyyy", error);
+        setIsLogged(false)
+        console.log("erro:", error);
       }
     })();
   }, []);
@@ -33,7 +37,7 @@ function Home() {
       </div>
 
       <div className="flex flex-col flex-1">
-        <NavBar nome={nome} email={email} />
+        <NavBar nome={nome} email={email} isLogged={isLogged} setIsLogged ={setIsLogged} setNome={setNome}/>
         <ContentHome />
       </div>
     </div>

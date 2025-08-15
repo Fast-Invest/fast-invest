@@ -1,12 +1,23 @@
-import { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { deslogar } from "../../services/api";
 
-export default function ModalUser({ nome, email, onClose }) {
-  const [showPassword, setShowPassword] = useState(false);
-  const password = "minhasenha123";
+export default function ModalUser({ nome, email, onClose, setIsLogged,setNome }) {
+  // const [showPassword, setShowPassword] = useState(false);
+  // const password = "minhasenha123";
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const handleLogout = async () => {
+      try
+      {
+        const resp = await deslogar()
+        if (resp.status !== 200) { console.log('erro:',resp.message); return ;}
+        setIsLogged(false)
+        onClose()
+        setNome('Usuário!')
+      }
+      catch(error)
+      {
+        console.log("error:",error)
+      }
+
   };
 
   return (
@@ -20,7 +31,7 @@ export default function ModalUser({ nome, email, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-4 right-4 text-text-muted hover:text-text text-2xl transition-colors duration-200"
+          className="absolute top-4 right-4 text-text-muted hover:text-text text-2xl transition-colors duration-200 cursor-pointer transform hover:scale-105 active:scale-95"
           onClick={onClose}
         >
           &times;
@@ -37,7 +48,7 @@ export default function ModalUser({ nome, email, onClose }) {
             <p className="text-text-muted text-sm">Email:</p>
             <p className="text-text text-lg font-medium">{email}</p>
           </div>
-          <div>
+          {/* <div>
             <p className="text-text-muted text-sm">Senha:</p>
             <div className="flex items-center justify-between">
               <p className="text-text text-lg font-medium">
@@ -50,12 +61,22 @@ export default function ModalUser({ nome, email, onClose }) {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-          </div>
+          </div> */}
           <div>
             <p className="text-text-muted text-sm">Carteiras Criadas:</p>
             <p className="text-text text-lg font-medium">5</p>
             {/* TODO: Chamar função para obter o número real de carteiras */}
           </div>
+
+          <div>
+            <button
+              className="cursor-pointer w-full bg-primary hover:bg-primary-dark text-black font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105 active:outline-none active:ring-4 active:ring-primary/50"
+              onClick={handleLogout}
+            >
+              Sair
+            </button>
+          </div>
+
         </div>
       </div>
     </div>

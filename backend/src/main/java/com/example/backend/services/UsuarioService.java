@@ -72,6 +72,38 @@ public class UsuarioService
 
 
 
+
+    // Metodos para update
+    public boolean atualizarSenha(String email, String senha) 
+    {
+        Usuario usuario = usuario_repo.findByEmail(email).orElseThrow(()-> new UsuarioNaoEncontrado("Sem usuario com email em questao"));
+        if(null==usuario){return false;}
+        try
+        {
+            usuario.setSenha(hash_pass.encode(senha));
+            usuario_repo.save(usuario);
+            return true;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /////////////////////////////////////////////////////////////////// Metodos para DELETE
     public void deletarUsuarioId(Long id)
     {
@@ -87,7 +119,6 @@ public class UsuarioService
         //busca o usuario a deletar pelo email, se nao achar lança a exceção
         usuario_repo.delete(morto);
     }  
-
 
 
 
