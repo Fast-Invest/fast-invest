@@ -1,23 +1,28 @@
 import { deslogar } from "../../services/api";
 
-export default function ModalUser({ nome, email, onClose, setIsLogged,setNome }) {
+export default function ModalUser({
+  nome,
+  email,
+  onClose,
+  setIsLogged,
+  setNome,
+}) {
   // const [showPassword, setShowPassword] = useState(false);
   // const password = "minhasenha123";
 
   const handleLogout = async () => {
-      try
-      {
-        const resp = await deslogar()
-        if (resp.status !== 200) { console.log('erro:',resp.message); return ;}
-        setIsLogged(false)
-        onClose()
-        setNome('Usuário!')
+    try {
+      const resp = await deslogar();
+      if (resp.status !== 200) {
+        console.log("erro:", resp.message);
+        return;
       }
-      catch(error)
-      {
-        console.log("error:",error)
-      }
-
+      setIsLogged(false);
+      onClose();
+      setNome("Usuário!");
+    } catch (error) {
+      console.log("error:", error);
+    }
   };
 
   return (
@@ -76,7 +81,6 @@ export default function ModalUser({ nome, email, onClose, setIsLogged,setNome })
               Sair
             </button>
           </div>
-
         </div>
       </div>
     </div>
