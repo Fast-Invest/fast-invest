@@ -32,3 +32,4 @@ A plataforma foi projetada para oferecer ferramentas avançadas de filtragem, mo
 * **Notificações inteligentes**: receba alertas sobre melhorias no desempenho de ações relacionadas à sua carteira.
 
 ---
+
