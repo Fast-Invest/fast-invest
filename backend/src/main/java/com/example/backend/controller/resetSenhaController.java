@@ -26,10 +26,10 @@ import com.example.backend.forms.ResetTokenForm;
 import com.example.backend.forms.ResetSenhaForm;
 
 
-@Tag(name = "Esqueci Senha", description = "endpoints para envio de email, envio de token e recuperação de senha")
+@Tag(name = "Recuperaçãod de Senha", description = "endpoints para envio de email, envio de token e recuperação de senha")
 @RestController
 @Validated
-@RequestMapping("/esquecisenha")
+@RequestMapping("/recuperacaosenha")
 public class ResetSenhaController 
 {
     
@@ -47,7 +47,7 @@ public class ResetSenhaController
         this.tokenService=tokenService;
     }
     
-    @PostMapping("/requisitar_reset")
+    @PostMapping("/envio_email_reset")
     public ResponseEntity<String> request_token(@RequestBody @Valid EmailForm form)
     {
         try
@@ -56,7 +56,7 @@ public class ResetSenhaController
             mailService.enviarEmail(form.getEmail(),tokens.tokenUsuario() );                        // envia o email com o token
             return ResponseEntity.status(HttpStatus.OK).body(tokens.tokenSeguranca());     // se nao deu erro confirma que foi enviado
         }
-        catch(MessagingException ex)
+        catch(Exception ex)
         { //se der erro cai aqui e retira
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro interno: " + ex.getMessage());
         }
@@ -64,7 +64,7 @@ public class ResetSenhaController
     }
 
 
-    @PostMapping("/validar_token")
+    @PostMapping("/validacao_token")
     public ResponseEntity<String> validar_token(@RequestBody @Valid ResetTokenForm form)
     {
         try
@@ -80,7 +80,7 @@ public class ResetSenhaController
     }
 
 
-    @PutMapping("/recuperar_senha")
+    @PutMapping("/alteracao_senha")
     public ResponseEntity<String> recuperar_senha(@RequestBody @Valid ResetSenhaForm form)
     {
         try

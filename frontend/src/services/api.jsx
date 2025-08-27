@@ -130,7 +130,7 @@ export async function requisitar_email(data)
 {
 	try
 	{
-		const response = await api.post("/esquecisenha/requisitar_reset", data);
+		const response = await api.post("/recuperacaosenha/envio_email_reset", data);
 		return { "message": "email enviado com sucesso", "status": response.status, "tokenSeguranca":response.data };
 	}
 	catch(error)
@@ -144,7 +144,7 @@ export async function enviar_token(data)
 {
 	try 
 	{
-		const response = await api.post("/esquecisenha/validar_token", data);
+		const response = await api.post("/recuperacaosenha/validacao_token", data);
 		return { "message": "token validado com sucesso", "status": response.status, };
 	}
 	catch (error) 
@@ -159,7 +159,7 @@ export async function alterar_senha(data)
 {
 	try
 	{
-		const response = await api.put("/esquecisenha/recuperar_senha",data);
+		const response = await api.put("/recuperacaosenha/alteracao_senha",data);
 		return { "message": "senha recuperada com sucesso", "status": response.status, };
 	}
 	catch (error) 

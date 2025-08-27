@@ -2,13 +2,19 @@ package com.example.backend.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
+
 import com.example.backend.forms.LoginForm;
 import com.example.backend.mappers.UsuarioMapper;
 import com.example.backend.dto.UsuarioDTO;
 import com.example.backend.models.Usuario;
 import com.example.backend.repositories.UsuarioRepo;
+import com.example.backend.exceptions.UsuarioNaoEncontrado;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.example.backend.exceptions.UsuarioNaoEncontrado;
 
 
 
@@ -29,21 +35,15 @@ public class LoginService
     /////////////////////////////////////////////////////////////////// Metodo para POST
     public UsuarioDTO logar_usuario(LoginForm form)
     {//basicamente antes é criado um usuario na camada dto, pode validar la
-        Optional<Usuario> usuario = usuario_repo.findByEmail(form.getEmail());//procura o usuario pelo email, se nao ter nada armazena no usuario
-
-        if(usuario.isEmpty())//confirma se o usuario é nulo, se for, devolve na resposta
-        { 
-            return null; //ResponseEntity é uma classe que representa uma responsa http, podendo incluir o codigo de status, headers e body      
-        }
+        Usuario usuario = usuario_repo.findByEmail(form.getEmail()).orElseThrow(()->new UsuarioNaoEncontrado(" Usuario não encontrado"));
 
 
-        Usuario usuarioModel = usuario.get(); //transforma o objeto de usuario no mesmo da entitidade do banco
-        boolean valido = check_hash.matches(form.getSenha(), usuarioModel.getSenha()); //compara a senha
+        boolean valido = check_hash.matches(form.getSenha(), usuario.getSenha()); //compara a senha
 
 
         if (valido)
         { //sendo a senha valida
-            UsuarioDTO resp = mapper.toResponse(usuarioModel); //mapeia pro usuario de resposta
+            UsuarioDTO resp = mapper.toResponse(usuario); //mapeia pro usuario de resposta
             return resp ;//retorna 200 pro cliente
         }
 
