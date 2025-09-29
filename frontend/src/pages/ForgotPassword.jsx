@@ -11,16 +11,30 @@ import LinkVoltar from "../components/utils/linkVoltar.jsx";
 
 export default function ForgotPassword() {
   const [etapaAtual, setEtapa] = useState(0);
-  const [email,setEmail]=useState('')
+  const [email, setEmail] = useState("");
   const [tokenSeguranca, setTokenSeguranca] = useState("");
 
   const NUM_ETAPAS = 3;
 
   const etapas = [
-    { label: "Requirir token", component: <EmailFase mudarEtapa={setEtapa} setEmail={setEmail} setTokenSeguranca={setTokenSeguranca} email={email} /> },
-    { label: "Confirmar token", component: <TokenFase mudarEtapa={setEtapa} tokenSeguranca={tokenSeguranca}/> },
-    { label: "Recuperar senha", component: <PasswordFase email={email}/> },
-
+    {
+      label: "Requirir token",
+      component: (
+        <EmailFase
+          mudarEtapa={setEtapa}
+          setEmail={setEmail}
+          setTokenSeguranca={setTokenSeguranca}
+          email={email}
+        />
+      ),
+    },
+    {
+      label: "Confirmar token",
+      component: (
+        <TokenFase mudarEtapa={setEtapa} tokenSeguranca={tokenSeguranca} />
+      ),
+    },
+    { label: "Recuperar senha", component: <PasswordFase email={email} /> },
   ];
 
   return (
