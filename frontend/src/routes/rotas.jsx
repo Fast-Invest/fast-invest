@@ -10,7 +10,7 @@ export default function Rotas() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/esqueceusenha" element={<ForgotPassword />} />
-      <Route path="/cotações" element={<Quotation />} />
+      <Route path="/cotacoes" element={<Quotation />} />
     </Routes>
   );
 }
