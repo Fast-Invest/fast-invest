@@ -3,7 +3,6 @@ import com.example.backend.services.TokenService.TokenPair;
 import com.example.backend.services.TokenService;
 import com.example.backend.services.UsuarioService;
 
-import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 
