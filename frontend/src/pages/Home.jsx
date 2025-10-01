@@ -2,7 +2,7 @@ import "../App.css";
 import NavBar from "../components/home/navBar.jsx";
 import Sidebar from "../components/home/sideBar.jsx";
 import ContentHome from "../components/home/contentHome.jsx";
-import Footer from "../components/home/footer.jsx";
+import Footer from "../components/utils/footer.jsx";
 import { useState, useEffect } from "react";
 import { buscarUsuarioPorEmail } from "../services/api.jsx";
 
