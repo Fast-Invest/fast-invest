@@ -114,7 +114,7 @@ export default function ContentHome() {
             </p>
           </div>
 
-         <div className="p-6 rounded-2xl border border-green-400/50 bg-black/40 space-y-6">
+        <div className="p-6 rounded-2xl border border-green-400/50 bg-black/40 space-y-6">
             <div className="flex items-start gap-3">
               <FaCheckCircle className="text-green-400 text-2xl mt-1" />
               <p className="text-lg md:text-xl">
