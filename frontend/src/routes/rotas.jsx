@@ -15,7 +15,7 @@ export default function Rotas() {
 
       <Route path="/login" element={<Login />} />
       <Route path="/esqueceusenha" element={<ForgotPassword />} />
-
+      <Route path="/cotacoes" element={<Quotation />} />
       <Route path="/carteira" element={<Wallet />} />
       <Route path="/grafico" element={<Graph />} />
       <Route path="/configuracoes" element={<Config />} />
