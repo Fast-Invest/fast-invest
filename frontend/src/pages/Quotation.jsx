@@ -4,6 +4,7 @@ import Sidebar from "../components/home/sideBar.jsx";
 import ContentQuotation from "../components/quotation/contentQuotation.jsx";
 import { useState, useEffect } from "react";
 import { buscarUsuarioPorEmail } from "../services/api.jsx";
+import Footer from "../components/utils/footer.jsx";
 
 export default function Quotation() {
   const [nome, setNome] = useState("Usuário!");
@@ -46,6 +47,7 @@ export default function Quotation() {
             setNome={setNome}
           />
           <ContentQuotation />
+          <Footer />
         </div>
       </div>
     </>
