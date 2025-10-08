@@ -15,7 +15,7 @@ function SelectWithIcon({ children }) {
   return (
     <div className="relative flex-1">
       <select
-        className="w-full min-h-[2.75rem] font-bold pl-4 pr-10 rounded-xl outline-none border-0 cursor-pointer
+        className="select-scrollbar w-full min-h-[2.75rem] font-bold pl-4 pr-10 rounded-xl outline-none border-0 cursor-pointer
         shadow-[0_0_0_1.5px_#2b2c37,0_0_25px_-17px_#000] transition-all duration-200
         focus:shadow-[0_0_0_2.5px_#2f303d] appearance-none bg-bg text-white"
       >
@@ -37,7 +37,6 @@ export default function ContentQuotation() {
 
                     const resposta = await buscar_cotacoes()
                     const status=resposta.status
-                    /*TODO: Adicionar toast caso status===400*/
                     setCotacoes(resposta.cotacoes) 
                     setAllQuotations(resposta.cotacoes)
 		        })();}, 
@@ -63,21 +62,21 @@ export default function ContentQuotation() {
       <div className="flex flex-col md:flex-row gap-4 w-full mb-6">
         <SearchInput allQuotations={allQuotations} setCotacoes={setCotacoes} />
         <SelectWithIcon>
-          <option value="">Todos os tipos</option>
+          <option value="" >Todos os tipos</option>
 =          {[...new Set(allQuotations.map(cotacao=>cotacao.tipo))]
                                     .map(
                                     (tipo, idx)=>(
-                                      <option key={idx} value={tipo}>{tipo}</option>
+                                      <option  key={idx} value={tipo}>{tipo}</option>
                                     )
                                     
                                     )} 
         </SelectWithIcon>
         <SelectWithIcon>
-          <option value="">Todos os setores</option>
+          <option value="" >Todos os setores</option>
           {[...new Set(allQuotations.map(cotacao=>cotacao.setor))]
                                     .map(
                                     (setor, idx)=>(
-                                      <option key={idx} value={setor}>{setor}</option>
+                                      <option  key={idx} value={setor}>{setor}</option>
                                     )
                                     
                                     )}        
