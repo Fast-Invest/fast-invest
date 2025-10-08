@@ -17,7 +17,7 @@ function SelectWithIcon({ children }) {
       <select
         className="w-full min-h-[2.75rem] font-bold pl-4 pr-10 rounded-xl outline-none border-0 cursor-pointer
         shadow-[0_0_0_1.5px_#2b2c37,0_0_25px_-17px_#000] transition-all duration-200
-        focus:shadow-[0_0_0_2.5px_#2f303d] appearance-none bg-transparent"
+        focus:shadow-[0_0_0_2.5px_#2f303d] appearance-none bg-bg text-white"
       >
         {children}
       </select>
@@ -28,16 +28,19 @@ function SelectWithIcon({ children }) {
 
 export default function ContentQuotation() {
   const [viewMode, setViewMode] = useState("list"); // lista como padrão
-  const [cotacoes,setAcoes] = useState([])
+  const [allQuotations,setAllQuotations]=useState([])
+  const [selectedSetor,setSelectedSetor]=useState("")
+  const [cotacoes,setCotacoes] = useState([])
 
   useEffect( 
-    async () => {
+     () => {(async()=>{
+
                     const resposta = await buscar_cotacoes()
                     const status=resposta.status
                     /*TODO: Adicionar toast caso status===400*/
-                    setAcoes(resposta.cotacoes) 
-
-		        }, 
+                    setCotacoes(resposta.cotacoes) 
+                    setAllQuotations(resposta.cotacoes)
+		        })();}, 
         []
 	)
 
@@ -58,12 +61,26 @@ export default function ContentQuotation() {
 
       {/* Barra de filtros */}
       <div className="flex flex-col md:flex-row gap-4 w-full mb-6">
-        <SearchInput />
+        <SearchInput allQuotations={allQuotations} setCotacoes={setCotacoes} />
         <SelectWithIcon>
-          <option>Todos os tipos</option>
+          <option value="">Todos os tipos</option>
+=          {[...new Set(allQuotations.map(cotacao=>cotacao.tipo))]
+                                    .map(
+                                    (tipo, idx)=>(
+                                      <option key={idx} value={tipo}>{tipo}</option>
+                                    )
+                                    
+                                    )} 
         </SelectWithIcon>
         <SelectWithIcon>
-          <option>Todos os setores</option>
+          <option value="">Todos os setores</option>
+          {[...new Set(allQuotations.map(cotacao=>cotacao.setor))]
+                                    .map(
+                                    (setor, idx)=>(
+                                      <option key={idx} value={setor}>{setor}</option>
+                                    )
+                                    
+                                    )}        
         </SelectWithIcon>
 
         {/* Botões de view */}
@@ -118,13 +135,13 @@ export default function ContentQuotation() {
                   </td>
                   <td className="px-4 py-3 font-semibold">{cotacao.ticker}</td>
                   <td className="px-4 py-3">{cotacao.nome}</td>
-                  <td className="px-4 py-3">{cotacao.preco}</td>
+                  <td className="px-4 py-3">R${cotacao.preco}</td>
                   <td
                     className={`px-4 py-3 font-medium ${
                       cotacao.variacao>=0 ? "text-[#00ff9c]" : "text-red-500"
                     }`}
                   >
-                    {cotacao.variacao}
+                    {cotacao.variacao}%
                   </td>
                   <td className="px-4 py-3 text-white/70">{cotacao.setor}</td>
                   <td>
@@ -138,29 +155,29 @@ export default function ContentQuotation() {
           </table>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {acoes.map((acao, idx) => (
+            {cotacoes.map((cotacao, idx) => (
               <div
                 key={idx}
                 className="p-6 rounded-2xl border border-primary/50 shadow-lg shadow-primary/30 hover:shadow-primary/70 hover:-translate-y-2 transition-all duration-300 text-left"
               >
                 <img
-                  src={`https://logo.clearbit.com/${acao.logo}`}
-                  alt={acao.ticker}
+                  src={`https://logo.clearbit.com/${cotacao.logo}`}
+                  alt={cotacao.ticker}
                   className="w-12 h-12 rounded-full mb-3"
                 />
                 <h3 className="text-white font-bold text-lg mb-1">
-                  {acao.ticker}
+                  {cotacao.ticker}
                 </h3>
-                <p className="text-gray-300 text-sm mb-1">{acao.nome}</p>
-                <p className="text-white font-semibold mb-1">{acao.preco}</p>
+                <p className="text-gray-300 text-sm mb-1">{cotacao.nome}</p>
+                <p className="text-white font-semibold mb-1">R${cotacao.preco}</p>
                 <p
                   className={`font-medium ${
-                    acao.positivo ? "text-[#00ff9c]" : "text-red-500"
+                    cotacao.variacao>0 ? "text-[#00ff9c]" : "text-red-500"
                   }`}
                 >
-                  {acao.variacao}
+                  {cotacao.variacao}%
                 </p>
-                <p className="text-gray-400 text-xs mt-1">{acao.setor}</p>
+                <p className="text-gray-400 text-xs mt-1">{cotacao.setor}</p>
               </div>
             ))}
           </div>

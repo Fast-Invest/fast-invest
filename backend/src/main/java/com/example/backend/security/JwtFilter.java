@@ -84,7 +84,7 @@ public class JwtFilter extends OncePerRequestFilter
     {
         String path = request.getRequestURI();
 
-        return path.startsWith("/auth") || (path.equals("/usuario") && request.getMethod().equals("POST"));
+        return path.startsWith("/auth") || path.startsWith("/cotacoes") || (path.equals("/usuario") && request.getMethod().equals("POST"));
     }
 
 

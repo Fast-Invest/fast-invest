@@ -30,8 +30,8 @@ public class UsuarioForm
         @Pattern(regexp=".*[0-9].*", message= "A senha deve conter pelo menos um dígito"),
         @Pattern(regexp=".*[a-z].*", message= "A senha deve conter pelo menos uma letra minúscula"),
         @Pattern(regexp=".*[A-Z].*", message="A senha deve conter pelo menos uma letra maiúscula"),
-        @Pattern(regexp=".*[!@#$%^&+=].*", message="A senha deve conter pelo menos um caractere especial"),
-        @Pattern(regexp=".*\\s.*", message="A senha não deve conter espaços"),
+        @Pattern(regexp=".*[!@#$%^*.&+=].*", message="A senha deve conter pelo menos um caractere especial"),
+        @Pattern(regexp=".*\\S.*", message="A senha não deve conter espaços"),
 	})
     private String senha;
 

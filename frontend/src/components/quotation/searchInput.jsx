@@ -1,5 +1,22 @@
-export default function SearchInput() {
+import { useState } from "react";
+
+export default function SearchInput({allQuotations,setCotacoes}) {
+  const pesquisar_nome = (ticker) => {
+    try
+    {
+      const ticker_pesquisado=ticker.trim().toUpperCase()
+      if (ticker_pesquisado===""){setCotacoes(allQuotations);return ;}
+      const filtered_cotacoes = allQuotations.filter(cotacao=>cotacao.ticker.startsWith(ticker_pesquisado))
+      setCotacoes(filtered_cotacoes)
+    }
+    catch(error)
+    {
+      console.log('erro:',error)
+    }
+  }
+  const [ticker,setTicker]=useState('')
   return (
+
     <div className="relative flex-1">
       <svg
         viewBox="0 0 24 24"
@@ -15,6 +32,8 @@ export default function SearchInput() {
         className="w-full min-h-[2.75rem] font-bold pl-10 rounded-xl outline-none border-0 cursor-text 
         shadow-[0_0_0_1.5px_#2b2c37,0_0_25px_-17px_#000] transition-all duration-200
         focus:shadow-[0_0_0_2.5px_#2f303d] placeholder:font-normal bg-transparent"
+        value={ticker}
+        onChange={(e)=>{setTicker(e.target.value);pesquisar_nome(e.target.value)}}
       />
     </div>
   );

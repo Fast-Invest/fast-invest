@@ -23,7 +23,7 @@ public class CotacoesService
         }
         catch(Exception e)
         {
-            throw new ErroBuscaCotacoes("Erro ao buscar cotações das ações");
+            throw new ErroBuscaCotacoes("Erro ao buscar cotações das ações"+e);
         }
     }
 }

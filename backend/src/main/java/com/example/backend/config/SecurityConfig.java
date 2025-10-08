@@ -70,6 +70,7 @@ public class SecurityConfig
                                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/**", "OPTIONS"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/usuario", "POST"))
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/cotacoes"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/auth/**"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/esquecisenha/**"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/swagger-ui/**"))

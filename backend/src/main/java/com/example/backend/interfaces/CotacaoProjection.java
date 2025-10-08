@@ -4,8 +4,8 @@ public interface CotacaoProjection
 {
     String getTicker();
     String getNome();
-    Float getVariacao();
-    Float getPreco();
+    float getVariacao();
+    float getPreco();
     String getSetor();
     String getTipo();
     String getLogo();

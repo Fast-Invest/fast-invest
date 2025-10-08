@@ -177,7 +177,7 @@ export async function  buscar_cotacoes()
 	try
 	{
 		const response = await api.get("/cotacoes")
-		return {"message":"Cotações encontradas com sucesso","status":response.status ,"cotacoes":response.data}
+		return {"message":"Cotações encontradas com sucesso","status":response.status ,"cotacoes":response.data || []}
 	}	
 	catch(error)
 	{
