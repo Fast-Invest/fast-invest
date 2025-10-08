@@ -11,6 +11,7 @@ import com.example.backend.exceptions.TokenExpirado;
 import com.example.backend.exceptions.TokenInvalido;
 import com.example.backend.exceptions.UsuarioNaoEncontrado;
 import com.example.backend.exceptions.UsuariojaExiste;
+import com.example.backend.exceptions.ErroBuscaCotacoes;
 
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import java.util.Map;
@@ -48,7 +49,11 @@ public class ExceptionsController
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 
-
+    @ExceptionHandler(ErroBuscaCotacoes.class)
+    public ResponseEntity<String> handleBuscarCotacoes(TokenExpirado ex)
+    { 
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 
     //erro na validacao
     @ExceptionHandler(MethodArgumentNotValidException.class)//isso é lançado quando falha na validação

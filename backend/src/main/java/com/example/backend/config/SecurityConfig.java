@@ -70,6 +70,7 @@ public class SecurityConfig
                                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/**", "OPTIONS"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/usuario", "POST"))
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/cotacoes"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/auth/**"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/esquecisenha/**"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/swagger-ui/**"))
@@ -78,6 +79,7 @@ public class SecurityConfig
             .authorizeHttpRequests(auth -> auth
                                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                                .requestMatchers(HttpMethod.POST,"/usuario").permitAll()
+                                               .requestMatchers("/cotacoes").permitAll()
                                                .requestMatchers( "/auth/**").permitAll()
                                                .requestMatchers("/esquecisenha/**").permitAll()
                                                .requestMatchers("/swagger-ui/**").permitAll()

@@ -8,15 +8,16 @@ import {
   FaAngleDoubleRight,
   FaChevronDown,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { buscar_cotacoes } from "../../services/api.jsx";
 
 function SelectWithIcon({ children }) {
   return (
     <div className="relative flex-1">
       <select
-        className="w-full min-h-[2.75rem] font-bold pl-4 pr-10 rounded-xl outline-none border-0 cursor-pointer
+        className="select-scrollbar w-full min-h-[2.75rem] font-bold pl-4 pr-10 rounded-xl outline-none border-0 cursor-pointer
         shadow-[0_0_0_1.5px_#2b2c37,0_0_25px_-17px_#000] transition-all duration-200
-        focus:shadow-[0_0_0_2.5px_#2f303d] appearance-none bg-transparent"
+        focus:shadow-[0_0_0_2.5px_#2f303d] appearance-none bg-bg text-white"
       >
         {children}
       </select>
@@ -27,119 +28,21 @@ function SelectWithIcon({ children }) {
 
 export default function ContentQuotation() {
   const [viewMode, setViewMode] = useState("list"); // lista como padrão
+  const [allQuotations,setAllQuotations]=useState([])
+  const [selectedSetor,setSelectedSetor]=useState("")
+  const [cotacoes,setCotacoes] = useState([])
 
-  const acoes = [
-    {
-      logo: "petrobras.com.br",
-      ticker: "PETR4",
-      nome: "Petrobras",
-      preco: "R$ 34,12",
-      variacao: "+1.45%",
-      volume: "2.3M",
-      setor: "Petróleo",
-      tipo: "Ação",
-      positivo: true,
-    },
-    {
-      logo: "vale.com",
-      ticker: "VALE3",
-      nome: "Vale",
-      preco: "R$ 67,80",
-      variacao: "-0.82%",
-      volume: "4.1M",
-      setor: "Mineração",
-      tipo: "Ação",
-      positivo: false,
-    },
-    {
-      logo: "itau.com.br",
-      ticker: "ITUB4",
-      nome: "Itaú Unibanco",
-      preco: "R$ 29,45",
-      variacao: "+0.66%",
-      volume: "3.7M",
-      setor: "Financeiro",
-      tipo: "Ação",
-      positivo: true,
-    },
-    {
-      logo: "ambev.com.br",
-      ticker: "ABEV3",
-      nome: "Ambev",
-      preco: "R$ 14,73",
-      variacao: "+0.23%",
-      volume: "5.2M",
-      setor: "Bebidas",
-      tipo: "Ação",
-      positivo: true,
-    },
-    {
-      logo: "bradesco.com.br",
-      ticker: "BBDC4",
-      nome: "Bradesco",
-      preco: "R$ 23,98",
-      variacao: "-1.09%",
-      volume: "2.1M",
-      setor: "Financeiro",
-      tipo: "Ação",
-      positivo: false,
-    },
-    {
-      logo: "magazineluiza.com.br",
-      ticker: "MGLU3",
-      nome: "Magazine Luiza",
-      preco: "R$ 3,45",
-      variacao: "+2.34%",
-      volume: "7.1M",
-      setor: "Varejo",
-      tipo: "Ação",
-      positivo: true,
-    },
-    {
-      logo: "weg.net",
-      ticker: "WEGE3",
-      nome: "WEG",
-      preco: "R$ 41,00",
-      variacao: "+0.90%",
-      volume: "1.5M",
-      setor: "Industrial",
-      tipo: "Ação",
-      positivo: true,
-    },
-    {
-      logo: "suzano.com.br",
-      ticker: "SUZB3",
-      nome: "Suzano",
-      preco: "R$ 52,35",
-      variacao: "-0.12%",
-      volume: "880k",
-      setor: "Celulose",
-      tipo: "Ação",
-      positivo: false,
-    },
-    {
-      logo: "b3.com.br",
-      ticker: "B3SA3",
-      nome: "B3",
-      preco: "R$ 12,87",
-      variacao: "+1.10%",
-      volume: "4.8M",
-      setor: "Financeiro",
-      tipo: "Ação",
-      positivo: true,
-    },
-    {
-      logo: "bb.com.br",
-      ticker: "BBAS3",
-      nome: "Banco do Brasil",
-      preco: "R$ 50,22",
-      variacao: "-0.34%",
-      volume: "3.2M",
-      setor: "Financeiro",
-      tipo: "Ação",
-      positivo: false,
-    },
-  ];
+  useEffect( 
+     () => {(async()=>{
+
+                    const resposta = await buscar_cotacoes()
+                    const status=resposta.status
+                    setCotacoes(resposta.cotacoes) 
+                    setAllQuotations(resposta.cotacoes)
+		        })();}, 
+        []
+	)
+
 
   return (
     <main className="p-6 text-white overflow-auto">
@@ -157,12 +60,26 @@ export default function ContentQuotation() {
 
       {/* Barra de filtros */}
       <div className="flex flex-col md:flex-row gap-4 w-full mb-6">
-        <SearchInput />
+        <SearchInput allQuotations={allQuotations} setCotacoes={setCotacoes} />
         <SelectWithIcon>
-          <option>Todos os tipos</option>
+          <option value="" >Todos os tipos</option>
+=          {[...new Set(allQuotations.map(cotacao=>cotacao.tipo))]
+                                    .map(
+                                    (tipo, idx)=>(
+                                      <option  key={idx} value={tipo}>{tipo}</option>
+                                    )
+                                    
+                                    )} 
         </SelectWithIcon>
         <SelectWithIcon>
-          <option>Todos os setores</option>
+          <option value="" >Todos os setores</option>
+          {[...new Set(allQuotations.map(cotacao=>cotacao.setor))]
+                                    .map(
+                                    (setor, idx)=>(
+                                      <option  key={idx} value={setor}>{setor}</option>
+                                    )
+                                    
+                                    )}        
         </SelectWithIcon>
 
         {/* Botões de view */}
@@ -206,29 +123,29 @@ export default function ContentQuotation() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {acoes.map((acao, idx) => (
+              {cotacoes.map((cotacao, idx) => (
                 <tr key={idx} className="hover:bg-white/5 transition-colors">
                   <td className="px-4 py-3">
                     <img
-                      src={`https://logo.clearbit.com/${acao.logo}`}
-                      alt={acao.ticker}
+                      src={`${cotacao.logo}`}
+                      alt={cotacao.ticker}
                       className="w-6 h-6 rounded-full"
                     />
                   </td>
-                  <td className="px-4 py-3 font-semibold">{acao.ticker}</td>
-                  <td className="px-4 py-3">{acao.nome}</td>
-                  <td className="px-4 py-3">{acao.preco}</td>
+                  <td className="px-4 py-3 font-semibold">{cotacao.ticker}</td>
+                  <td className="px-4 py-3">{cotacao.nome}</td>
+                  <td className="px-4 py-3">R${cotacao.preco}</td>
                   <td
                     className={`px-4 py-3 font-medium ${
-                      acao.positivo ? "text-[#00ff9c]" : "text-red-500"
+                      cotacao.variacao>=0 ? "text-[#00ff9c]" : "text-red-500"
                     }`}
                   >
-                    {acao.variacao}
+                    {cotacao.variacao}%
                   </td>
-                  <td className="px-4 py-3 text-white/70">{acao.setor}</td>
+                  <td className="px-4 py-3 text-white/70">{cotacao.setor}</td>
                   <td>
                     <span className="bg-[#00ff9c]/10 text-[#00ff9c] text-xs px-2 py-1 rounded-full font-semibold">
-                      {acao.tipo}
+                      {cotacao.tipo}
                     </span>
                   </td>
                 </tr>
@@ -237,29 +154,29 @@ export default function ContentQuotation() {
           </table>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {acoes.map((acao, idx) => (
+            {cotacoes.map((cotacao, idx) => (
               <div
                 key={idx}
                 className="p-6 rounded-2xl border border-primary/50 shadow-lg shadow-primary/30 hover:shadow-primary/70 hover:-translate-y-2 transition-all duration-300 text-left"
               >
                 <img
-                  src={`https://logo.clearbit.com/${acao.logo}`}
-                  alt={acao.ticker}
+                  src={`https://logo.clearbit.com/${cotacao.logo}`}
+                  alt={cotacao.ticker}
                   className="w-12 h-12 rounded-full mb-3"
                 />
                 <h3 className="text-white font-bold text-lg mb-1">
-                  {acao.ticker}
+                  {cotacao.ticker}
                 </h3>
-                <p className="text-gray-300 text-sm mb-1">{acao.nome}</p>
-                <p className="text-white font-semibold mb-1">{acao.preco}</p>
+                <p className="text-gray-300 text-sm mb-1">{cotacao.nome}</p>
+                <p className="text-white font-semibold mb-1">R${cotacao.preco}</p>
                 <p
                   className={`font-medium ${
-                    acao.positivo ? "text-[#00ff9c]" : "text-red-500"
+                    cotacao.variacao>0 ? "text-[#00ff9c]" : "text-red-500"
                   }`}
                 >
-                  {acao.variacao}
+                  {cotacao.variacao}%
                 </p>
-                <p className="text-gray-400 text-xs mt-1">{acao.setor}</p>
+                <p className="text-gray-400 text-xs mt-1">{cotacao.setor}</p>
               </div>
             ))}
           </div>

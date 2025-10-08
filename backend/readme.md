@@ -137,3 +137,5 @@ backend
 | ------ | ------ |
 | DESENVOLVEDOR | [Matheus Santos Fonseca](https://github.com/Matheus-Santos-Fonseca)  |
 | DESENVOLVEDOR | [Gustavo Luiz da Silva Procópio](https://github.com/GustavoProcopio27)|
+
+

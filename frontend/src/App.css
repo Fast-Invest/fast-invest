@@ -69,3 +69,25 @@
   background-size: 200% 200%;
   animation: gradient-move 6s linear infinite alternate;
 }
+
+.select-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.select-scrollbar::-webkit-scrollbar-track {
+  background: #1f1f26;
+  border-radius: 5px;
+}
+
+.select-scrollbar::-webkit-scrollbar-thumb {
+  background: #00ff9c;
+  border-radius: 5px;
+  border: 1px solid #00cc7f;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .select-scrollbar {
+    scrollbar-color: #00ff9c #1f1f26;
+  }
+}
+
