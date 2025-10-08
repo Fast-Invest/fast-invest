@@ -97,8 +97,7 @@ export async function buscarTodosUsuarios()
 	try
 	{
 		const response = await api.get("/usuario");
-		return {"message": "usuarios encontrados com sucesso","status": response.status,"usuarios": response.data,
-		};
+		return {"message": "usuarios encontrados com sucesso","status": response.status,"usuarios": response.data,};
 	} 
 	catch (error) 
 	{
@@ -145,7 +144,7 @@ export async function enviar_token(data)
 	try 
 	{
 		const response = await api.post("/recuperacaosenha/validacao_token", data);
-		return { "message": "token validado com sucesso", "status": response.status, };
+		return { "message": "token validado com sucesso", "status": response.status,  };
 	}
 	catch (error) 
 	{
@@ -166,5 +165,23 @@ export async function alterar_senha(data)
 	{
 		console.log("Erro:", error);
 		return { "message": "erro ao recuperar senha", "status": error.response.status };
+	}
+}
+
+/*###############################################################################################################################################
+#                                                      Busca e consulta de cotações                                                             # 
+###############################################################################################################################################*/
+
+export async function  buscar_cotacoes() 
+{
+	try
+	{
+		const response = await api.get("/cotacoes")
+		return {"message":"Cotações encontradas com sucesso","status":response.status ,"cotacoes":response.data}
+	}	
+	catch(error)
+	{
+		console.log("Erro:",error)
+		return {"message":"erro ao buscar cotacoes", "status":error.response.status}
 	}
 }

@@ -78,6 +78,7 @@ public class SecurityConfig
             .authorizeHttpRequests(auth -> auth
                                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                                .requestMatchers(HttpMethod.POST,"/usuario").permitAll()
+                                               .requestMatchers("/cotacoes").permitAll()
                                                .requestMatchers( "/auth/**").permitAll()
                                                .requestMatchers("/esquecisenha/**").permitAll()
                                                .requestMatchers("/swagger-ui/**").permitAll()

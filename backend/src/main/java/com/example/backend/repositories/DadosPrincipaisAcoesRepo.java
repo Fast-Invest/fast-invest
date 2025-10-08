@@ -15,6 +15,7 @@ public interface DadosPrincipaisAcoesRepo extends JpaRepository<DadosPrincipaisA
     @Query(value="""
             SELECT DISTINCT 
                 dp.symbol as ticker,
+                dp.longName as nome,
                 dp.regularMarketChangePercent as variacao,
                 dp.regularMarketPrice as preco,
                 COALESCE(ic.sector,'unknown') as setor,
