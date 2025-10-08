@@ -13,6 +13,7 @@ public interface UsuarioMapper
 
   //converte um form de criação na entidade que será salva no banco
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "carteiras", ignore = true)
   Usuario toEntity(UsuarioForm form);
 
   //converte a entidade usuario para o DTO de usuario de resposta

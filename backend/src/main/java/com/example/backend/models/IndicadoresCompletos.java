@@ -14,9 +14,9 @@ import java.math.BigDecimal;
 @Table(name = "indicadores_completos")
 public class IndicadoresCompletos {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // private Long id;
 
     @Column(columnDefinition = "TEXT")
     private String symbol;
