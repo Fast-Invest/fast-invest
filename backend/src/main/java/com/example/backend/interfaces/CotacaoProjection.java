@@ -7,5 +7,7 @@ public interface CotacaoProjection
     Float getVariacao();
     Float getPreco();
     String getSetor();
+    String getTipo();
     String getLogo();
+    
 }

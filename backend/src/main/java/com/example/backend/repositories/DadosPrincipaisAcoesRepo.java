@@ -18,11 +18,10 @@ public interface DadosPrincipaisAcoesRepo extends JpaRepository<DadosPrincipaisA
                 dp.longName as nome,
                 dp.regularMarketChangePercent as variacao,
                 dp.regularMarketPrice as preco,
-                COALESCE(ic.sector,'unknown') as setor,
+                COALESCE(dp.sector,'Unknown') as setor,
+                COALESCE(dp.type, "Unkown") as tipo,	
                 dp.logourl as logo 
-            from dados_principais_acoes as dp 
-            left join indicadores_completos as ic 
-                on ic.symbol=dp.symbol;
+            from dados_principais_acoes as dp;
         """,nativeQuery=true)
     List<CotacaoProjection> buscarCotacoes();
 
