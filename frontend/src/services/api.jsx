@@ -172,12 +172,25 @@ export async function alterar_senha(data)
 #                                                      Busca e consulta de cotações                                                             # 
 ###############################################################################################################################################*/
 
-export async function  buscar_cotacoes() 
+export async function buscar_cotacoes() 
 {
 	try
 	{
 		const response = await api.get("/cotacoes")
 		return {"message":"Cotações encontradas com sucesso","status":response.status ,"cotacoes":response.data || []}
+	}	
+	catch(error)
+	{
+		console.log("Erro:",error)
+		return {"message":"erro ao buscar cotacoes", "status":error.response.status}
+	}
+}
+export async function procurar_acao(ticker) 
+{
+	try
+	{
+		const response = await api.get(`/cotacoes/${ticker}`)
+		return {"message":"Cotações encontradas com sucesso","status":response.status ,"dados_acao":response.data || null}
 	}	
 	catch(error)
 	{

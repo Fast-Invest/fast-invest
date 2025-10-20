@@ -76,4 +76,6 @@ public class IndicadoresCompletos {
     private Double quantidadeAcoes;
 
     private Double vpa;
+
+    private Double dy;
 }

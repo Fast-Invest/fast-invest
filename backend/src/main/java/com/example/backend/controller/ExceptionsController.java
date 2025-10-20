@@ -11,6 +11,7 @@ import com.example.backend.exceptions.TokenExpirado;
 import com.example.backend.exceptions.TokenInvalido;
 import com.example.backend.exceptions.UsuarioNaoEncontrado;
 import com.example.backend.exceptions.UsuariojaExiste;
+import com.example.backend.exceptions.AcaoNaoEncontrada;
 import com.example.backend.exceptions.ErroBuscaCotacoes;
 
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -52,8 +53,16 @@ public class ExceptionsController
     @ExceptionHandler(ErroBuscaCotacoes.class)
     public ResponseEntity<String> handleBuscarCotacoes(TokenExpirado ex)
     { 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(AcaoNaoEncontrada.class)
+    public ResponseEntity<String> handleAcaoNaoEncontrada(AcaoNaoEncontrada ex)
+    { 
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+
 
     //erro na validacao
     @ExceptionHandler(MethodArgumentNotValidException.class)//isso é lançado quando falha na validação

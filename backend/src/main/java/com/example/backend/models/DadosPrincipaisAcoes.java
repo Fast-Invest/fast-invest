@@ -12,7 +12,7 @@ public class DadosPrincipaisAcoes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long index;
 
     @Column(columnDefinition = "TEXT")
     private String currency;
