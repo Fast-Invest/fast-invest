@@ -1,14 +1,22 @@
 package com.example.backend.models;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "dados_financas")
-public class DadosFinancas {
+public class DadosFinancas 
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

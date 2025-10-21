@@ -1,14 +1,25 @@
 package com.example.backend.models;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.GeneratedValue;
+
+import com.example.backend.interfaces.Cashflow;
+
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cashflow_history_anual")
-public class CashflowHistoryAnual {
+public class CashflowHistoryAnual implements Cashflow
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
