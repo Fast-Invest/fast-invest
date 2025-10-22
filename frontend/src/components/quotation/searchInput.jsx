@@ -1,20 +1,37 @@
 import { useState } from "react";
 
-export default function SearchInput({allQuotations,setCotacoes}) {
+export default function SearchInput({ allQuotations, setCotacoes, tipoAtual, setorAtual }) {
+  const [ticker, setTicker] = useState('')
+
   const pesquisar_nome = (ticker) => {
     try
     {
       const ticker_pesquisado=ticker.trim().toUpperCase()
-      if (ticker_pesquisado===""){setCotacoes(allQuotations);return ;}
-      const filtered_cotacoes = allQuotations.filter(cotacao=>cotacao.ticker.startsWith(ticker_pesquisado))
+      let filtradas = allQuotations;
+      if (tipoAtual) 
+      {
+        filtradas = filtradas.filter((cotacao) => cotacao.tipo === tipoAtual);
+      }
+
+      if (setorAtual) 
+      {
+        filtradas = filtradas.filter((cotacao) => cotacao.setor === setorAtual);
+      }
+
+
+      if (ticker_pesquisado==="")
+      {
+        setCotacoes(filtradas);
+        return ;
+      }
+      const filtered_cotacoes = filtradas.filter(cotacao=>cotacao.ticker.startsWith(ticker_pesquisado))
       setCotacoes(filtered_cotacoes)
     }
     catch(error)
     {
-      console.log('erro:',error)
+      console.log('Erro ao pesquisar cotações:',error)
     }
   }
-  const [ticker,setTicker]=useState('')
   return (
 
     <div className="relative flex-1">

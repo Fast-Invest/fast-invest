@@ -16,9 +16,8 @@ export default function Quotation() {
       try {
         const resp = await buscarUsuarioPorEmail();
         if (resp.status !== 200) {
-          console.log("erro");
           setIsLogged(false);
-          throw new Error();
+          throw new Error(`Status:${resp.status}=>Usuário não logado. Informações não carregadas`);
         }
 
         setEmail(resp.usuarios.email);
@@ -26,7 +25,7 @@ export default function Quotation() {
         setIsLogged(true);
       } catch (error) {
         setIsLogged(false);
-        console.log("erro:", error);
+        console.log(error);
       }
     })();
   }, []);
