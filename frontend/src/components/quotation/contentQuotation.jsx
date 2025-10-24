@@ -3,8 +3,9 @@ import Paginator from "./paginator.jsx";
 import SelectWithIcon from "./selectWithIcon.jsx";
 import SelectOptions from "./selectOptions.jsx";
 import QuotationViewer from "./quotationViewer.jsx";
-import {FaThList,FaThLarge} from "react-icons/fa";
-import { useState,useEffect } from "react";
+import ViewButton from "./viewButton.jsx";
+import { FaThList,FaThLarge } from "react-icons/fa";
+import { useState,useEffect,useCallback,useMemo } from "react";
 import { buscar_cotacoes } from "../../services/api.jsx";
 
 
@@ -12,24 +13,26 @@ import { buscar_cotacoes } from "../../services/api.jsx";
 export default function ContentQuotation() {
     const [viewMode, setViewMode] = useState("list"); // lista como padrão
     const [allQuotations,setAllQuotations]=useState([])
-    const [cotacoes,setCotacoes] = useState([])
+    const [cotacoesFiltradas,setCotacoesFiltradas] = useState([]);
+    const [cotacoesVisiveis, setCotacoesVisiveis] = useState([]);
     const [filterTipo, setFilterTipo] = useState("");
     const [filterSetor, setFilterSetor] = useState("");
+    const [quotationsPerPage, setQuotationsPerPage] = useState(10)
+    const [page, setPage] = useState(1)
 
-
+    const handleTipoChange = useCallback((novoTipo) => {setFilterTipo(novoTipo);setPage(1)}, []);
+    const handleSetorChange = useCallback((novoSetor) => {setFilterSetor(novoSetor); setPage(1)}, []);
 
     useEffect( 
         () => {
-        if (cotacoes.length > 0) return;
+            if (cotacoesFiltradas.length > 0) return;
         (async()=>{
-
-                    const resposta = await buscar_cotacoes()
-                    // const status=resposta.status
-                    setCotacoes(resposta.cotacoes) 
+                    const resposta = await buscar_cotacoes()                    // const status=resposta.status
+                    setCotacoesFiltradas(resposta.cotacoes) 
                     setAllQuotations(resposta.cotacoes)
-                    })();}, 
-            []
-        )
+                    })();}
+             , []);
+
 
 
     return (
@@ -49,53 +52,49 @@ export default function ContentQuotation() {
         {/* Barra de filtros */}
         <div className="flex flex-col md:flex-row gap-4 w-full mb-6">
 
-            <SearchInput setCotacoes={setCotacoes} allQuotations={allQuotations} tipoAtual={filterTipo} setorAtual={filterSetor} />
+            <SearchInput setCotacoes={setCotacoesFiltradas} allQuotations={allQuotations} tipoAtual={filterTipo} setorAtual={filterSetor} />
 
-            <SelectWithIcon field="tipo" setCotacoes={setCotacoes} allQuotations={allQuotations} filterTipo={filterTipo} filterSetor={filterSetor} setFilter={setFilterTipo}>
+            <SelectWithIcon field="tipo" setCotacoes={setCotacoesFiltradas} allQuotations={allQuotations} filterTipo={filterTipo} filterSetor={filterSetor} setFilter={handleTipoChange}>
 
-            <option value="" >Todos os tipos</option>
-            <SelectOptions field="tipo" allQuotations={allQuotations} />
+                <option value="" >Todos os tipos</option>
+                <SelectOptions field="tipo" allQuotations={allQuotations} />
 
             </SelectWithIcon>
 
 
-            <SelectWithIcon field="setor" setCotacoes={setCotacoes} allQuotations={allQuotations} filterTipo={filterTipo} filterSetor={filterSetor} setFilter={setFilterSetor}>
-            <option value="" >Todos os setores</option>
-            <SelectOptions field="setor" allQuotations={allQuotations} />
+            <SelectWithIcon field="setor" setCotacoes={setCotacoesFiltradas} allQuotations={allQuotations} filterTipo={filterTipo} filterSetor={filterSetor} setFilter={handleSetorChange}>
+                <option value="" >Todos os setores</option>
+                <SelectOptions field="setor" allQuotations={allQuotations} />
             </SelectWithIcon>
 
 
 
             {/* Botões de view */}
             <div className="flex items-center gap-2 shrink-0">
-            <button
-                onClick={() => setViewMode("list")}
-                className={`min-h-[2.75rem] aspect-square flex items-center justify-center rounded-xl ${
-                viewMode === "list"
-                    ? "text-[#00ff9c]"
-                    : "text-white/70 hover:text-[#00ff9c]"
-                }`}
-            >
+
+            <ViewButton mode="list" setViewMode={setViewMode} viewMode={viewMode}>
                 <FaThList size={18} />
-            </button>
-            <button
-                onClick={() => setViewMode("grid")}
-                className={`min-h-[2.75rem] aspect-square flex items-center justify-center rounded-xl ${
-                viewMode === "grid"
-                    ? "text-[#00ff9c]"
-                    : "text-white/70 hover:text-[#00ff9c]"
-                }`}
-            >
+            </ViewButton>
+
+            <ViewButton mode="grid" setViewMode={setViewMode} modoAtual={viewMode}>
                 <FaThLarge size={18} />
-            </button>
+            </ViewButton>
+
             </div>
         </div>
 
         {/* Conteúdo das ações */}
-        <QuotationViewer cotacoes={cotacoes} viewMode={viewMode}/>
+        <QuotationViewer cotacoes={cotacoesVisiveis} viewMode={viewMode}/>
 
         {/* Paginação */}
-        <Paginator/>
+        <Paginator 
+            quotationsPerPage={quotationsPerPage} 
+            setQuotationsPerPage={setQuotationsPerPage} 
+            page={page} 
+            setPage={setPage}
+            cotacoesFiltradas={cotacoesFiltradas} 
+            setCotacoesVisiveis={setCotacoesVisiveis}
+        />
         </main>
     );
 }

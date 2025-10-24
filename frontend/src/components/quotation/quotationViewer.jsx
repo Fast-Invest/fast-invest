@@ -23,6 +23,7 @@ return(
                                 src={`${cotacao.logo}`}
                                 alt={cotacao.ticker}
                                 className="w-6 h-6 rounded-full"
+                                loading="lazy"
                             />
                         </td>
                         <td className="px-4 py-3 font-semibold">{cotacao.ticker}</td>
@@ -55,6 +56,8 @@ return(
                         src={`https://logo.clearbit.com/${cotacao.logo}`}
                         alt={cotacao.ticker}
                         className="w-12 h-12 rounded-full mb-3"
+                        loading="lazy"
+
                     />
                     <h3 className="text-white font-bold text-lg mb-1">
                         {cotacao.ticker}

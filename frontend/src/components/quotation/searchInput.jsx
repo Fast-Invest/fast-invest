@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState,useCallback } from "react";
+import debounce from 'lodash.debounce';
 
 export default function SearchInput({ allQuotations, setCotacoes, tipoAtual, setorAtual }) {
   const [ticker, setTicker] = useState('')
 
-  const pesquisar_nome = (ticker) => {
+  const pesquisar_nome = useCallback(debounce((ticker) => {
     try
     {
       const ticker_pesquisado=ticker.trim().toUpperCase()
@@ -31,7 +32,9 @@ export default function SearchInput({ allQuotations, setCotacoes, tipoAtual, set
     {
       console.log('Erro ao pesquisar cotações:',error)
     }
-  }
+  }, 300), [allQuotations, setCotacoes, tipoAtual, setorAtual]);
+
+
   return (
 
     <div className="relative flex-1">
