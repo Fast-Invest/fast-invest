@@ -1,42 +1,45 @@
-import { useState,useCallback } from "react";
-import debounce from 'lodash.debounce';
+import { useState, useCallback } from "react";
+import debounce from "lodash.debounce";
 
-export default function SearchInput({ allQuotations, setCotacoes, tipoAtual, setorAtual }) {
-  const [ticker, setTicker] = useState('')
+export default function SearchInput({
+  allQuotations,
+  setCotacoes,
+  tipoAtual,
+  setorAtual,
+}) {
+  const [ticker, setTicker] = useState("");
 
-  const pesquisar_nome = useCallback(debounce((ticker) => {
-    try
-    {
-      const ticker_pesquisado=ticker.trim().toUpperCase()
-      let filtradas = allQuotations;
-      if (tipoAtual) 
-      {
-        filtradas = filtradas.filter((cotacao) => cotacao.tipo === tipoAtual);
+  const pesquisar_nome = useCallback(
+    debounce((ticker) => {
+      try {
+        const ticker_pesquisado = ticker.trim().toUpperCase();
+        let filtradas = allQuotations;
+        if (tipoAtual) {
+          filtradas = filtradas.filter((cotacao) => cotacao.tipo === tipoAtual);
+        }
+
+        if (setorAtual) {
+          filtradas = filtradas.filter(
+            (cotacao) => cotacao.setor === setorAtual
+          );
+        }
+
+        if (ticker_pesquisado === "") {
+          setCotacoes(filtradas);
+          return;
+        }
+        const filtered_cotacoes = filtradas.filter((cotacao) =>
+          cotacao.ticker.startsWith(ticker_pesquisado)
+        );
+        setCotacoes(filtered_cotacoes);
+      } catch (error) {
+        console.log("Erro ao pesquisar cotações:", error);
       }
-
-      if (setorAtual) 
-      {
-        filtradas = filtradas.filter((cotacao) => cotacao.setor === setorAtual);
-      }
-
-
-      if (ticker_pesquisado==="")
-      {
-        setCotacoes(filtradas);
-        return ;
-      }
-      const filtered_cotacoes = filtradas.filter(cotacao=>cotacao.ticker.startsWith(ticker_pesquisado))
-      setCotacoes(filtered_cotacoes)
-    }
-    catch(error)
-    {
-      console.log('Erro ao pesquisar cotações:',error)
-    }
-  }, 300), [allQuotations, setCotacoes, tipoAtual, setorAtual]);
-
+    }, 300),
+    [allQuotations, setCotacoes, tipoAtual, setorAtual]
+  );
 
   return (
-
     <div className="relative flex-1">
       <svg
         viewBox="0 0 24 24"
@@ -53,7 +56,10 @@ export default function SearchInput({ allQuotations, setCotacoes, tipoAtual, set
         shadow-[0_0_0_1.5px_#2b2c37,0_0_25px_-17px_#000] transition-all duration-200
         focus:shadow-[0_0_0_2.5px_#2f303d] placeholder:font-normal bg-transparent"
         value={ticker}
-        onChange={(e)=>{setTicker(e.target.value);pesquisar_nome(e.target.value)}}
+        onChange={(e) => {
+          setTicker(e.target.value);
+          pesquisar_nome(e.target.value);
+        }}
       />
     </div>
   );
