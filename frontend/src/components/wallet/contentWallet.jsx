@@ -1,3 +1,92 @@
+import { useNavigate } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
+import { FaWallet, FaPlusCircle } from "react-icons/fa";
+
 export default function ContentWallet() {
-  return <></>;
+  const navigate = useNavigate();
+
+  // TODO: Gustavo depois troca esse array por dados reais
+  const carteiras = [
+    { id: 1, nome: "Carteira Tech Growth", data: "12/05/2024" },
+    { id: 2, nome: "Carteira Dividendos", data: "28/07/2024" },
+    { id: 3, nome: "Carteira Conservadora", data: "03/10/2024" },
+  ];
+
+  return (
+    <div className="flex flex-col bg-bg min-h-screen px-6 relative overflow-hidden">
+      {/* Hero*/}
+      <motion.div
+        className="text-center m-10 relative z-10"
+        initial={{ opacity: 0, y: -40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <h1 className="text-2xl md:text-8xl font-bold">
+          Suas{" "}
+          <span className="bg-gradient-to-r from-primary via-green-500 to-blue-300 bg-clip-text text-transparent animate-gradient">
+            carteiras
+          </span>
+        </h1>
+        <p className="text-gray-300 mt-6 text-lg md:text-xl max-w-2xl mx-auto">
+          Veja suas carteiras, acompanhe o desempenho e crie novas estratégias
+          de investimento com visual moderno e prático.
+        </p>
+      </motion.div>
+
+      {/* Cards de carteiras */}
+      <section className="max-w-[1600px] mx-auto w-full flex flex-col gap-20 items-center relative z-10">
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 w-full"
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          {carteiras.map((carteira) => (
+            <motion.div
+              key={carteira.id}
+              className="group cursor-pointer p-6 rounded-2xl border border-primary/40 bg-gradient-to-br from-black/50 via-black/30 to-primary/10
+              shadow-lg shadow-primary/20 hover:shadow-primary/60 hover:-translate-y-2 transition-all duration-300 backdrop-blur-md relative overflow-hidden"
+              onClick={() => navigate(`/carteira/${carteira.id}`)}
+              whileHover={{ scale: 1.02 }}
+            >
+              {/* Brilho animado */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-gradient-to-r from-primary via-green-400 to-blue-400 animate-gradient transition-opacity duration-500"></div>
+
+              <div className="flex justify-between items-center mb-4">
+                <FaWallet className="text-primary text-3xl drop-shadow-lg" />
+                <span className="text-2xs text-primary-dark">
+                  {carteira.id}
+                </span>
+              </div>
+
+              <h2 className="text-2xl font-semibold text-white mb-2">
+                {carteira.nome}
+              </h2>
+
+              <p className="text-gray-400 text-base">
+                Criada em{" "}
+                <span className="text-primary font-semibold">
+                  {carteira.data}
+                </span>
+              </p>
+            </motion.div>
+          ))}
+
+          {/* Card para criar nova carteira */}
+          <motion.div
+            className="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-primary rounded-2xl p-8 text-center hover:bg-primary/10 hover:-translate-y-2 transition-all duration-300 backdrop-blur-md"
+            onClick={() => navigate("/carteira/criarcarteira")}
+            whileHover={{ scale: 1.05 }}
+          >
+            <FaPlusCircle className="text-primary text-6xl mb-4" />
+            <h2 className="text-primary text-2xl font-bold">
+              Criar nova carteira
+            </h2>
+          </motion.div>
+        </motion.div>
+      </section>
+    </div>
+  );
 }
