@@ -1,5 +1,4 @@
-import { deslogar } from "../../services/api";
-
+import authService from "../../services/authService"
 export default function ModalUser({
   nome,
   email,
@@ -12,7 +11,7 @@ export default function ModalUser({
 
   const handleLogout = async () => {
     try {
-      const resp = await deslogar();
+      const resp = await authService.deslogar();
       if (resp.status !== 200) {
         console.log("erro:", resp.message);
         return;

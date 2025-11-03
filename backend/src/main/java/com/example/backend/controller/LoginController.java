@@ -74,7 +74,7 @@ public class LoginController
             // Adiciona os cookies na resposta
             cookieUtils.adicionarCookie(response, true,"ACCESS-TOKEN" ,accessToken, accessTokenExpiration);
             cookieUtils.adicionarCookie(response, true,"REFRESH-TOKEN" ,refreshToken, refreshTokenExpiration);
-            cookieUtils.adicionarCookie(response, false, "XSRF-TOKEN", csrfToken, accessTokenExpiration);
+            cookieUtils.adicionarCookie(response, false, "X-XSRF-TOKEN", csrfToken, accessTokenExpiration);
             
             return ResponseEntity.status(HttpStatus.OK).body(resp);
         }

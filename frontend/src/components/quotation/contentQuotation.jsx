@@ -6,7 +6,7 @@ import QuotationViewer from "./quotationViewer.jsx";
 import ViewButton from "./viewButton.jsx";
 import { FaThList, FaThLarge } from "react-icons/fa";
 import { useState, useEffect, useCallback } from "react";
-import { buscar_cotacoes } from "../../services/api.jsx";
+import quotationService from "../../services/quotationService.jsx"
 
 export default function ContentQuotation() {
   const [viewMode, setViewMode] = useState("list"); // lista como padrão
@@ -30,7 +30,7 @@ export default function ContentQuotation() {
   useEffect(() => {
     if (cotacoesFiltradas.length > 0) return;
     (async () => {
-      const resposta = await buscar_cotacoes(); // const status=resposta.status
+      const resposta = await quotationService.buscar_cotacoes(); // const status=resposta.status
       setCotacoesFiltradas(resposta.cotacoes);
       setAllQuotations(resposta.cotacoes);
     })();

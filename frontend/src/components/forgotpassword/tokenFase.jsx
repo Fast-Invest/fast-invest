@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { FaLock } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
-import { enviar_token } from "../../services/api";
+import recuperationService from "../../services/recuperationService"
 
 export default function TokenFase({ mudarEtapa, tokenSeguranca }) {
   const themeColors = {
@@ -36,7 +36,7 @@ export default function TokenFase({ mudarEtapa, tokenSeguranca }) {
     e.preventDefault();
 
     try {
-      const resp = await enviar_token({
+      const resp = await recuperationService.enviar_token({
         tokenUsuario: token,
         tokenSeguranca: tokenSeguranca,
       });

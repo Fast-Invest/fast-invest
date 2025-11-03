@@ -1,7 +1,6 @@
 import { FaEnvelope } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
-
-import { requisitar_email } from "../../services/api";
+import recuperationService from "../../services/recuperationService"
 
 export default function EmailFase({
   mudarEtapa,
@@ -12,7 +11,7 @@ export default function EmailFase({
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const resp = await requisitar_email({ email: email });
+      const resp = await recuperationService.requisitar_email({ email: email });
       console.log(resp);
       if (resp.status !== 200) {
         toast.error("Erro ao enviar email");

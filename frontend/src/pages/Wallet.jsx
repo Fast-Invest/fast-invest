@@ -3,8 +3,7 @@ import NavBar from "../components/home/navBar";
 import Footer from "../components/utils/footer";
 import Sidebar from "../components/home/sideBar";
 import ContentWallet from "../components/wallet/contentWallet";
-
-import { buscarUsuarioPorEmail } from "../services/api";
+import authService from "../services/authService.jsx";
 
 export default function Wallet() {
   const [nome, setNome] = useState("Usuário!");
@@ -14,7 +13,7 @@ export default function Wallet() {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await buscarUsuarioPorEmail();
+        const resp = await authService.buscarUsuarioPorEmail();
         if (resp.status !== 200) {
           setIsLogged(false);
           throw new Error(

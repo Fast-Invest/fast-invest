@@ -1,6 +1,6 @@
 package com.example.backend.models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,14 +23,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "carteiras")
-class Carteira 
+public class Carteira 
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
+    private String nome;
 
-    private LocalDateTime data;
+    private LocalDate data;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)

@@ -4,7 +4,7 @@ import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 
 import "../App.css";
-import { logar, cadastrarUsuario } from "../services/api.jsx";
+import authService from "../services/authService.jsx";
 import LinkVoltar from "../components/utils/linkVoltar.jsx";
 import LogoBranding from "../components/login/logoBranding.jsx";
 
@@ -45,7 +45,7 @@ export default function Login() {
         return;
       }
 
-      const resp = await cadastrarUsuario({
+      const resp = await authService.cadastrarUsuario({
         nome: username,
         email: email,
         senha: password,
@@ -59,7 +59,7 @@ export default function Login() {
       toast.success("Conta criada com sucesso!");
     } // Login
     else {
-      const resp = await logar({ email: email, senha: password });
+      const resp = await authService.logar({ email: email, senha: password });
       //console.log(resp)
       if (resp.status !== 200) {
         toast.error("Erro no login.");

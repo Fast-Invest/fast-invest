@@ -64,10 +64,14 @@ public class SecurityConfig
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
     {
+        CookieCsrfTokenRepository cookieRepo = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        cookieRepo.setCookieName("X-XSRF-TOKEN");
+        cookieRepo.setHeaderName("X-XSRF-TOKEN");
+
         http
             .cors(cors -> cors.configurationSource(corsConfigSource()))
             .csrf(csrf -> csrf
-                                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                                .csrfTokenRepository(cookieRepo)
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/**", "OPTIONS"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/usuario", "POST"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/cotacoes"))

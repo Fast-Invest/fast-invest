@@ -12,6 +12,7 @@ import com.example.backend.exceptions.TokenInvalido;
 import com.example.backend.exceptions.UsuarioNaoEncontrado;
 import com.example.backend.exceptions.UsuariojaExiste;
 import com.example.backend.exceptions.AcaoNaoEncontrada;
+import com.example.backend.exceptions.CarteiraNaoEncontrada;
 import com.example.backend.exceptions.ErroBuscaCotacoes;
 
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -62,7 +63,11 @@ public class ExceptionsController
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-
+    @ExceptionHandler(CarteiraNaoEncontrada.class)
+    public ResponseEntity<String> handleCarteiraNaoEncontrada(CarteiraNaoEncontrada ex)
+    { 
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 
     //erro na validacao
     @ExceptionHandler(MethodArgumentNotValidException.class)//isso é lançado quando falha na validação

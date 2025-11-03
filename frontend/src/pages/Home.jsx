@@ -4,8 +4,7 @@ import Sidebar from "../components/home/sideBar.jsx";
 import ContentHome from "../components/home/contentHome.jsx";
 import Footer from "../components/utils/footer.jsx";
 import { useState, useEffect } from "react";
-import { buscarUsuarioPorEmail } from "../services/api.jsx";
-
+import authService from "../services/authService.jsx";
 function Home() {
   const [nome, setNome] = useState("Usuário!");
   const [email, setEmail] = useState("Usuário!");
@@ -14,7 +13,7 @@ function Home() {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await buscarUsuarioPorEmail();
+        const resp = await authService.buscarUsuarioPorEmail();
         if (resp.status !== 200) {
           console.log("erro");
           setIsLogged(false);

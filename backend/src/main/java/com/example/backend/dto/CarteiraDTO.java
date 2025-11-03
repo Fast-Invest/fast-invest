@@ -1,6 +1,12 @@
 package com.example.backend.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import com.example.backend.models.Filtro;
+
 import lombok.AllArgsConstructor;
 
 @Data//adiciona os metodos get,set,equals e hashcode
@@ -11,5 +17,9 @@ public class CarteiraDTO
     
     private Long id;
 
+    private String nome;
 
+    private LocalDate data;
+
+    private List<Filtro> filtros;
 }

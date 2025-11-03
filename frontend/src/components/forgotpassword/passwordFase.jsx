@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaLock } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
-import { alterar_senha } from "../../services/api";
+import recuperationService from "../../services/recuperationService"
 import { useNavigate } from "react-router-dom";
 
 export default function PasswordFase({ email }) {
@@ -21,7 +21,7 @@ export default function PasswordFase({ email }) {
     }
 
     try {
-      const resp = await alterar_senha({ email: email, senha: senha });
+      const resp = await recuperationService.alterar_senha({ email: email, senha: senha });
       if (resp.status !== 200) {
         toast.error("Erro ao enviar email");
         return;

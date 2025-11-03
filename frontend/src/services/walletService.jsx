@@ -1,0 +1,43 @@
+import api from "./api.jsx"
+
+
+async function adicionarCarteira(data, id)
+{
+    try
+    {
+        const resp = await api.post(`/carteira/${id}`, data)
+        return {
+                message: "Carteira cadastrada com sucesso",
+                status: resp.status,
+                carteira: resp.data || null,
+            };    
+    }
+    catch(error)
+    {
+        console.log(error)
+        return {
+            message: "Erro ao cadastrar carteira",
+            status: error.response.status,
+        };        
+    }
+}
+
+
+async function deletarCarteira(){}
+async function editarCarteira(){}
+
+
+async function adicionarFiltro(data)
+{
+   const resp = api.post(`/filtro/{carteiraId}`,data)
+   return resp
+
+}
+
+const walletService = {
+                        adicionarCarteira,
+                        deletarCarteira,
+                        editarCarteira,
+                        adicionarFiltro,
+                    }
+export default walletService;

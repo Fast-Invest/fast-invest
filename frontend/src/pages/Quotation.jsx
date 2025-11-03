@@ -3,9 +3,8 @@ import NavBar from "../components/home/navBar.jsx";
 import Sidebar from "../components/home/sideBar.jsx";
 import ContentQuotation from "../components/quotation/contentQuotation.jsx";
 import { useState, useEffect } from "react";
-import { buscarUsuarioPorEmail } from "../services/api.jsx";
 import Footer from "../components/utils/footer.jsx";
-
+import authService from "../services/authService.jsx"
 export default function Quotation() {
   const [nome, setNome] = useState("Usuário!");
   const [email, setEmail] = useState("Usuário!");
@@ -14,7 +13,7 @@ export default function Quotation() {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await buscarUsuarioPorEmail();
+        const resp = await authService.buscarUsuarioPorEmail();
         if (resp.status !== 200) {
           setIsLogged(false);
           throw new Error(`Status:${resp.status}=>Usuário não logado. Informações não carregadas`);

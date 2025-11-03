@@ -1,9 +1,11 @@
 import { useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import { FaQuestionCircle, FaUndoAlt } from "react-icons/fa";
+import { FaQuestionCircle, FaUndoAlt,FaWallet } from "react-icons/fa";
 import { Range } from "react-range";
 import { useNavigate } from "react-router-dom";
+import walletService from "../../services/walletService";
+import toast, { Toaster } from "react-hot-toast";
 
 const indicadores = [
   {
@@ -71,13 +73,15 @@ const indicadores = [
   },
 ];
 
-export default function ContentCreateWallet() {
+export default function ContentCreateWallet({idUser}) 
+{
   const initialState = Object.fromEntries(
     indicadores.map((i) => [i.nome, [i.min, i.max]])
   );
   const [valores, setValores] = useState(initialState);
   const navigate = useNavigate();
-
+  const [nomeCarteira,setNomeCarteira]=useState('');
+  const [idCarteira, setIdCarteira]=useState(null);
   const resetar = (nome) => {
     setValores((prev) => ({
       ...prev,
@@ -96,8 +100,69 @@ export default function ContentCreateWallet() {
     });
   };
 
+  const handleCriarCarteira= async ()=>{
+    try
+    {
+      const data= new Date()
+      const resp = await walletService.adicionarCarteira({nome:nomeCarteira,data:`${data.getFullYear()}-${data.getMonth()}-${data.getDay()}`},idUser);
+      console.log(resp)
+
+      if(resp) setIdCarteira(resp?.carteira?.id) 
+      if(resp.status!==201) {throw new Error()}
+      toast.success("Carteira cadastrada com sucesso")
+    }  
+    catch(error)
+    {
+      toast.error("Erro ao cadastrar carteira")
+      return ;
+    }
+
+    const filtros = Object.entries(valores).map(([nome, [min, max]]) => ({
+      tipo: nome.toLowerCase().replace("p/l","pl").replace("/","_").normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(" ","_").replace("valor de mercado","marketCap"),  
+      valorMin: min,
+      valorMax: max
+    }));
+
+    console.log(filtros) //Acho que vou ter que mapear o nome
+
+
+  }
+
+
+
+
   return (
     <div className="flex flex-col bg-bg min-h-screen px-10 py-24 relative overflow-visible">
+          <Toaster
+        position="top-right"
+        toastOptions={{
+          // Estilos padrão para todos os toasts
+          style: {
+            background: "#15151a",
+            color: "#fff",
+            border: `1px solid #00ff9c`,
+          },
+          // Estilos específicos para cada tipo de toast
+          success: {
+            style: {
+              border: `1px solid #00ff9c`,
+            },
+            iconTheme: {
+              primary: "#00ff9c",
+              secondary: "#fff",
+            },
+          },
+          error: {
+            style: {
+              border: "1px solid #EF4444",
+            },
+            iconTheme: {
+              primary: "#EF4444",
+              secondary: "#fff",
+            },
+          },
+        }}
+      />
       {/* Hero */}
       <motion.div
         className="text-center mb-20"
@@ -117,12 +182,27 @@ export default function ContentCreateWallet() {
         </p>
       </motion.div>
 
+        <div className="flex justify-center items-center mx-auto p-6">
+          <div className="relative flex items-center">
+            <FaWallet className="absolute left-4 text-text-muted" />
+            <input
+              type="text"
+              placeholder="Nome da carteira"
+              value={nomeCarteira}
+              onChange={(e) => setNomeCarteira(e.target.value)}
+              className="w-full bg-bg p-4 pl-12 rounded-lg border-2 border-gray text-text focus:border-primary focus:outline-none transition-colors duration-300"
+            />
+          </div>
+        </div>
+
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 max-w-[1600px] mx-auto relative"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
+
+
         {indicadores.map(({ nome, min, max, explicacao }) => (
           <div
             key={nome}
@@ -140,6 +220,13 @@ export default function ContentCreateWallet() {
                     {explicacao}
                   </div>
                 </div>
+
+                <div>
+                  
+                </div>
+
+
+
 
                 {/* Botão Reset */}
                 <button
@@ -222,7 +309,7 @@ export default function ContentCreateWallet() {
         </motion.button>
 
         <motion.button
-          onClick={() => navigate("/carteira")}
+          onClick={() => handleCriarCarteira(nomeCarteira,valores)}
           className="w-48 py-4 cursor-pointer text-lg font-semibold text-bg bg-primary rounded-2xl shadow-md transition-all duration-300"
           whileHover={{ scale: 1.05 }}
         >
