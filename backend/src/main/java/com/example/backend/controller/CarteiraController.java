@@ -31,14 +31,11 @@ public class CarteiraController
     CarteiraService carteiraService;
 
     @PostMapping("/{userId}")
-    public ResponseEntity<Object> criarCarteira(@PathVariable Long userId,@Valid @RequestBody CarteiraForm carteira,HttpServletRequest request)
+    public ResponseEntity<Object> criarCarteira(@PathVariable Long userId,@Valid @RequestBody CarteiraForm carteira)
     {   
         try
         {
-            System.out.println(request);
-            System.out.println(carteira);
             CarteiraDTO resp = carteiraService.criarCarteira(carteira, userId);
-            System.out.println(resp);
             return ResponseEntity.status(HttpStatus.CREATED).body(resp);
         }
         catch(Exception e)

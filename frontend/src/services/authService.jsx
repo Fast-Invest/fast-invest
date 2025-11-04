@@ -1,4 +1,4 @@
-import api from "./api.jsx"
+import api,{getCookie} from "./api.jsx"
 
 async function logar(data) 
 {

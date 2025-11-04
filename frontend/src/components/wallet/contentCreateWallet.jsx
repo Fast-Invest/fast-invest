@@ -103,8 +103,11 @@ export default function ContentCreateWallet({idUser})
   const handleCriarCarteira= async ()=>{
     try
     {
-      const data= new Date()
-      const resp = await walletService.adicionarCarteira({nome:nomeCarteira,data:`${data.getFullYear()}-${data.getMonth()}-${data.getDay()}`},idUser);
+      const date= new Date()
+
+      data=`${date.getFullYear()}-${String((date.getMonth()+1).padStart(2,"0"))}-${String(date.getDate().padStart(2, "0"))}`
+
+      const resp = await walletService.adicionarCarteira({nome:nomeCarteira,data:data},idUser);
       console.log(resp)
 
       if(resp) setIdCarteira(resp?.carteira?.id) 

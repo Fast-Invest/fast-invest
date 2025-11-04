@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+//import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -61,36 +63,39 @@ public class SecurityConfig
 
 
     //Configura uma cadeia de filtros para o csrf e pro jwt
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
-    {
-        CookieCsrfTokenRepository csrfRepo = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        csrfRepo.setCookieName("XSRF-TOKEN");
-        csrfRepo.setHeaderName("X-XSRF-TOKEN");
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-            .cors(cors -> cors.configurationSource(corsConfigSource()))
-            .csrf(csrf -> csrf
-                                .csrfTokenRepository(csrfRepo)
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/swagger-ui/**"))
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")))
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                                               .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                               .requestMatchers(HttpMethod.POST,"/usuario").permitAll()
-                                               .requestMatchers("/cotacoes").permitAll()
-                                               .requestMatchers("/cotacoes/**").permitAll()
-                                               .requestMatchers("/history/**").permitAll()
-                                               .requestMatchers( "/auth/**").permitAll()
-                                               .requestMatchers("/esquecisenha/**").permitAll()
-                                               .requestMatchers("/swagger-ui/**").permitAll()
-                                               .requestMatchers("/v3/api-docs/**").permitAll()
-                                               .anyRequest().authenticated())
-            .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    CookieCsrfTokenRepository csrfRepo = CookieCsrfTokenRepository.withHttpOnlyFalse();
+    csrfRepo.setCookieName("XSRF-TOKEN");
+    csrfRepo.setHeaderName("X-XSRF-TOKEN");
 
-        return http.build();
+    http
+        .cors(cors -> cors.configurationSource(corsConfigSource()))
+        .csrf(csrf -> csrf
+            .csrfTokenRepository(csrfRepo)
+            .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+            .ignoringRequestMatchers(
+                new AntPathRequestMatcher("/swagger-ui/**"),
+                new AntPathRequestMatcher("/v3/api-docs/**"),
+                new AntPathRequestMatcher("/auth/login", "POST"),      
+                new AntPathRequestMatcher("/auth/refresh", "POST")     
+            ))
+        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
+            .requestMatchers("/auth/**").permitAll()
+            .requestMatchers("/cotacoes/**").permitAll()
+            .requestMatchers("/history/**").permitAll()
+            .requestMatchers("/swagger-ui/**").permitAll()
+            .requestMatchers("/v3/api-docs/**").permitAll()
+            .anyRequest().authenticated()
+        )
+        .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
     }
-
 
 }
 

@@ -42,8 +42,7 @@ public class JwtFilter extends OncePerRequestFilter
     @Override      //DoFilterInternal é um metodo chamado a cada requisição e veridica se há um token valido nos cookies
     protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull FilterChain filterChain) throws ServletException,IOException
     {
-        System.out.println("TESTe");
-        System.out.println(ExtrairTokenDoCookie(request, "XSRF-TOKEN"));
+
         String token = ExtrairTokenDoCookie(request, "ACCESS-TOKEN");
 
         var authContext = SecurityContextHolder.getContext().getAuthentication(); //verifica se ja existe autenticação, pq se ja ter autenticar de novo é perda de tempo
@@ -69,10 +68,6 @@ public class JwtFilter extends OncePerRequestFilter
     private String ExtrairTokenDoCookie(HttpServletRequest request, String cookieName) 
     {
         if (request.getCookies() == null) return null;
-        for (Cookie cookie : request.getCookies()) // percorre os cookies da requisicação até achar o token de acesso
-        {
-            System.out.println("cookie: "+ cookie.getName() + "" + cookie.getValue());
-        }
         for (Cookie cookie : request.getCookies())  //percorre os cookies da requisicação até achar o token de acesso
         {
             if (cookieName.equals(cookie.getName())) 

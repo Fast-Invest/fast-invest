@@ -1,83 +1,77 @@
 import axios from "axios";
 
-function getCookie(name) 
+export function getCookie(name) 
 {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-const api = axios.create(
-  {
-    baseURL: "http://localhost:8080",
-    withCredentials: true,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }
-);
+const api = axios.create({
+  baseURL: "http://localhost:8080",
+  withCredentials: true,
+  headers: { "Content-Type": "application/json" }
+});
+
+// ✅ Deixa o Axios cuidar do XSRF sozinho
+api.defaults.xsrfCookieName = "XSRF-TOKEN";
+api.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
+
+
+
+
+// ✅ Logs úteis
 api.interceptors.request.use((config) => {
-  const csrfToken = getCookie("XSRF-TOKEN");
-  if (csrfToken) {
-    config.headers["X-XSRF-TOKEN"] = csrfToken;
+  const token = getCookie("XSRF-TOKEN");
+  if (token && !config.headers["X-XSRF-TOKEN"]) 
+  {
+    config.headers["X-XSRF-TOKEN"] = token;
   }
+  console.log("token and Header being sent:", token, "----",config.headers["X-XSRF-TOKEN"]);
+
   return config;
 });
 
+
+
+// ✅ Refresh automático com novo CSRF
 api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if (!originalRequest) { throw error; }
+  (res) => res,
+  async (err) => {
+    const req = err.config;
 
-    if (originalRequest.url && originalRequest.url.includes("/auth/refresh")) { throw error; }
-    if ((error.response?.status === 401 || error.response?.status === 403) && !originalRequest._retry) {
-      originalRequest._retry = true;
-      try 
-      {
+    if (!req) throw err;
+    if (req._retry) throw err;
+    if (req.url.includes("/auth/refresh")) throw err;
 
-        console.log(getCookie("XSRF-TOKEN"));
-        delete originalRequest.headers["X-XSRF-TOKEN"];
+    if ([401, 403].includes(err.response?.status)) {
+      req._retry = true;
+      
+      console.log("🔄 Refreshing token...");
+      await api.post("/auth/refresh");
 
-        const res = await api.post("/auth/refresh");
-        console.log(res.data.message)
+      console.log("🔑 Getting new CSRF token...");
+      await api.get("/auth/csrf");
 
-        await api.get("/auth/csrf");
-        // força Axios a ler o novo XSRF token atualizado
-
-        const newCsrfToken = getCookie("XSRF-TOKEN");
-        if (newCsrfToken) { originalRequest.headers["X-XSRF-TOKEN"] = newCsrfToken;}
-        console.log(newCsrfToken)
-
-
-        return api(originalRequest);
-      }
-      catch (error) 
-      {
-        console.log(error)
-        throw error;
-      }
+      return api(req);
     }
-    throw error;
+
+    throw err;
   }
 );
 
+// ✅ Force fetch CSRF at startup
+api.get("/auth/csrf").catch(() => {});
 
-
-async function  getCSRF() 
-{
-   try
-  {
-    const res = await api.get("/auth/csrf")
-    console.log(res)
-  }
-  catch(error)
-  {
-    console.log("Erro",error.response.status,":", error);
-  } 
-}
-
-
-getCSRF()
 export default api;
+
+
+
+
+
+
+
+
+
+
 
