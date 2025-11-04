@@ -1,6 +1,6 @@
 export default function QuotationViewer({ cotacoes, viewMode }) {
   return (
-    <div className="w-full overflow-x-auto">
+    <div className="w-full overflow-x-auto pt-4">
       {viewMode === "list" ? (
         <table className="min-w-full text-sm text-left">
           <thead className="text-white/70 border-b border-white/10">
@@ -15,7 +15,7 @@ export default function QuotationViewer({ cotacoes, viewMode }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
-            {cotacoes.map((cotacao, idx) => (
+            {cotacoes.slice(0,20).map((cotacao, idx) => (      // O SLICE AQUI É SO PRA NAO FICAR TRAVANDO POR ENQUANTO.E CAPS LOCK É PILOTO AUTOMATICO PRA SER MANEIRO
               <tr key={idx} className="hover:bg-white/5 transition-colors">
                 <td className="px-4 py-3">
                   <img
@@ -47,13 +47,13 @@ export default function QuotationViewer({ cotacoes, viewMode }) {
         </table>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {cotacoes.map((cotacao, idx) => (
+          {cotacoes.slice(0,20).map((cotacao, idx) => ( // O SLICE AQUI É SO PRA NAO FICAR TRAVANDO POR ENQUANTO.E CAPS LOCK É PILOTO AUTOMATICO PRA SER MANEIRO
             <div
               key={idx}
               className="p-6 rounded-2xl border border-primary/50 shadow-lg shadow-primary/30 hover:shadow-primary/70 hover:-translate-y-2 transition-all duration-300 text-left"
             >
               <img
-                src={`https://logo.clearbit.com/${cotacao.logo}`}
+                src={`${cotacao.logo}`} 
                 alt={cotacao.ticker}
                 className="w-12 h-12 rounded-full mb-3"
                 loading="lazy"

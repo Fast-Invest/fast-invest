@@ -24,9 +24,42 @@ async function adicionarCarteira(data, id)
     }
 }
 
+async function buscarCarteiras(userId)
+{
+    try
+    {
+        const resp = await api.get(`/carteira/${userId}`)
+        console.log(resp)
+        return {
+                message: "Carteiras buscadas com sucesso",
+                status: resp.status,
+                carteiras: resp.data || null,
+            };    
+    }
+    catch(error)
+    {
+        console.log(error)
+        return {
+            message: "Erro ao buscar carteira",
+            status: error?.response?.status || 500,
+        };        
+    }
+}
+
 
 async function deletarCarteira(){}
 async function editarCarteira(){}
+
+
+
+
+
+
+
+
+
+
+
 
 
 async function adicionarFiltro(data)
@@ -38,6 +71,7 @@ async function adicionarFiltro(data)
 
 const walletService = {
                         adicionarCarteira,
+                        buscarCarteiras,
                         deletarCarteira,
                         editarCarteira,
                         adicionarFiltro,

@@ -1,17 +1,29 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect,useState } from "react" 
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FaWallet, FaPlusCircle } from "react-icons/fa";
+import walletService from "../../services/walletService.jsx"
 
-export default function ContentWallet() {
+export default function ContentWallet({userId}) {
   const navigate = useNavigate();
+  const [carteiras,setCarteiras]=useState([{ id: 1, nome: "Carteira Exemplo Fundations", data: "12/05/2024",filtros:[] },])
 
-  // TODO: Gustavo depois troca esse array por dados reais
-  const carteiras = [
-    { id: 1, nome: "Carteira Tech Growth", data: "12/05/2024" },
-    { id: 2, nome: "Carteira Dividendos", data: "28/07/2024" },
-    { id: 3, nome: "Carteira Conservadora", data: "03/10/2024" },
-  ];
+  useEffect(() => {
+      (async () => {
+        try
+        {
+          if(!userId) throw new Error("Nenhum usuario com id especificado")
+          const resp = await walletService.buscarCarteiras(userId)
+          if(resp.carteiras) setCarteiras(resp.carteiras)
+        }
+        catch(error)
+        {
+          console.log("erro: ", error)
+        }}
+      )();
+    }, [userId,setCarteiras]);
+
 
   return (
     <div className="flex flex-col bg-bg min-h-screen px-6 relative overflow-hidden">

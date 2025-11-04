@@ -19,7 +19,6 @@ import com.example.backend.dto.CarteiraDTO;
 import com.example.backend.forms.CarteiraForm;
 import com.example.backend.services.CarteiraService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController

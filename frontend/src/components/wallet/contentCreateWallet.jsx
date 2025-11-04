@@ -6,72 +6,9 @@ import { Range } from "react-range";
 import { useNavigate } from "react-router-dom";
 import walletService from "../../services/walletService";
 import toast, { Toaster } from "react-hot-toast";
+import indicadores  from "./indicadores";
 
-const indicadores = [
-  {
-    nome: "DY",
-    min: 0,
-    max: 25,
-    explicacao: "Dividend Yield: retorno em dividendos sobre o preço da ação.",
-  },
-  {
-    nome: "P/L",
-    min: 0,
-    max: 100,
-    explicacao:
-      "Preço/Lucro: indica quantos anos o lucro paga o preço da ação.",
-  },
-  {
-    nome: "PEG Ratio",
-    min: -10,
-    max: 10,
-    explicacao: "Crescimento ajustado ao preço/lucro.",
-  },
-  {
-    nome: "P/VP",
-    min: 0,
-    max: 20,
-    explicacao: "Preço/Valor Patrimonial: compara preço com valor contábil.",
-  },
-  {
-    nome: "Margem Bruta",
-    min: 0,
-    max: 100,
-    explicacao: "Lucro bruto sobre receita líquida.",
-  },
-  {
-    nome: "Margem Líquida",
-    min: 0,
-    max: 100,
-    explicacao: "Lucro líquido sobre receita líquida.",
-  },
-  {
-    nome: "ROE",
-    min: 0,
-    max: 100,
-    explicacao: "Retorno sobre o patrimônio líquido.",
-  },
-  {
-    nome: "ROIC",
-    min: 0,
-    max: 100,
-    explicacao: "Retorno sobre o capital investido.",
-  },
-  {
-    nome: "EV/EBIT",
-    min: 0,
-    max: 100,
-    explicacao: "Valor da empresa dividido pelo EBIT.",
-  },
-  { nome: "LPA", min: 0, max: 100, explicacao: "Lucro por ação." },
-  { nome: "VPA", min: 0, max: 100, explicacao: "Valor patrimonial por ação." },
-  {
-    nome: "Valor de mercado",
-    min: 0,
-    max: 1000000000,
-    explicacao: "Valor total de mercado da empresa.",
-  },
-];
+
 
 export default function ContentCreateWallet({idUser}) 
 {
@@ -103,11 +40,17 @@ export default function ContentCreateWallet({idUser})
   const handleCriarCarteira= async ()=>{
     try
     {
+            console.log("teste")
+
       const date= new Date()
 
-      data=`${date.getFullYear()}-${String((date.getMonth()+1).padStart(2,"0"))}-${String(date.getDate().padStart(2, "0"))}`
+      const ano=date.getFullYear();
+      const mes=String((date.getMonth()+1)).padStart(2,"0");
+      const dia=String(date.getDate()).padStart(2, "0");
 
-      const resp = await walletService.adicionarCarteira({nome:nomeCarteira,data:data},idUser);
+      const data_criacao=`${ano}-${mes}-${dia}`;
+
+      const resp = await walletService.adicionarCarteira({nome:nomeCarteira,data:data_criacao},idUser);
       console.log(resp)
 
       if(resp) setIdCarteira(resp?.carteira?.id) 
@@ -117,11 +60,12 @@ export default function ContentCreateWallet({idUser})
     catch(error)
     {
       toast.error("Erro ao cadastrar carteira")
+      console.log(error)
       return ;
     }
 
     const filtros = Object.entries(valores).map(([nome, [min, max]]) => ({
-      tipo: nome.toLowerCase().replace("p/l","pl").replace("/","_").normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(" ","_").replace("valor de mercado","marketCap"),  
+      tipo: nome.toLowerCase().replace("p/l","pl").replace("/","_").normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace("valor de mercado","marketCap").replace(" ","_"),  
       valorMin: min,
       valorMax: max
     }));
@@ -249,9 +193,12 @@ export default function ContentCreateWallet({idUser})
               max={max}
               values={valores[nome]}
               onChange={(values) => setValores({ ...valores, [nome]: values })}
-              renderTrack={({ props, children }) => (
+              renderTrack={({ props, children }) => {
+                const { key, ...rest } = props;
+                return (
                 <div
-                  {...props}
+                  key={key}
+                  {...rest}
                   className="h-3 rounded-full bg-gray-800 relative cursor-pointer"
                 >
                   <div
@@ -268,13 +215,16 @@ export default function ContentCreateWallet({idUser})
                   />
                   {children}
                 </div>
-              )}
-              renderThumb={({ props }) => (
+              )}}
+              renderThumb={({ props }) => {
+              const { key,...rest } = props
+              return(
                 <div
-                  {...props}
+                  key={key}
+                  {...rest}
                   className="w-5 h-5 rounded-full bg-primary shadow-md"
                 />
-              )}
+              )}}
             />
 
             {/* Inputs de valores */}

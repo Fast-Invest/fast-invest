@@ -22,12 +22,13 @@ api.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
 
 // ✅ Logs úteis
 api.interceptors.request.use((config) => {
+
+
   const token = getCookie("XSRF-TOKEN");
   if (token && !config.headers["X-XSRF-TOKEN"]) 
   {
     config.headers["X-XSRF-TOKEN"] = token;
   }
-  console.log("token and Header being sent:", token, "----",config.headers["X-XSRF-TOKEN"]);
 
   return config;
 });
@@ -64,14 +65,3 @@ api.interceptors.response.use(
 api.get("/auth/csrf").catch(() => {});
 
 export default api;
-
-
-
-
-
-
-
-
-
-
-

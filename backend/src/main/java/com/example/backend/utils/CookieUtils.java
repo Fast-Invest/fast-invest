@@ -4,6 +4,9 @@ package com.example.backend.utils;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
@@ -37,4 +40,17 @@ public class CookieUtils
         resp.addHeader("Set-Cookie", cookie.toString());
     }
 
+    public String ExtrairTokenDoCookie(HttpServletRequest request, String cookieName) 
+    {
+        if (request.getCookies() == null) return null;
+        for (Cookie cookie : request.getCookies())  //percorre os cookies da requisicação até achar o token de acesso
+        {
+            if (cookieName.equals(cookie.getName())) 
+            {
+
+                return cookie.getValue();
+            }
+        }
+        return null;
+    }
 }

@@ -8,6 +8,8 @@ import authService from "../services/authService.jsx";
 export default function Wallet() {
   const [nome, setNome] = useState("Usuário!");
   const [email, setEmail] = useState("Usuário!");
+  const [id, setUserId] = useState(null);
+
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
@@ -20,9 +22,11 @@ export default function Wallet() {
             `Status:${resp.status}=>Usuário não logado. Informações não carregadas`
           );
         }
-
+        console.log(resp)
         setEmail(resp.usuarios.email);
         setNome(resp.usuarios.nome);
+        console.log('teste-1', resp.usuarios.id)
+        setUserId(resp.usuarios.id)
         setIsLogged(true);
       } catch (error) {
         setIsLogged(false);
@@ -46,7 +50,7 @@ export default function Wallet() {
             setIsLogged={setIsLogged}
             setNome={setNome}
           />
-          <ContentWallet />
+          <ContentWallet userId={id}/>
           <Footer />
         </div>
       </div>

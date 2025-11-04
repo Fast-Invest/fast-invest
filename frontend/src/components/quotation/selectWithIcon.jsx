@@ -48,16 +48,14 @@ export default function SelectWithIcon({
   );
 }
 
-export function SelectPage({ children, setQuotationsPerPage }) {
+
+export function SelectPage({ children}) {
   return (
     <div className="relative flex-1">
       <select
         className="select-scrollbar w-full min-h-[2.75rem] font-bold pl-4 pr-10 rounded-xl outline-none border-0 cursor-pointer
                 shadow-[0_0_0_1.5px_#2b2c37,0_0_25px_-17px_#000] transition-all duration-200
                 focus:shadow-[0_0_0_2.5px_#2f303d] appearance-none bg-bg text-white"
-        onChange={(e) => {
-          setQuotationsPerPage(e.target.value);
-        }}
       >
         {children}
       </select>

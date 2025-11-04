@@ -17,11 +17,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.example.backend.models.Usuario;
 import com.example.backend.repositories.UsuarioRepo;
 import com.example.backend.services.JwtService;
-
+import com.example.backend.utils.CookieUtils;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -34,6 +33,9 @@ public class JwtFilter extends OncePerRequestFilter
     @Autowired
     private UsuarioRepo usuarioRepo;
 
+    @Autowired
+    CookieUtils cookieUtils;
+
     public JwtFilter(JwtService jwtService)
     {
         this.jwtService=jwtService;
@@ -43,7 +45,7 @@ public class JwtFilter extends OncePerRequestFilter
     protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull FilterChain filterChain) throws ServletException,IOException
     {
 
-        String token = ExtrairTokenDoCookie(request, "ACCESS-TOKEN");
+        String token = cookieUtils.ExtrairTokenDoCookie(request, "ACCESS-TOKEN");
 
         var authContext = SecurityContextHolder.getContext().getAuthentication(); //verifica se ja existe autenticação, pq se ja ter autenticar de novo é perda de tempo
         if (token != null && (authContext == null || authContext instanceof AnonymousAuthenticationToken))
@@ -65,19 +67,7 @@ public class JwtFilter extends OncePerRequestFilter
         filterChain.doFilter(request, response);
     }
 
-    private String ExtrairTokenDoCookie(HttpServletRequest request, String cookieName) 
-    {
-        if (request.getCookies() == null) return null;
-        for (Cookie cookie : request.getCookies())  //percorre os cookies da requisicação até achar o token de acesso
-        {
-            if (cookieName.equals(cookie.getName())) 
-            {
 
-                return cookie.getValue();
-            }
-        }
-        return null;
-    }
 
     // não aplicar o filtro nas rotas passadas ali
     @Override

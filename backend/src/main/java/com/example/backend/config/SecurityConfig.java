@@ -1,6 +1,7 @@
 package com.example.backend.config;
 
 
+import com.example.backend.security.CsrfCookieFilter;
 import com.example.backend.security.JwtFilter;
 
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-//import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
+// import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -30,6 +31,7 @@ public class SecurityConfig
 
 
     private final JwtFilter jwtFilter;
+
 
     public SecurityConfig(JwtFilter jwtFilter)
     {
@@ -78,7 +80,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .ignoringRequestMatchers(
                 new AntPathRequestMatcher("/swagger-ui/**"),
                 new AntPathRequestMatcher("/v3/api-docs/**"),
-                new AntPathRequestMatcher("/auth/login", "POST"),      
+                new AntPathRequestMatcher("/auth/login", "POST"),
                 new AntPathRequestMatcher("/auth/refresh", "POST")     
             ))
         .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -92,6 +94,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .requestMatchers("/v3/api-docs/**").permitAll()
             .anyRequest().authenticated()
         )
+        .addFilterAfter(new CsrfCookieFilter(), UsernamePasswordAuthenticationFilter.class) // ✅ FIX 2
         .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();

@@ -1,23 +1,25 @@
 package com.example.backend.security;
 
+import java.io.IOException;
+
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.web.filter.OncePerRequestFilter;
-import java.io.IOException;
-import org.springframework.security.web.csrf.CsrfToken;
 
-
-public class CsrfCookieFilter extends OncePerRequestFilter {
+@Component
+public class CsrfCookieFilter extends OncePerRequestFilter
+{
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)throws ServletException, IOException 
+    {
 
-        CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-        if (csrf != null) {
-            csrf.getToken(); // forces creation
-        }
-        filterChain.doFilter(request, response);
+        CsrfToken token = (CsrfToken) req.getAttribute(CsrfToken.class.getName());
+        if (token != null) token.getToken(); // força o Spring a mandar o cookie só quando muda
+        chain.doFilter(req, res);
     }
 }
