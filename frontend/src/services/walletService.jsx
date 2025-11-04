@@ -6,6 +6,7 @@ async function adicionarCarteira(data, id)
     try
     {
         const resp = await api.post(`/carteira/${id}`, data)
+        console.log(resp)
         return {
                 message: "Carteira cadastrada com sucesso",
                 status: resp.status,

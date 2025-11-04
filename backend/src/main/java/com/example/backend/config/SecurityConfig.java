@@ -3,7 +3,7 @@ package com.example.backend.config;
 
 import com.example.backend.security.JwtFilter;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,6 +28,9 @@ public class SecurityConfig
 {
 
 
+    @Autowired
+    private CookieCsrfTokenRepository csrfTokenRepository;
+
     private final JwtFilter jwtFilter;
 
     public SecurityConfig(JwtFilter jwtFilter)
@@ -42,6 +45,7 @@ public class SecurityConfig
     }
     
 
+
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigSource()
     {
@@ -49,8 +53,8 @@ public class SecurityConfig
         cors.setAllowedOrigins(List.of("http://localhost:5173","http://localhost:80"));// so permite requisicoes do localhost do react e da porta 80 caso queiram servir o react em nginx
         cors.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));                     // metodos permitidos
         cors.setAllowCredentials(true);                                                           // permite o envio de credenciais no header da requisicao,necessario para cookies jwt se forem http only
+        cors.setExposedHeaders(List.of("Set-Cookie"));
         cors.setAllowedHeaders(List.of("*"));                                                                   // permite de tudo  no header
-
         //aplica essa logica para todas rotas
         UrlBasedCorsConfigurationSource  source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", cors);
@@ -64,19 +68,16 @@ public class SecurityConfig
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
     {
-        CookieCsrfTokenRepository cookieRepo = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        cookieRepo.setCookieName("X-XSRF-TOKEN");
-        cookieRepo.setHeaderName("X-XSRF-TOKEN");
-
         http
             .cors(cors -> cors.configurationSource(corsConfigSource()))
             .csrf(csrf -> csrf
-                                .csrfTokenRepository(cookieRepo)
+                                .csrfTokenRepository(csrfTokenRepository)
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/**", "OPTIONS"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/usuario", "POST"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/cotacoes"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/cotacoes/**"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/history/**"))
+                                .ignoringRequestMatchers(new AntPathRequestMatcher("/debug/**"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/auth/**"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/esquecisenha/**"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/swagger-ui/**"))

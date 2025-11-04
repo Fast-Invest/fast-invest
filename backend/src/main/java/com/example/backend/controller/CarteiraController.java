@@ -19,6 +19,7 @@ import com.example.backend.dto.CarteiraDTO;
 import com.example.backend.forms.CarteiraForm;
 import com.example.backend.services.CarteiraService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -30,10 +31,11 @@ public class CarteiraController
     CarteiraService carteiraService;
 
     @PostMapping("/{userId}")
-    public ResponseEntity<Object> criarCarteira(@PathVariable Long userId,@Valid @RequestBody CarteiraForm carteira)
+    public ResponseEntity<Object> criarCarteira(@PathVariable Long userId,@Valid @RequestBody CarteiraForm carteira,HttpServletRequest request)
     {   
         try
         {
+            System.out.println(request);
             System.out.println(carteira);
             CarteiraDTO resp = carteiraService.criarCarteira(carteira, userId);
             System.out.println(resp);
