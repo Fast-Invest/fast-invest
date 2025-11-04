@@ -3,7 +3,6 @@ package com.example.backend.config;
 
 import com.example.backend.security.JwtFilter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,9 +26,6 @@ import java.util.List;
 public class SecurityConfig 
 {
 
-
-    @Autowired
-    private CookieCsrfTokenRepository csrfTokenRepository;
 
     private final JwtFilter jwtFilter;
 
@@ -68,18 +64,14 @@ public class SecurityConfig
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
     {
+        CookieCsrfTokenRepository csrfRepo = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        csrfRepo.setCookieName("XSRF-TOKEN");
+        csrfRepo.setHeaderName("X-XSRF-TOKEN");
+
         http
             .cors(cors -> cors.configurationSource(corsConfigSource()))
             .csrf(csrf -> csrf
-                                .csrfTokenRepository(csrfTokenRepository)
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/**", "OPTIONS"))
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/usuario", "POST"))
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/cotacoes"))
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/cotacoes/**"))
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/history/**"))
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/debug/**"))
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/auth/**"))
-                                .ignoringRequestMatchers(new AntPathRequestMatcher("/esquecisenha/**"))
+                                .csrfTokenRepository(csrfRepo)
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/swagger-ui/**"))
                                 .ignoringRequestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")))
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -94,7 +86,7 @@ public class SecurityConfig
                                                .requestMatchers("/swagger-ui/**").permitAll()
                                                .requestMatchers("/v3/api-docs/**").permitAll()
                                                .anyRequest().authenticated())
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

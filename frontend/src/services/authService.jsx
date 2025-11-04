@@ -2,10 +2,13 @@ import api from "./api.jsx"
 
 async function logar(data) 
 {
-  try {
+  try 
+  {
     const response = await api.post("/auth/login", data);
     return { message: "login realizado com sucesso", status: response.status };
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.log("Erro:", error);
     return { message: "erro ao realizar login", status: error.response.status };
   }

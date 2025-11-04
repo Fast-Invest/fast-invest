@@ -19,7 +19,7 @@ const api = axios.create(
 api.interceptors.request.use((config) => {
   const csrfToken = getCookie("XSRF-TOKEN");
   if (csrfToken) {
-    config.headers["XSRF-TOKEN"] = csrfToken;
+    config.headers["X-XSRF-TOKEN"] = csrfToken;
   }
   return config;
 });
@@ -37,17 +37,16 @@ api.interceptors.response.use(
       {
 
         console.log(getCookie("XSRF-TOKEN"));
-        delete originalRequest.headers["XSRF-TOKEN"];
+        delete originalRequest.headers["X-XSRF-TOKEN"];
 
         const res = await api.post("/auth/refresh");
         console.log(res.data.message)
 
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
+        await api.get("/auth/csrf");
         // força Axios a ler o novo XSRF token atualizado
 
         const newCsrfToken = getCookie("XSRF-TOKEN");
-        if (newCsrfToken) { originalRequest.headers["XSRF-TOKEN"] = newCsrfToken;}
+        if (newCsrfToken) { originalRequest.headers["X-XSRF-TOKEN"] = newCsrfToken;}
         console.log(newCsrfToken)
 
 
@@ -63,5 +62,22 @@ api.interceptors.response.use(
   }
 );
 
+
+
+async function  getCSRF() 
+{
+   try
+  {
+    const res = await api.get("/auth/csrf")
+    console.log(res)
+  }
+  catch(error)
+  {
+    console.log("Erro",error.response.status,":", error);
+  } 
+}
+
+
+getCSRF()
 export default api;
 
