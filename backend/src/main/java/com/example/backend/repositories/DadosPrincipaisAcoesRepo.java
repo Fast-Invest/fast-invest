@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DadosPrincipaisAcoesRepo extends JpaRepository<DadosPrincipaisAcoes, Integer> {
+public interface DadosPrincipaisAcoesRepo extends JpaRepository<DadosPrincipaisAcoes, Long> {
 
     @Query(value="""
             SELECT DISTINCT 
@@ -27,45 +27,6 @@ public interface DadosPrincipaisAcoesRepo extends JpaRepository<DadosPrincipaisA
         """,nativeQuery=true)
     List<CotacaoProjection> buscarCotacoes();
 
-/*
-            dp.symbol as ticker,
-            dp.marketCap as valor_de_mercado, 
-            dp.longName as nome,
-            dp.regularMarketPrice as preco,
-            dp.regularMarketChangePercent as variacao, 
-            dp.sector as setor,
-            dp.type as tipo,
-            ic.pl as pl,  
-            ic.lpa as lpa,
-            ic.vpa as vpa,
-            (ic.preco_atual/ic.vpa) as p_vp, TODO: ta presente no filtro e não na tabela. adicionar na tabela de indicadores completo
-            ROUND(ic.quantidade_acoes) as quantidade_acoes,
-            (1/ic.pl) as earningYield, TODO: não ta na tabela. adicionar na tabela de indicadores completo
-            ic.p_ebit as p_ebit,
-            (df.currentPrice/df.operatingCashflow) as p_fco, TODO: não ta na tabela. adicionar na tabela de indicadores completo
-            (dp.marketCap/df.operatingCashflow) as p_fcl, TODO: não ta na tabela. adicionar na tabela de indicadores completo
-            ic.psr as p_receita,
-            COALESCE(ic.dy,0) as dividendsYield, 
-            (ic.marketCap + (df.totalDebt -df.totalCash) ) as enterpriseValue, TODO: não ta na tabela. adicionar na tabela de indicadores completo
-            ic.ev_ebit as ev_ebit,
-            ((ic.marketCap + (df.totalDebt -df.totalCash) )/df.totalRevenue) as ev_receita, TODO: não ta na tabela. adicionar na tabela de indicadores completo
-            ((ic.marketCap + (df.totalDebt -df.totalCash) )/df.operatingCashflow) as ev_fco,TODO: não ta na tabela. adicionar na tabela de indicadores completo
-            ((ic.marketCap + (df.totalDebt -df.totalCash) )/freeCashflow) as ev_fcl, TODO: não ta na tabela. adicionar na tabela de indicadores completo
-            df.currentRatio as liq_corrente,
-            ic.margem_bruta
-            ic.margem_ebitda,
-            ic.margem_liquida,
-            ic.giro_ativos,
-            ic.roe, 
-            ic.roa,
-            (((df.ebitda*operatingMargins)*(1-0.34)) / (df.totalDebt + ic.vpa * ic.quantidade_acoes)) as roic TODO: ta presente no filtro e não na tabela. adicionar na tabela de indicadores completo
-                TODO: adicionar peg_ratio, que é ic.pl/(100*df.earningsGrowth)
-            from dados_principais_acoes as dp 
-        join indicadores_completos as ic on dp.symbol=ic.symbol
-        join dados_financas as df on dp.symbol=df.symbol
-        where dp.symbol= :ticker
-        order by dividendsYield;
-*/
     @Query(value="""
         SELECT DISTINCT
             dp.symbol as ticker,
@@ -78,32 +39,43 @@ public interface DadosPrincipaisAcoesRepo extends JpaRepository<DadosPrincipaisA
             ic.pl as pl,  
             ic.lpa as lpa,
             ic.vpa as vpa,
-            (ic.preco_atual/ic.vpa) as p_vp,
-            ROUND(ic.quantidade_acoes) as quantidade_acoes,
-            (1/ic.pl) as earningYield,
+            ic.p_vp as p_vp,
+            ic.quantidade_acoes as quantidade_acoes,
             ic.p_ebit as p_ebit,
-            (df.currentPrice/df.operatingCashflow) as p_fco,
-            (dp.marketCap/df.operatingCashflow) as p_fcl,
+            ic.p_fco as p_fco,
+            ic.p_fcl as p_fcl,
             ic.psr as p_receita,
-            COALESCE(ic.dy,0) as dividendsYield,
-            (ic.marketCap + (df.totalDebt -df.totalCash) ) as enterpriseValue,
+            ic.earningYield as earning_yield,
+            ic.dy as dividends_yield,
+            ic.enterprise_Value as enterprise_value,
             ic.ev_ebit as ev_ebit,
-            ((ic.marketCap + (df.totalDebt -df.totalCash) )/df.totalRevenue) as ev_receita,
-            ((ic.marketCap + (df.totalDebt -df.totalCash) )/df.operatingCashflow) as ev_fco,
-            ((ic.marketCap + (df.totalDebt -df.totalCash) )/freeCashflow) as ev_fcl,
-            df.currentRatio as liq_corrente,
+            ic.ev_receita as ev_receita_liquida,
+            ic.ev_fco as ev_fco,
+            ic.ev_fcl as ev_fcl,
+            df.currentRatio as liquidez_corrente,
             ic.margem_bruta,
             ic.margem_ebitda,
             ic.margem_liquida,
-            ic.giro_ativos,
+            ic.giro_ativos as giro_ativo,
             ic.roe,
             ic.roa,
-            (((df.ebitda*operatingMargins)*(1-0.34)) / (df.totalDebt + ic.vpa * ic.quantidade_acoes)) as roic
+            ic.roic as roic,
+            ic.totalRevenue as receita_total,
+            ic.totalAssets as recursos_totais,
+            ic.totalDebt as debito_total,
+            ic.p_capital_giro as p_capital_giro,
+            ic.p_ativos as p_ativos,
+            ic.p_ativo_circ_liq as p_ativo_circulante_liquido ,
+            ic.passivos_ativos as passivos_ativos,
+            ic.patrimonio_ativos as patrimonio_ativos,
+            ic.liquidez_media_diaria as liquidez_media_diaria,
+            ic.divida_liq_ebit as divida_liq_ebit,
+            ic.divida_liq_patrimonio as divida_liq_patrimonio
         from dados_principais_acoes as dp 
         join indicadores_completos as ic on dp.symbol=ic.symbol
         join dados_financas as df on dp.symbol=df.symbol
         where dp.symbol= :ticker
-        order by dividendsYield;
+        order by dividends_yield;
         """,nativeQuery=true)
     List<AcaoProjection> buscarInfoCompletaAcao(String ticker);
 

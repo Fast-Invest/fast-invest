@@ -130,7 +130,7 @@ export default function ContentWallet({ userId }) {
                     <button
                       className="flex items-center gap-2 text-gray-300 hover:text-primary 
                       px-2 py-1 rounded-lg transition-colors duration-200 text-sm"
-                      onClick={() => handleDeletar(carteira.id)}
+                      onClick={() => {console.log("id carteira:",carteira.id);handleDeletar(carteira.id)}}
                     >
                       <FaTrash className="text-xs" />
                       Excluir

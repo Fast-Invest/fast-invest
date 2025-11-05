@@ -15,6 +15,7 @@ export default function ContentCreateWallet({ idUser }) {
   const [valores, setValores] = useState(initialState);
   const navigate = useNavigate();
   const [nomeCarteira, setNomeCarteira] = useState("");
+  const [carteiraId,setIdCarteira]=useState(null)
 
   const resetar = (nome) => {
     setValores((prev) => ({
@@ -35,36 +36,43 @@ export default function ContentCreateWallet({ idUser }) {
   };
 
   const handleCriarCarteira = async () => {
-    try {
+    try 
+    {
       const date = new Date();
       const data_criacao = `${date.getFullYear()}-${String(
         date.getMonth() + 1
       ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
-      // const resp = await walletService.adicionarCarteira(
-      //   { nome: nomeCarteira, data: data_criacao },
-      //   idUser
-      // );
+      const resp = await walletService.adicionarCarteira(
+        { nome: nomeCarteira, data: data_criacao },
+        idUser
+      );
 
-      // if (resp) setIdCarteira(resp?.carteira?.id);
-      // if (resp.status !== 201) throw new Error();
-
+      if (resp) setIdCarteira(resp.carteira.id);
+      if (resp.status !== 201) {
+        toast.error("Erro ao cadastrar a carteira")
+        return ;
+      }
       toast.success("Carteira cadastrada com sucesso");
-    } 
+    
+
+      const filtros = Object.entries(valores).map(([nome, [min, max]]) => ({
+        tipo: nome,
+        valorMin: min,
+        valorMax: max,
+      }));
+    
+      const res = await walletService.adicionarFiltro(filtros,resp.carteira.id)
+      console.log(res)
+    }
     catch (error) 
     {
-      toast.error("Erro ao cadastrar carteira");
+      toast.error("Erro ao cadastrar filtros na carteira");
       console.log(error);
       return;
     }
-
-    const filtros = Object.entries(valores).map(([nome, [min, max]]) => ({
-      tipo: nome,
-      valorMin: min,
-      valorMax: max,
-    }));
-
-  };
+    }
+  
 
 
   return (

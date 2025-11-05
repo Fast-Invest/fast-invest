@@ -21,6 +21,7 @@ public class IndicadoresCompletos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="index")
     private Long id;
 
     @Column(columnDefinition = "TEXT")
@@ -37,9 +38,16 @@ public class IndicadoresCompletos {
     @Column(columnDefinition = "TEXT")
     private String industry;
 
+    @Column(name = "pl")
     private Double pl;
+
+    @Column(name = "lpa")
     private Double lpa;
+
+    @Column(name = "roa")
     private Double roa;
+
+    @Column(name = "roe")
     private Double roe;
 
     @Column(name = "margem_bruta")
@@ -51,28 +59,29 @@ public class IndicadoresCompletos {
     @Column(name = "margem_liquida")
     private Double margemLiquida;
 
-    @Column(name = "p_ebit", precision = 23, scale = 4)
-    private BigDecimal pEbit;
+    @Column(name = "p_ebit")
+    private Double pEbit;
 
-    @Column(name = "ev_ebit", precision = 25, scale = 4)
-    private BigDecimal evEbit;
+    @Column(name = "ev_ebit")
+    private Double evEbit;
 
-    @Column(name = "divida_liq_ebit", precision = 24, scale = 4)
-    private BigDecimal dividaLiqEbit;
+    @Column(name = "divida_liq_ebit")
+    private Double dividaLiqEbit;
 
-    @Column(name = "divida_liq_patrimonio", precision = 24, scale = 4)
-    private BigDecimal dividaLiqPatrimonio;
+    @Column(name = "divida_liq_patrimonio")
+    private Double dividaLiqPatrimonio;
 
+    @Column(name = "psr")
     private Double psr;
 
-    @Column(name = "p_capital_giro", precision = 23, scale = 4)
-    private BigDecimal pCapitalGiro;
+    @Column(name = "p_capital_giro")
+    private Double pCapitalGiro;
 
-    @Column(name = "p_ativos", precision = 23, scale = 4)
-    private BigDecimal pAtivos;
+    @Column(name = "p_ativos")
+    private Double pAtivos;
 
-    @Column(name = "passivos_ativos", precision = 23, scale = 4)
-    private BigDecimal passivosAtivos;
+    @Column(name = "passivos_ativos")
+    private Double passivosAtivos;
 
     @Column(name = "giro_ativos")
     private Double giroAtivos;
@@ -80,54 +89,63 @@ public class IndicadoresCompletos {
     @Column(name = "quantidade_acoes")
     private Double quantidadeAcoes;
 
-    @Column(name = "vpa", precision = 23, scale = 4)
+    @Column(name = "vpa")
     private Double vpa;
 
-    @Column(name = "dy", precision = 23, scale = 4)
+    @Column(name = "dy")
     private Double dy;
 
-    @Column(name = "p_vp", precision = 23, scale = 4)
+    @Column(name = "p_vp")
     private Double pVp;
 
-    @Column(name = "earning_yield", precision = 23, scale = 4)
+    @Column(name = "earning_yield")
     private Double earningYield;
 
-    @Column(name = "p_fco", precision = 23, scale = 4)
+    @Column(name = "p_fco")
     private Double pFco;
 
-    @Column(name = "p_fcl", precision = 23, scale = 4)
+    @Column(name = "p_fcl")
     private Double pFcl;
 
     @Column(name = "enterprise_value")
     private Long enterpriseValue;
 
-    @Column(name = "ev_receita", precision = 23, scale = 4)
+    @Column(name = "ev_receita")
     private Double evReceita;
 
-    @Column(name = "ev_fco", precision = 23, scale = 4)
+    @Column(name = "ev_fco")
     private Double evFco;
 
-    @Column(name = "ev_fcl", precision = 23, scale = 4)
+    @Column(name = "ev_fcl")
     private Double evFcl;
 
-    @Column(name = "roic", precision = 23, scale = 4)
+    @Column(name = "roic")
     private Double roic;
 
-    @Column(name = "peg_ratio", precision = 23, scale = 4)
+    @Column(name = "peg_ratio")
     private BigDecimal pegRatio;
 
     @Column(name = "margem_ebit")
     private Double margemEbit;
 
-    // P / Ativo Circulante Líquido (Preço dividido pelo Ativo Circulante Líquido por ação)
-    @Column(name = "p_ativo_circ_liq", precision = 23, scale = 4)
+    @Column(name = "p_ativo_circ_liq")
     private Double pAtivoCircLiq;
 
-    // Patrimônio / Ativos (1 - Passivos / Ativos)
-    @Column(name = "patrimonio_ativos", precision = 23, scale = 4)
+    @Column(name = "patrimonio_ativos")
     private Double patrimonioAtivos;
 
-    // Liquidez Média Diária (volume financeiro médio diário)
-    @Column(name = "liquidez_media_diaria", precision = 23, scale = 4)
+    @Column(name = "liquidez_media_diaria")
     private Double liquidezMediaDiaria;
+
+    @Column(name = "total_debt")
+    private Double totalDebt;
+
+    @Column(name = "total_revenue")
+    private Double totalRevenue;
+
+    @Column(name = "ebitda")
+    private Double ebitda;
+
+    @Column(name = "total_assets")
+    private Double totalAssets;
 }

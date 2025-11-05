@@ -57,7 +57,9 @@ async function editarCarteira(data, idCarteira) {
       status: resp.status,
       carteira: resp.data || null,
     };
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.log(error);
     return {
       message: "Erro ao cadastrar carteira",
@@ -66,9 +68,17 @@ async function editarCarteira(data, idCarteira) {
   }
 }
 
-async function adicionarFiltro(data) {
-  const resp = api.post(`/filtro/{carteiraId}`, data);
-  return resp;
+async function adicionarFiltro(data,carteiraId) 
+{
+  try {
+  const resp = api.post(`/filtros/${carteiraId}`, data);
+    return {
+      message: "Filtros cadastrada com sucesso",
+      status: resp.status,
+      filtros: resp.data || null,
+    };
+  }
+  catch(error){throw error;}
 }
 
 const walletService = {

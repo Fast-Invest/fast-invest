@@ -40,6 +40,7 @@ public class CotacoesService
                 throw new AcaoNaoEncontrada("Erro:Nenhuma ação com ticker:"+ticker+" não foi encontrada");
             }
             AcaoProjection acao=acoes.get((acoes.size()/2)+1);
+            System.out.println(acao);
             return acao;
         }
         catch(Exception e)
