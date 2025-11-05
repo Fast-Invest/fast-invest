@@ -80,7 +80,54 @@ public class IndicadoresCompletos {
     @Column(name = "quantidade_acoes")
     private Double quantidadeAcoes;
 
+    @Column(name = "vpa", precision = 23, scale = 4)
     private Double vpa;
 
+    @Column(name = "dy", precision = 23, scale = 4)
     private Double dy;
+
+    @Column(name = "p_vp", precision = 23, scale = 4)
+    private Double pVp;
+
+    @Column(name = "earning_yield", precision = 23, scale = 4)
+    private Double earningYield;
+
+    @Column(name = "p_fco", precision = 23, scale = 4)
+    private Double pFco;
+
+    @Column(name = "p_fcl", precision = 23, scale = 4)
+    private Double pFcl;
+
+    @Column(name = "enterprise_value")
+    private Long enterpriseValue;
+
+    @Column(name = "ev_receita", precision = 23, scale = 4)
+    private Double evReceita;
+
+    @Column(name = "ev_fco", precision = 23, scale = 4)
+    private Double evFco;
+
+    @Column(name = "ev_fcl", precision = 23, scale = 4)
+    private Double evFcl;
+
+    @Column(name = "roic", precision = 23, scale = 4)
+    private Double roic;
+
+    @Column(name = "peg_ratio", precision = 23, scale = 4)
+    private BigDecimal pegRatio;
+
+    @Column(name = "margem_ebit")
+    private Double margemEbit;
+
+    // P / Ativo Circulante Líquido (Preço dividido pelo Ativo Circulante Líquido por ação)
+    @Column(name = "p_ativo_circ_liq", precision = 23, scale = 4)
+    private Double pAtivoCircLiq;
+
+    // Patrimônio / Ativos (1 - Passivos / Ativos)
+    @Column(name = "patrimonio_ativos", precision = 23, scale = 4)
+    private Double patrimonioAtivos;
+
+    // Liquidez Média Diária (volume financeiro médio diário)
+    @Column(name = "liquidez_media_diaria", precision = 23, scale = 4)
+    private Double liquidezMediaDiaria;
 }

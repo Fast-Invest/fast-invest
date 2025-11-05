@@ -15,7 +15,6 @@ export default function ContentCreateWallet({ idUser }) {
   const [valores, setValores] = useState(initialState);
   const navigate = useNavigate();
   const [nomeCarteira, setNomeCarteira] = useState("");
-  const [idCarteira, setIdCarteira] = useState(null);
 
   const resetar = (nome) => {
     setValores((prev) => ({
@@ -42,36 +41,31 @@ export default function ContentCreateWallet({ idUser }) {
         date.getMonth() + 1
       ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 
-      const resp = await walletService.adicionarCarteira(
-        { nome: nomeCarteira, data: data_criacao },
-        idUser
-      );
+      // const resp = await walletService.adicionarCarteira(
+      //   { nome: nomeCarteira, data: data_criacao },
+      //   idUser
+      // );
 
-      if (resp) setIdCarteira(resp?.carteira?.id);
-      if (resp.status !== 201) throw new Error();
+      // if (resp) setIdCarteira(resp?.carteira?.id);
+      // if (resp.status !== 201) throw new Error();
 
       toast.success("Carteira cadastrada com sucesso");
-    } catch (error) {
+    } 
+    catch (error) 
+    {
       toast.error("Erro ao cadastrar carteira");
       console.log(error);
       return;
     }
 
     const filtros = Object.entries(valores).map(([nome, [min, max]]) => ({
-      tipo: nome
-        .toLowerCase()
-        .replace("p/l", "pl")
-        .replace("/", "_")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace("valor de mercado", "marketCap")
-        .replace(" ", "_"),
+      tipo: nome,
       valorMin: min,
       valorMax: max,
     }));
 
-    console.log(filtros);
   };
+
 
   return (
     <div className="flex flex-col bg-bg min-h-screen px-8 py-12 relative overflow-visible">

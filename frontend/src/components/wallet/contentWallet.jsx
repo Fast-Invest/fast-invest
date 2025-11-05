@@ -19,6 +19,8 @@ export default function ContentWallet({ userId }) {
     },
   ]);
 
+
+
   useEffect(() => {
     (async () => {
       try {
@@ -30,6 +32,19 @@ export default function ContentWallet({ userId }) {
       }
     })();
   }, [userId, setCarteiras]);
+
+
+    const handleDeletar=async (carteiraId)=>{
+      try 
+      {
+        const resp = await walletService.deletarCarteira(carteiraId);
+        console.log(resp)
+      } catch (error) 
+      {
+        console.log(error)
+      }
+    }
+    
 
   return (
     <div className="flex flex-col bg-bg min-h-screen px-6 relative overflow-hidden">
@@ -115,7 +130,7 @@ export default function ContentWallet({ userId }) {
                     <button
                       className="flex items-center gap-2 text-gray-300 hover:text-primary 
                       px-2 py-1 rounded-lg transition-colors duration-200 text-sm"
-                      onClick={() => navigate(`/carteira/${carteira.id}`)}
+                      onClick={() => handleDeletar(carteira.id)}
                     >
                       <FaTrash className="text-xs" />
                       Excluir

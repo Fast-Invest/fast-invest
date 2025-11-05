@@ -65,40 +65,40 @@ public class SecurityConfig
 
 
     //Configura uma cadeia de filtros para o csrf e pro jwt
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-    CookieCsrfTokenRepository csrfRepo = CookieCsrfTokenRepository.withHttpOnlyFalse();
-    csrfRepo.setCookieName("XSRF-TOKEN");
-    csrfRepo.setHeaderName("X-XSRF-TOKEN");
+        CookieCsrfTokenRepository csrfRepo = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        csrfRepo.setCookieName("XSRF-TOKEN");
+        csrfRepo.setHeaderName("X-XSRF-TOKEN");
 
-    http
-        .cors(cors -> cors.configurationSource(corsConfigSource()))
-        .csrf(csrf -> csrf
-            .csrfTokenRepository(csrfRepo)
-            .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-            .ignoringRequestMatchers(
-                new AntPathRequestMatcher("/swagger-ui/**"),
-                new AntPathRequestMatcher("/v3/api-docs/**"),
-                new AntPathRequestMatcher("/auth/login", "POST"),
-                new AntPathRequestMatcher("/auth/refresh", "POST")     
-            ))
-        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
-            .requestMatchers("/auth/**").permitAll()
-            .requestMatchers("/cotacoes/**").permitAll()
-            .requestMatchers("/history/**").permitAll()
-            .requestMatchers("/swagger-ui/**").permitAll()
-            .requestMatchers("/v3/api-docs/**").permitAll()
-            .anyRequest().authenticated()
-        )
-        .addFilterAfter(new CsrfCookieFilter(), UsernamePasswordAuthenticationFilter.class) // ✅ FIX 2
-        .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http
+            .cors(cors -> cors.configurationSource(corsConfigSource()))
+            .csrf(csrf -> csrf
+                .csrfTokenRepository(csrfRepo)
+                .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+                .ignoringRequestMatchers(
+                    new AntPathRequestMatcher("/swagger-ui/**"),
+                    new AntPathRequestMatcher("/v3/api-docs/**"),
+                    new AntPathRequestMatcher("/auth/login", "POST"),
+                    new AntPathRequestMatcher("/auth/refresh", "POST")     
+                ))
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/cotacoes/**").permitAll()
+                .requestMatchers("/history/**").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/v3/api-docs/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .addFilterAfter(new CsrfCookieFilter(), UsernamePasswordAuthenticationFilter.class) // ✅ FIX 2
+            .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-    return http.build();
-    }
+        return http.build();
+        }
 
 }
 
