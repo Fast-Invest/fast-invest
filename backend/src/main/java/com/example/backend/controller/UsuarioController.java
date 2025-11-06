@@ -83,6 +83,7 @@ public class UsuarioController
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         
         UsuarioDTO resp=service.listarUsuarioEmail(email);
+        System.out.println(resp);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }    
 

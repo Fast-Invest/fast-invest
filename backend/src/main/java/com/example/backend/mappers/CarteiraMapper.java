@@ -10,7 +10,7 @@ import com.example.backend.dto.CarteiraDTO;
 import com.example.backend.forms.CarteiraForm;
 import com.example.backend.models.Carteira;
 
-@Mapper(componentModel = "spring",nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring",nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses={FiltroMapper.class})
 public interface CarteiraMapper 
 {
     @Mapping(target = "id", ignore = true)

@@ -2,6 +2,7 @@ import authService from "../../services/authService"
 export default function ModalUser({
   nome,
   email,
+  numCarteiras,
   onClose,
   setIsLogged,
   setNome,
@@ -68,7 +69,7 @@ export default function ModalUser({
           </div> */}
           <div>
             <p className="text-text-muted text-sm">Carteiras Criadas:</p>
-            <p className="text-text text-lg font-medium">5</p>
+            <p className="text-text text-lg font-medium">{numCarteiras}</p>
             {/* TODO: Chamar função para obter o número real de carteiras */}
           </div>
 

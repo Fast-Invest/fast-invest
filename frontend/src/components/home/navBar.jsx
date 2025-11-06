@@ -12,6 +12,7 @@ export default function NavBar(props) {
         <UserBar
           nome={props.nome}
           email={props.email}
+          numCarteiras={props.numCarteiras}
           isLogged={props.isLogged}
           setIsLogged={props.setIsLogged}
           setNome={props.setNome}

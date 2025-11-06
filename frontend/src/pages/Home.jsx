@@ -5,9 +5,12 @@ import ContentHome from "../components/home/contentHome.jsx";
 import Footer from "../components/utils/footer.jsx";
 import { useState, useEffect } from "react";
 import authService from "../services/authService.jsx";
+import walletService from "../services/walletService.jsx";
+
 function Home() {
   const [nome, setNome] = useState("Usuário!");
   const [email, setEmail] = useState("Usuário!");
+  const [numCarteiras,setNumCarteiras ] = useState(0);
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
@@ -22,6 +25,12 @@ function Home() {
 
         setEmail(resp.usuarios.email);
         setNome(resp.usuarios.nome);
+        
+        const res = await walletService.buscarCarteiras(resp.usuarios.id)
+        const numCarteiras = res?.carteiras?.length || 0
+
+        setNumCarteiras(numCarteiras || 0)
+
         setIsLogged(true);
       } catch (error) {
         setIsLogged(false);
@@ -40,6 +49,7 @@ function Home() {
         <NavBar
           nome={nome}
           email={email}
+          numCarteiras={numCarteiras}
           isLogged={isLogged}
           setIsLogged={setIsLogged}
           setNome={setNome}

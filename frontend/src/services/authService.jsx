@@ -79,6 +79,7 @@ async function buscarUsuarioPorEmail()
   try 
   {
     const response = await api.get("/usuario/email");
+    console.log(response.data)
     return {
       message: "usuario encontrado com sucesso",
       status: response.status,

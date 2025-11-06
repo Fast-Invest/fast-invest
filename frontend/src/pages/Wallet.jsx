@@ -25,7 +25,6 @@ export default function Wallet() {
         console.log(resp)
         setEmail(resp.usuarios.email);
         setNome(resp.usuarios.nome);
-        console.log('teste-1', resp.usuarios.id)
         setUserId(resp.usuarios.id)
         setIsLogged(true);
       } catch (error) {

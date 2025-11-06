@@ -22,7 +22,6 @@ async function adicionarCarteira(data, id) {
 async function buscarCarteiras(userId) {
   try {
     const resp = await api.get(`/carteira/${userId}`);
-    console.log(resp);
     return {
       message: "Carteiras buscadas com sucesso",
       status: resp.status,
@@ -40,7 +39,6 @@ async function buscarCarteiras(userId) {
 async function deletarCarteira(idCarteira) {
   try {
     const res = await api.delete(`/carteira/${idCarteira}`);
-    console.log(res);
     return { message: res.data, status: res.status };
   } catch (error) {
     console.log("erro: ", error);
@@ -49,9 +47,7 @@ async function deletarCarteira(idCarteira) {
 
 async function editarCarteira(data, idCarteira) {
   try {
-    console.log(data);
     const resp = await api.put(`/carteira/${idCarteira}`, data);
-    console.log(resp);
     return {
       message: "Carteira cadastrada com sucesso",
       status: resp.status,
@@ -68,9 +64,15 @@ async function editarCarteira(data, idCarteira) {
   }
 }
 
+
+
+
+
 async function adicionarFiltro(data,carteiraId) 
 {
   try {
+    console.log("id",carteiraId)
+    console.log("filtros:\n",data)
   const resp = api.post(`/filtros/${carteiraId}`, data);
     return {
       message: "Filtros cadastrada com sucesso",

@@ -21,8 +21,8 @@ import com.example.backend.services.CarteiraService;
 
 import jakarta.validation.Valid;
 
-@RestController
 @Validated
+@RestController
 @RequestMapping("/carteira")
 public class CarteiraController 
 {

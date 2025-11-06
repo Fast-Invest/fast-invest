@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaWallet, FaPlusCircle, FaTrash, FaPencilAlt } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import toast, { Toaster } from "react-hot-toast";
 
 import walletService from "../../services/walletService.jsx";
 
@@ -12,7 +13,7 @@ export default function ContentWallet({ userId }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const [carteiras, setCarteiras] = useState([
     {
-      id: 1,
+      id: 0,
       nome: "Carteira Tutorial",
       data: "12/05/2024",
       filtros: [],
@@ -37,10 +38,15 @@ export default function ContentWallet({ userId }) {
     const handleDeletar=async (carteiraId)=>{
       try 
       {
+        if (!carteiraId) throw new Error("Nenhum carteira com id especificado");
         const resp = await walletService.deletarCarteira(carteiraId);
         console.log(resp)
-      } catch (error) 
+        const updatedCarteiras = await walletService.buscarCarteiras(userId);
+        if (updatedCarteiras && updatedCarteiras.carteiras) setCarteiras(updatedCarteiras.carteiras);
+      } 
+      catch (error) 
       {
+        toast.error("Erro ao deletar carteira")
         console.log(error)
       }
     }
@@ -48,6 +54,24 @@ export default function ContentWallet({ userId }) {
 
   return (
     <div className="flex flex-col bg-bg min-h-screen px-6 relative overflow-hidden">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: "#15151a",
+            color: "#fff",
+            border: `1px solid #00ff9c`,
+          },
+          success: {
+            style: { border: `1px solid #00ff9c` },
+            iconTheme: { primary: "#00ff9c", secondary: "#fff" },
+          },
+          error: {
+            style: { border: "1px solid #EF4444" },
+            iconTheme: { primary: "#EF4444", secondary: "#fff" },
+          },
+        }}
+      />
       {/* Hero*/}
       <motion.div
         className="text-center m-10 relative z-10"
@@ -130,7 +154,7 @@ export default function ContentWallet({ userId }) {
                     <button
                       className="flex items-center gap-2 text-gray-300 hover:text-primary 
                       px-2 py-1 rounded-lg transition-colors duration-200 text-sm"
-                      onClick={() => {console.log("id carteira:",carteira.id);handleDeletar(carteira.id)}}
+                      onClick={() => {handleDeletar(carteira.id)}}
                     >
                       <FaTrash className="text-xs" />
                       Excluir

@@ -1,5 +1,6 @@
 package com.example.backend.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,18 +37,19 @@ public class FiltroService
     @Autowired
     IndicadoresCompletosRepo indicadoresRepo;
 
-    public List<Filtro> AdicionarFiltros(List<FiltroForm> forms,Long idCarteira)
+    public List<Filtro> AdicionarFiltros(ArrayList<FiltroForm> forms,Long idCarteira)
     {
         try
         {
             Carteira carteira = carteiraRepo.findById(idCarteira).orElseThrow(()->new CarteiraNaoEncontrada());
 
-            List<Filtro> resp = forms.stream()
+            List<Filtro> filtros = forms.stream()
                             .map(filtro ->filtroMapper.toEntity(filtro))  
                             .peek(filtro -> filtro.setCarteira(carteira))  
-                            .peek(filtro -> filtroRepo.save(filtro))  // Salva o filtro
+                            .map(filtro -> {return filtroRepo.save(filtro);})  // Salva o filtro
                             .collect(Collectors.toList());  // Coleta os filtros em uma lista
-            return resp;
+            System.out.println("Foda?"+filtros);
+            return filtros;
         }
         catch(Exception e)
         {

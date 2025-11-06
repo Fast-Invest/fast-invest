@@ -118,7 +118,7 @@ public class LoginController
         // Deleta os cookies
         cookieUtils.deletarCookie(response, "ACCESS-TOKEN");
         cookieUtils.deletarCookie(response, "REFRESH-TOKEN");
-        cookieUtils.deletarCookie(response,  "XSRF-TOKEN");
+        //cookieUtils.deletarCookie(response,  "XSRF-TOKEN");
 
         return ResponseEntity.status(HttpStatus.OK).body("Logout realizado com sucesso");
     }

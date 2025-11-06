@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 export default function UserBar({
   nome,
   email,
+  numCarteiras,
   isLogged,
   setIsLogged,
   setNome,
@@ -52,6 +53,7 @@ export default function UserBar({
         <ModalUser
           nome={nome}
           email={email}
+          numCarteiras={numCarteiras}
           onClose={closeModal}
           isLogged={isLogged}
           setIsLogged={setIsLogged}

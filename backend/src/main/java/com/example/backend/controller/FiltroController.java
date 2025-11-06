@@ -1,11 +1,11 @@
 package com.example.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +17,8 @@ import com.example.backend.models.Filtro;
 import com.example.backend.services.FiltroService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import jakarta.validation.Valid;
 
 @RestController
-@Validated
 @RequestMapping("/filtros")
 public class FiltroController 
 {
@@ -28,10 +26,12 @@ public class FiltroController
     FiltroService filtroService;
 
     @PostMapping("/{carteiraId}")
-    public ResponseEntity<Object> criarfiltro( @Valid @RequestBody List<FiltroForm> filtros, @PathVariable Long carteiraId)
+    public ResponseEntity<Object> criarfiltro(@RequestBody ArrayList<FiltroForm> filtros, @PathVariable Long carteiraId)
     {
         try
         {
+            System.out.println("Tipo de filtros: " + filtros.getClass().getName());
+            System.out.println("Conteúdo de filtros: " + filtros);
             List<Filtro> resp = filtroService.AdicionarFiltros(filtros, carteiraId);
             return ResponseEntity.status(HttpStatus.CREATED).body(resp);
         }    
