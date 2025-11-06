@@ -59,11 +59,10 @@ export default function ContentCreateWallet({ idUser }) {
     
 
       const filtros = Object.entries(valores).map(([nome, [min, max]]) => ({
-        tipo: nome,
-        valorMin: min,
-        valorMax: max,
+        tipo: String(nome),
+        valorMin: parseFloat(min),
+        valorMax: parseFloat(max),
       }));
-      console.log(filtros)
       const res = await walletService.adicionarFiltro(filtros,resp.carteira.id)
       if (resp.status !== 201) {
         toast.error("Erro ao cadastrar a carteira")

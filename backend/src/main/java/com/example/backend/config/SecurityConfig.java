@@ -81,7 +81,9 @@ public class SecurityConfig
                     new AntPathRequestMatcher("/swagger-ui/**"),
                     new AntPathRequestMatcher("/v3/api-docs/**"),
                     new AntPathRequestMatcher("/auth/login", "POST"),
-                    new AntPathRequestMatcher("/auth/refresh", "POST")     
+                    new AntPathRequestMatcher("/auth/refresh", "POST"),    
+                    new AntPathRequestMatcher("/auth/teste/**", "POST")     
+ 
                 ))
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth

@@ -53,7 +53,6 @@ dependencies {
     implementation("org.projectlombok:lombok-mapstruct-binding:0.2.0")
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
 
-
 	// Testes
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

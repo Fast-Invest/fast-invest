@@ -73,7 +73,8 @@ async function adicionarFiltro(data,carteiraId)
   try {
     console.log("id",carteiraId)
     console.log("filtros:\n",data)
-  const resp = api.post(`/filtros/${carteiraId}`, data);
+    console.log("Antes de enviar o POST", JSON.stringify(data, null, 2)); // Aqui você imprime o JSON de forma legível
+  const resp = await api.post(`/auth/teste/${carteiraId}`, data);
     return {
       message: "Filtros cadastrada com sucesso",
       status: resp.status,
