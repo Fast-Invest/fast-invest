@@ -14,7 +14,8 @@ import java.util.Date;
 import jakarta.annotation.PostConstruct;
 
 @Service
-public class JwtService {
+public class JwtService 
+{
     
     @Value("${jwt.access-secret-key}")
     private String jwtAccessSecretKey;

@@ -7,7 +7,7 @@ import Wallet from "../pages/Wallet.jsx";
 import Graph from "../pages/Graph.jsx";
 import Config from "../pages/Config.jsx";
 import Info from "../pages/Info.jsx";
-import CreateWallet from "../pages/createWallet.jsx";
+import CreateWallet from "../pages/CreateWallet.jsx";
 
 export default function Rotas() {
   return (

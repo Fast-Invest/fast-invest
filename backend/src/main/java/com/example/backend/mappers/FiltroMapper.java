@@ -22,7 +22,7 @@ public interface FiltroMapper
 
     FiltrosCarteiraDTO toResponse(Filtro filtro);
 
-    List<FiltrosCarteiraDTO> toResponse(List<Filtro> filtro);
+    List<FiltrosCarteiraDTO> toResponseList(List<Filtro> filtro);
 
 
 }

@@ -2,32 +2,11 @@ import "../App.css";
 import NavBar from "../components/home/navBar.jsx";
 import Sidebar from "../components/home/sideBar.jsx";
 import ContentQuotation from "../components/quotation/contentQuotation.jsx";
-import { useState, useEffect } from "react";
 import Footer from "../components/utils/footer.jsx";
-import authService from "../services/authService.jsx"
-export default function Quotation() {
-  const [nome, setNome] = useState("Usuário!");
-  const [email, setEmail] = useState("Usuário!");
-  const [isLogged, setIsLogged] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const resp = await authService.buscarUsuarioPorEmail();
-        if (resp.status !== 200) {
-          setIsLogged(false);
-          throw new Error(`Status:${resp.status}=>Usuário não logado. Informações não carregadas`);
-        }
+export default function Quotation() 
+{
 
-        setEmail(resp.usuarios.email);
-        setNome(resp.usuarios.nome);
-        setIsLogged(true);
-      } catch (error) {
-        setIsLogged(false);
-        console.log(error);
-      }
-    })();
-  }, []);
 
   return (
     <>
@@ -37,13 +16,7 @@ export default function Quotation() {
         </div>
 
         <div className="flex flex-col flex-1">
-          <NavBar
-            nome={nome}
-            email={email}
-            isLogged={isLogged}
-            setIsLogged={setIsLogged}
-            setNome={setNome}
-          />
+          <NavBar/>
           <ContentQuotation />
           <Footer />
         </div>

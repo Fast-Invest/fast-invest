@@ -1,38 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState,useEffect } from "react";
+import { useUser } from "../contexts/userContext";
 import NavBar from "../components/home/navBar";
 import Footer from "../components/utils/footer";
 import Sidebar from "../components/home/sideBar";
 import ContentWallet from "../components/wallet/contentWallet";
-import authService from "../services/authService.jsx";
 
 export default function Wallet() {
-  const [nome, setNome] = useState("Usuário!");
-  const [email, setEmail] = useState("Usuário!");
-  const [id, setUserId] = useState(null);
+  const { wallet } = useUser();
+  const [carteiras, setCarteiras] = useState([{id: 0,nome: "Carteira Tutorial", data: "12/05/2024",filtros: [],},]);
 
-  const [isLogged, setIsLogged] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const resp = await authService.buscarUsuarioPorEmail();
-        if (resp.status !== 200) {
-          setIsLogged(false);
-          throw new Error(
-            `Status:${resp.status}=>Usuário não logado. Informações não carregadas`
-          );
-        }
-        console.log(resp)
-        setEmail(resp.usuarios.email);
-        setNome(resp.usuarios.nome);
-        setUserId(resp.usuarios.id)
-        setIsLogged(true);
-      } catch (error) {
-        setIsLogged(false);
-        console.log(error);
-      }
-    })();
-  }, []);
+  useEffect(() => {if (wallet) setCarteiras(wallet);}, [wallet]);
 
   return (
     <>
@@ -42,14 +19,8 @@ export default function Wallet() {
         </div>
 
         <div className="flex flex-col flex-1">
-          <NavBar
-            nome={nome}
-            email={email}
-            isLogged={isLogged}
-            setIsLogged={setIsLogged}
-            setNome={setNome}
-          />
-          <ContentWallet userId={id}/>
+          <NavBar setCarteiras={setCarteiras}/>
+          <ContentWallet carteiras={carteiras} setCarteiras={setCarteiras}/>
           <Footer />
         </div>
       </div>

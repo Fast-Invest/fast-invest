@@ -48,10 +48,8 @@ api.interceptors.response.use(
     if ([401, 403].includes(err.response?.status)) {
       req._retry = true;
       
-      console.log("🔄 Refreshing token...");
       await api.post("/auth/refresh");
 
-      console.log("🔑 Getting new CSRF token...");
       await api.get("/auth/csrf");
 
       return api(req);

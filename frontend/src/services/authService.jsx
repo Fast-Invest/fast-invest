@@ -1,4 +1,4 @@
-import api,{getCookie} from "./api.jsx"
+import api from "./api.jsx"
 
 async function logar(data) 
 {
@@ -34,23 +34,6 @@ async function deslogar(data = null)
 }
 
 
-
-async function refresh() 
-{
-  try 
-  {
-    const response = await api.post("/auth/refresh");
-    return { message: "token resetado com sucesso", status: response.status };
-  } 
-  catch (error) 
-  {
-    console.log("Erro:", error);
-    return { message: "erro ao resetar token", status: error.response.status };
-  }
-}
-
-
-
 async function cadastrarUsuario(data) 
 {
   try 
@@ -79,7 +62,6 @@ async function buscarUsuarioPorEmail()
   try 
   {
     const response = await api.get("/usuario/email");
-    console.log(response.data)
     return {
       message: "usuario encontrado com sucesso",
       status: response.status,
@@ -88,7 +70,6 @@ async function buscarUsuarioPorEmail()
   } 
   catch (error) 
   {
-    console.log("Erro:", error);
     return { message: "erro ao buscar usuario", status: error.response.status };
   }
 }
@@ -142,7 +123,6 @@ async function deletarPorEmail(data)
 const authService={
                     logar,
                     deslogar,
-                    refresh,
                     deletarPorEmail,
                     cadastrarUsuario,
                     buscarTodosUsuarios,

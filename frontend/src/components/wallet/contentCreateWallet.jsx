@@ -7,15 +7,18 @@ import { useNavigate } from "react-router-dom";
 import walletService from "../../services/walletService";
 import toast, { Toaster } from "react-hot-toast";
 import indicadores from "./indicadores";
+import { useUser } from "../../contexts/userContext";
+export default function ContentCreateWallet()
+{
 
-export default function ContentCreateWallet({ idUser }) {
+  const { user } = useUser()
+
   const initialState = Object.fromEntries(
     indicadores.map((i) => [i.nome, [i.min, i.max]])
   );
   const [valores, setValores] = useState(initialState);
   const navigate = useNavigate();
   const [nomeCarteira, setNomeCarteira] = useState("");
-  //const [carteiraId,setIdCarteira]=useState(null)
 
   const resetar = (nome) => {
     setValores((prev) => ({
@@ -47,7 +50,7 @@ export default function ContentCreateWallet({ idUser }) {
 
       const resp = await walletService.adicionarCarteira(
         { nome: nomeCarteira, data: data_criacao },
-        idUser
+        user?.id
       );
 
       //if (resp) setIdCarteira(resp.carteira.id);
@@ -63,6 +66,7 @@ export default function ContentCreateWallet({ idUser }) {
         valorMin: parseFloat(min),
         valorMax: parseFloat(max),
       }));
+      console.log('carteira adicionada: ',resp.carteira)
       const res = await walletService.adicionarFiltro(filtros,resp.carteira.id)
       if (resp.status !== 201) {
         toast.error("Erro ao cadastrar a carteira")

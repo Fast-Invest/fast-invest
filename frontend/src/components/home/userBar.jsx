@@ -9,7 +9,7 @@ export default function UserBar({
   numCarteiras,
   isLogged,
   setIsLogged,
-  setNome,
+  setCarteiras
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -27,7 +27,7 @@ export default function UserBar({
         {isLogged ? (
           <>
             <span className="text-white text-2xl font-black">
-              {nome || update}
+              {nome || "Usuário"}
             </span>
             <div className="relative cursor-pointer bell-hover">
               <FaBell className="text-2xl text-white" />
@@ -57,7 +57,7 @@ export default function UserBar({
           onClose={closeModal}
           isLogged={isLogged}
           setIsLogged={setIsLogged}
-          setNome={setNome}
+          setCarteiras={setCarteiras}
         />
       )}
     </>

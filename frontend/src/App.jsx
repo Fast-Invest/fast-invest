@@ -1,8 +1,13 @@
 import "./App.css";
 import Rotas from "./routes/rotas.jsx";
-
-function App() {
-  return <Rotas />;
+import { UserProvider } from "./contexts/userContext.jsx";
+function App() 
+{
+  return (
+          <UserProvider>
+            <Rotas />
+          </UserProvider>
+        );
 }
 
 export default App;

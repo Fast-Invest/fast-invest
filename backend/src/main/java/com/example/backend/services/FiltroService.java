@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.backend.dto.FiltrosCarteiraDTO;
 import com.example.backend.exceptions.CarteiraNaoEncontrada;
 import com.example.backend.forms.FiltroForm;
 import com.example.backend.mappers.FiltroMapper;
@@ -37,18 +38,18 @@ public class FiltroService
     @Autowired
     IndicadoresCompletosRepo indicadoresRepo;
 
-    public List<Filtro> AdicionarFiltros(ArrayList<FiltroForm> forms,Long idCarteira)
+    public List<FiltrosCarteiraDTO> AdicionarFiltros(ArrayList<FiltroForm> forms,Long idCarteira)
     {
         try
         {
             Carteira carteira = carteiraRepo.findById(idCarteira).orElseThrow(()->new CarteiraNaoEncontrada());
 
-            List<Filtro> filtros = forms.stream()
+            List<FiltrosCarteiraDTO> filtros = forms.stream()
                             .map(filtro ->filtroMapper.toEntity(filtro))  
                             .peek(filtro -> filtro.setCarteira(carteira))  
                             .map(filtro -> {return filtroRepo.save(filtro);})  // Salva o filtro
+                            .map(filtro-> filtroMapper.toResponse(filtro))
                             .collect(Collectors.toList());  // Coleta os filtros em uma lista
-            System.out.println("Foda?"+filtros);
             return filtros;
         }
         catch(Exception e)
@@ -58,9 +59,11 @@ public class FiltroService
         }
     }
 
-    public List<Filtro> buscarFiltros(Long idCarteira)
+    public List<FiltrosCarteiraDTO> buscarFiltros(Long idCarteira)
     {
-        List<Filtro> filtros = filtroRepo.findByCarteiraId(idCarteira).orElseThrow(()->new CarteiraNaoEncontrada());
+        List<FiltrosCarteiraDTO> filtros = filtroMapper.toResponseList(filtroRepo.findByCarteiraId(idCarteira)
+                                                                       .orElseThrow(()->new CarteiraNaoEncontrada()));
+
         return filtros;
     }
 

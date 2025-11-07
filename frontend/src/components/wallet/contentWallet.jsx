@@ -8,39 +8,18 @@ import toast, { Toaster } from "react-hot-toast";
 
 import walletService from "../../services/walletService.jsx";
 
-export default function ContentWallet({ userId }) {
+export default function ContentWallet({ carteiras,setCarteiras }) {
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
-  const [carteiras, setCarteiras] = useState([
-    {
-      id: 0,
-      nome: "Carteira Tutorial",
-      data: "12/05/2024",
-      filtros: [],
-    },
-  ]);
 
 
-
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!userId) throw new Error("Nenhum usuario com id especificado");
-        const resp = await walletService.buscarCarteiras(userId);
-        if (resp.carteiras) setCarteiras(resp.carteiras);
-      } catch (error) {
-        console.log("erro: ", error);
-      }
-    })();
-  }, [userId, setCarteiras]);
 
 
     const handleDeletar=async (carteiraId)=>{
       try 
       {
         if (!carteiraId) throw new Error("Nenhum carteira com id especificado");
-        const resp = await walletService.deletarCarteira(carteiraId);
-        console.log(resp)
+        await walletService.deletarCarteira(carteiraId);
         const updatedCarteiras = await walletService.buscarCarteiras(userId);
         if (updatedCarteiras && updatedCarteiras.carteiras) setCarteiras(updatedCarteiras.carteiras);
       } 

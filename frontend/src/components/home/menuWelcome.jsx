@@ -1,5 +1,4 @@
-export default function MenuWelcome(props) {
-  const nome = props.nome;
+export default function MenuWelcome({nome,isLogged}) {
   return (
     <>
       <h1 className="text-5xl font-black text-white tracking-tight">
@@ -10,11 +9,11 @@ export default function MenuWelcome(props) {
             className="absolute inset-0 text-transparent bg-primary-dark 
                 bg-clip-text blur-md opacity-60 pointer-events-none"
           >
-            {nome}
+            {isLogged ? nome : "Usuário!"}
           </span>
 
           <span className="bg-primary text-transparent bg-clip-text">
-            {nome}
+            {isLogged ? nome : "Usuário!"}
           </span>
         </span>
       </h1>
