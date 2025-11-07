@@ -11,7 +11,8 @@ import { useUser } from "../../contexts/userContext";
 export default function ContentCreateWallet()
 {
 
-  const { user } = useUser()
+  //TODO: atualizar o estado das carteiras para o contentWallet
+  const { user,setWallet } = useUser()
 
   const initialState = Object.fromEntries(
     indicadores.map((i) => [i.nome, [i.min, i.max]])
@@ -68,11 +69,13 @@ export default function ContentCreateWallet()
       }));
       console.log('carteira adicionada: ',resp.carteira)
       const res = await walletService.adicionarFiltro(filtros,resp.carteira.id)
-      if (resp.status !== 201) {
-        toast.error("Erro ao cadastrar a carteira")
+      if (res.status !== 201) {
+        toast.error("Erro ao cadastrar a filtros")
         return ;
       }
-      console.log(res)
+
+      const response = await walletService.buscarCarteiras(user?.id)
+      if (response.status===200) setWallet(response?.carteiras)
     }
     catch (error) 
     {

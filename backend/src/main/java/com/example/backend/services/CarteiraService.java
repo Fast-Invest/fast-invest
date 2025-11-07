@@ -9,6 +9,7 @@ import com.example.backend.dto.CarteiraDTO;
 import com.example.backend.exceptions.CarteiraNaoEncontrada;
 import com.example.backend.exceptions.UsuarioNaoEncontrado;
 import com.example.backend.forms.CarteiraForm;
+import com.example.backend.forms.CarteiraUpdateForm;
 import com.example.backend.mappers.CarteiraMapper;
 import com.example.backend.models.Carteira;
 import com.example.backend.models.Usuario;
@@ -47,11 +48,12 @@ public class CarteiraService
 
 
 
-    public CarteiraDTO atualizarCarteira(CarteiraForm form, Long carteiraId)
+    public CarteiraDTO atualizarCarteira(CarteiraUpdateForm form, Long carteiraId)
     {
+        
         Carteira carteira = carteiraRepo.findById(carteiraId).orElseThrow(()->new CarteiraNaoEncontrada());
         Carteira novaCarteira = carteiraMapper.toEntity(form);
-        novaCarteira.setFiltros(carteira.getFiltros());
+        novaCarteira.setId(carteira.getId());
         novaCarteira.setUsuario(carteira.getUsuario());
 
         return carteiraMapper.toResponse(carteiraRepo.save(novaCarteira)); 

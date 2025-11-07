@@ -6,7 +6,7 @@ import Sidebar from "../components/home/sideBar";
 import ContentWallet from "../components/wallet/contentWallet";
 
 export default function Wallet() {
-  const { wallet } = useUser();
+  const { wallet,user } = useUser();
   const [carteiras, setCarteiras] = useState([{id: 0,nome: "Carteira Tutorial", data: "12/05/2024",filtros: [],},]);
 
   useEffect(() => {if (wallet) setCarteiras(wallet);}, [wallet]);
@@ -20,7 +20,7 @@ export default function Wallet() {
 
         <div className="flex flex-col flex-1">
           <NavBar setCarteiras={setCarteiras}/>
-          <ContentWallet carteiras={carteiras} setCarteiras={setCarteiras}/>
+          <ContentWallet carteiras={carteiras} setCarteiras={setCarteiras} userId={user?.id}/>
           <Footer />
         </div>
       </div>

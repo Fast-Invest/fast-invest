@@ -8,7 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 import walletService from "../../services/walletService.jsx";
 
-export default function ContentWallet({ carteiras,setCarteiras }) {
+export default function ContentWallet({ carteiras,setCarteiras,userId }) {
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
 
@@ -123,8 +123,8 @@ export default function ContentWallet({ carteiras,setCarteiras }) {
                   >
                     <button
                       className="flex items-center gap-2 text-gray-300 hover:text-primary 
-                      px-2 py-1 rounded-lg transition-colors duration-200 text-sm"
-                      onClick={() => navigate(`/carteira/${carteira.id}`)}
+                      px-2 py-1 rounded-lg transition-colors duration-200 text-sm" 
+                      onClick={() =>{navigate("/carteira/editarcarteira",{ state:{wallet: carteira}})} }
                     >
                       <FaPencilAlt className="text-xs" />
                       Editar
@@ -141,7 +141,6 @@ export default function ContentWallet({ carteiras,setCarteiras }) {
                   </motion.div>
                 )}
               </div>
-
               <h2 className="text-2xl font-semibold text-white mb-2 whitespace-nowrap overflow-hidden text-ellipsis">
                 {carteira.nome}
               </h2>

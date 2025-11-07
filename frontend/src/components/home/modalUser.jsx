@@ -20,7 +20,7 @@ export default function ModalUser({
       }
       console.log("fez logout")
       setIsLogged(false);
-      setCarteiras([{id: 0,nome: "Carteira Tutorial", data: "12/05/2024",filtros: [],},])
+      if(setCarteiras) setCarteiras([{id: 0,nome: "Carteira Tutorial", data: "12/05/2024",filtros: [],},])
       onClose();
     } catch (error) {
       console.log("error:", error);

@@ -2,7 +2,6 @@ import api from "./api.jsx";
 
 async function adicionarCarteira(data, id) {
   try {
-    console.log(data);
     const resp = await api.post(`/carteira/${id}`, data);
     return {
       message: "Carteira cadastrada com sucesso",
@@ -47,9 +46,12 @@ async function deletarCarteira(idCarteira) {
 
 async function editarCarteira(data, idCarteira) {
   try {
+    console.log('info carteira:',data)
+    console.log('id carteira:',idCarteira)
+
     const resp = await api.put(`/carteira/${idCarteira}`, data);
     return {
-      message: "Carteira cadastrada com sucesso",
+      message: "Carteira atualizada com sucesso",
       status: resp.status,
       carteira: resp.data || null,
     };
@@ -71,9 +73,6 @@ async function editarCarteira(data, idCarteira) {
 async function adicionarFiltro(data,carteiraId) 
 {
   try {
-    console.log("id",carteiraId)
-    console.log("filtros:\n",data)
-    console.log("Antes de enviar o POST", JSON.stringify(data, null, 2)); // Aqui você imprime o JSON de forma legível
   const resp = await api.post(`/filtro/${carteiraId}`, data);
     return {
       message: "Filtros cadastrada com sucesso",
