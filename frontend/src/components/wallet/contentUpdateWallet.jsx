@@ -2,17 +2,36 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaQuestionCircle, FaUndoAlt, FaWallet } from "react-icons/fa";
 import { Range } from "react-range";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import walletService from "../../services/walletService";
-
 import toast, { Toaster } from "react-hot-toast";
 import indicadores from "./indicadores";
 
+
+
+
+
 export default function ContentUpdateWallet({carteira})
 {
+
+  const explicacoesMap = indicadores.reduce((acc, ind) => {
+    acc[ind.nome] = ind.explicacao;
+    return acc;
+  }, {});
+
+  // Mapeia os filtros adicionando a explicação
+  const walletFilters = carteira.filtros.map(filtro => ({...filtro,explicacao: explicacoesMap[filtro.tipo] || null, }));
+
+
+
+ 
   const initialState = Object.fromEntries(
-    indicadores.map((i) => [i.nome, [i.min, i.max]])
+    walletFilters.map((i) => [i.tipo, [i.valorMin, i.valorMax]])
   );
+
+
+
+
   const [valores, setValores] = useState(initialState);
   const navigate = useNavigate();
   const [nomeCarteira, setNomeCarteira] = useState(carteira.nome);
@@ -44,17 +63,19 @@ export default function ContentUpdateWallet({carteira})
             const dataCriacaoCarteira=carteira.data
 
             const filtros = Object.entries(valores).map(([nome, [min, max]]) => ({
+                id: walletFilters.find(walletFilter => walletFilter.tipo==nome).id,
                 tipo: String(nome),
                 valorMin: parseFloat(min),
                 valorMax: parseFloat(max),
                 }));
 
             const data={nome:nomeCarteira,data:dataCriacaoCarteira,filtros:filtros}
+            console.log(data)
             const response = await walletService.editarCarteira(data,idCarteira)
             if (response.status !== 200) 
             {
-                toast.error("Erro ao cadastrar a carteira")
-                return ;
+                 toast.error("Erro ao cadastrar a carteira")
+                 return ;
             }  
             console.log(response)
         }

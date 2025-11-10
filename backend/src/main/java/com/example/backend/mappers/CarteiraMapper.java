@@ -21,6 +21,7 @@ public interface CarteiraMapper
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "usuario", ignore = true)
+    @Mapping(target = "filtros", ignore = true)
     Carteira toEntity(CarteiraUpdateForm carteira);
 
     CarteiraDTO toResponse(Carteira carteira);

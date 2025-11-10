@@ -21,7 +21,7 @@ public interface FiltroMapper
     @Mapping(target = "carteira", ignore = true)
     List<Filtro> toEntityList(List<FiltroForm> form);
 
-
+    @Mapping(target = "carteira", ignore = true)
     Filtro toEntity(FiltroUpdateForm form);
 
 

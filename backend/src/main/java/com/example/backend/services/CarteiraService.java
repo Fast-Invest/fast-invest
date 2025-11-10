@@ -1,6 +1,7 @@
 package com.example.backend.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,11 @@ import com.example.backend.exceptions.CarteiraNaoEncontrada;
 import com.example.backend.exceptions.UsuarioNaoEncontrado;
 import com.example.backend.forms.CarteiraForm;
 import com.example.backend.forms.CarteiraUpdateForm;
+import com.example.backend.forms.FiltroUpdateForm;
 import com.example.backend.mappers.CarteiraMapper;
+import com.example.backend.mappers.FiltroMapper;
 import com.example.backend.models.Carteira;
+import com.example.backend.models.Filtro;
 import com.example.backend.models.Usuario;
 import com.example.backend.repositories.CarteiraRepo;
 import com.example.backend.repositories.UsuarioRepo;
@@ -27,6 +31,9 @@ public class CarteiraService
 
     @Autowired
     CarteiraMapper carteiraMapper;
+
+    @Autowired
+    FiltroMapper filtroMapper;
 
     public CarteiraDTO criarCarteira(CarteiraForm carteiraForm, Long userId)
     {
@@ -50,13 +57,39 @@ public class CarteiraService
 
     public CarteiraDTO atualizarCarteira(CarteiraUpdateForm form, Long carteiraId)
     {
-        
-        Carteira carteira = carteiraRepo.findById(carteiraId).orElseThrow(()->new CarteiraNaoEncontrada());
-        Carteira novaCarteira = carteiraMapper.toEntity(form);
-        novaCarteira.setId(carteira.getId());
-        novaCarteira.setUsuario(carteira.getUsuario());
+        try
+        {
+            Carteira carteira = carteiraRepo.findById(carteiraId).orElseThrow(()->new CarteiraNaoEncontrada());
+            Carteira novaCarteira = carteiraMapper.toEntity(form);
 
-        return carteiraMapper.toResponse(carteiraRepo.save(novaCarteira)); 
+
+
+            List<FiltroUpdateForm> novosFiltros = form.getFiltros();
+
+            System.out.println(novosFiltros.get(0));
+
+            List<Filtro> filtrosAtt = novosFiltros.stream()
+                                                        .map(novosFiltro->filtroMapper.toEntity(novosFiltro))
+                                                        .peek(novosFiltro->novosFiltro.setCarteira(carteira))
+                                                        .collect(Collectors.toList());
+            
+            System.out.println("teste");
+
+
+            novaCarteira.setFiltros(filtrosAtt);
+            novaCarteira.setId(carteira.getId());
+            novaCarteira.setUsuario(carteira.getUsuario());
+
+            
+
+            return carteiraMapper.toResponse(novaCarteira);
+        }
+        catch(Exception e)
+        {
+            System.out.println("TESTE"+e);
+            return null;
+        }
+        //return carteiraMapper.toResponse(carteiraRepo.save(novaCarteira)); 
     }
 
 

@@ -60,7 +60,6 @@ public class CarteiraController
     {
         try
         {
-            System.out.println("teste: " + form);      
  
             CarteiraDTO resp = carteiraService.atualizarCarteira(form, carteiraId);
             return ResponseEntity.status(HttpStatus.OK).body(resp);
