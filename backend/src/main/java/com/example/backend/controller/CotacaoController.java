@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.backend.interfaces.AcaoProjection;
 import com.example.backend.interfaces.CotacaoProjection;
+import com.example.backend.models.Indicadores;
+import com.example.backend.models.IndicadoresAnual;
 import com.example.backend.services.financesService.CotacoesService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,9 +45,27 @@ public class CotacaoController
     @ApiResponse(responseCode = "200", description = "Ação encontrada, devolve os dados")
     @ApiResponse(responseCode = "404", description = "Ação com ticker especificado não encontrada") 
     @GetMapping("/{ticker}")
-    public ResponseEntity<AcaoProjection> retornarCotacao(@PathVariable String ticker) 
+    public ResponseEntity<Indicadores> retornarCotacao(@PathVariable String ticker) 
     {
-        AcaoProjection acao = cotacaoService.buscarInformacaoCotacao(ticker);
+        Indicadores acao = cotacaoService.buscarInformacoesCompletasRecentesAcao(ticker);
         return ResponseEntity.status(HttpStatus.OK).body(acao);
     }    
+
+
+    @Operation(summary = "Busca informações completas sobre uma ação, buscando indicadores em todos anos")
+    @ApiResponse(responseCode = "200", description = "Ação encontrada, devolve os dados")
+    @ApiResponse(responseCode = "404", description = "Ação com ticker especificado não encontrada") 
+    @GetMapping("/alltime/{ticker}")
+    public ResponseEntity<List<IndicadoresAnual>> retornarCotacoesAllTime(@PathVariable String ticker) 
+    {
+        List<IndicadoresAnual> acoes = cotacaoService.buscarInformacoesCompletasHistoricaAcao(ticker);
+        return ResponseEntity.status(HttpStatus.OK).body(acoes);
+    } 
+
+
+
+
+
+
+
 }

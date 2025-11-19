@@ -18,10 +18,11 @@ import com.example.backend.forms.FiltroForm;
 import com.example.backend.mappers.FiltroMapper;
 import com.example.backend.models.Carteira;
 import com.example.backend.models.Filtro;
-import com.example.backend.models.IndicadoresCompletos;
+import com.example.backend.models.Indicadores;
+
 import com.example.backend.repositories.CarteiraRepo;
 import com.example.backend.repositories.FiltroRepo;
-import com.example.backend.repositories.IndicadoresCompletosRepo;
+import com.example.backend.repositories.IndicadoresRepo;
 
 @Service
 public class FiltroService 
@@ -36,7 +37,7 @@ public class FiltroService
     CarteiraRepo carteiraRepo;
 
     @Autowired
-    IndicadoresCompletosRepo indicadoresRepo;
+    IndicadoresRepo indicadoresRepo;
 
     public List<FiltrosCarteiraDTO> AdicionarFiltros(ArrayList<FiltroForm> forms,Long idCarteira)
     {
@@ -101,10 +102,10 @@ public class FiltroService
 
 
     // ISSO FOI COPIADO DO GPT, TODO: LER,COOMPREENDER, MELHORAR E COM TODA CERTEZA CONSERTAR
-    public List<IndicadoresCompletos> aplicarFiltros(Long carteiraId) 
+    public List<Indicadores> aplicarFiltros(Long carteiraId) 
     {
         List<Filtro> filtros = filtroRepo.findByCarteiraId(carteiraId).orElseThrow(()->new CarteiraNaoEncontrada());
-        List<IndicadoresCompletos> indicadores = indicadoresRepo.findAll();
+        List<Indicadores> indicadores = indicadoresRepo.findAll();
 
         return indicadores.stream()
                 .filter(indicador -> filtrarIndicador(indicador, filtros))
@@ -112,7 +113,7 @@ public class FiltroService
     }
 
     // Método que aplica os filtros ao indicador
-    private boolean filtrarIndicador(IndicadoresCompletos indicador, List<Filtro> filtros) {
+    private boolean filtrarIndicador(Indicadores indicador, List<Filtro> filtros) {
         for (Filtro filtro : filtros) 
         {
             String campo = TIPO_CAMPO_MAP.get(filtro.getTipo());
@@ -120,7 +121,7 @@ public class FiltroService
 
             try 
             {
-                Field field = IndicadoresCompletos.class.getDeclaredField(campo);
+                Field field = Indicadores.class.getDeclaredField(campo);
                 field.setAccessible(true);
                 Object valorCampo = field.get(indicador);
 
