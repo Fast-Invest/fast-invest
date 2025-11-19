@@ -24,7 +24,7 @@ async function buscar_cotacoes()
 
 
 
-async function procurar_acao(ticker) 
+async function procurarDetalhesCotacao(ticker) 
 {
   try 
   {
@@ -46,6 +46,42 @@ async function procurar_acao(ticker)
 }
 
 
+async function buscarDetalhesCotacaoAlltime(symbol)
+{
+  try {
+
+    const response = await api.get(`/cotacoes/alltime/${symbol}`);
+    return {
+      message: "Cotações encontradas com sucesso",
+      status: response.status,
+      dados_acao: response.data || null,
+    };    
+  } catch (error) {
+    console.log("Erro:", error);
+    return {
+      message: "erro ao buscar cotacoes",
+      status: error.response.status,
+    };    
+  }
+}
+
+async function buscarDividendosCotacao(symbol)
+{
+  try {
+
+    const response = await api.get(`/cotacoes/dividends/${symbol}`);
+    return {
+      message: "Cotações encontradas com sucesso",
+      status: response.status,
+      dividendos: response.data || null,
+    };    
+  } catch (error) {
+    return {
+      message: "erro ao buscar cotacoes",
+      status: error.response.status,
+    };    
+  }
+}
 
 
 export async function procurar_historico_balanco_anual_acao(periodo, ticker) 
@@ -114,7 +150,9 @@ async function procurar_historico_fluxo_de_caixa_acao(periodo, ticker)
 
 
 const quotationService={
-                        procurar_acao,
+                        procurarDetalhesCotacao,
+                        buscarDividendosCotacao,
+                        buscarDetalhesCotacaoAlltime,
                         buscar_cotacoes,
                         procurar_historico_balanco_anual_acao,
                         procurar_historico_renda_anual_acao,

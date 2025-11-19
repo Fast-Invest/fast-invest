@@ -1,4 +1,7 @@
+import {useNavigate} from "react-router-dom";
+
 export default function QuotationViewer({ cotacoes, viewMode }) {
+  const navigate = useNavigate() 
   return (
     <div className="w-full overflow-x-auto pt-4">
       {viewMode === "list" ? (
@@ -16,7 +19,8 @@ export default function QuotationViewer({ cotacoes, viewMode }) {
           </thead>
           <tbody className="divide-y divide-white/5">
             {cotacoes.slice(0,20).map((cotacao, idx) => (      // O SLICE AQUI É SO PRA NAO FICAR TRAVANDO POR ENQUANTO.E CAPS LOCK É PILOTO AUTOMATICO PRA SER MANEIRO
-              <tr key={idx} className="hover:bg-white/5 transition-colors">
+              <tr key={idx} className="hover:bg-white/5 transition-colors"
+              onClick={()=>navigate(`/cotacoes/${cotacao.ticker}`)}>
                 <td className="px-4 py-3">
                   <img
                     src={`${cotacao.logo}`}

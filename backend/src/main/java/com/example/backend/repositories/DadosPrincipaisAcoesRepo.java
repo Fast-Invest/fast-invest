@@ -1,7 +1,6 @@
 package com.example.backend.repositories;
 
 import com.example.backend.interfaces.CotacaoProjection;
-import com.example.backend.interfaces.AcaoProjection;
 
 import com.example.backend.models.DadosPrincipaisAcoes;
 

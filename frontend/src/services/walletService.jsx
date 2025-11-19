@@ -67,7 +67,25 @@ async function editarCarteira(data, idCarteira) {
 }
 
 
-
+async function procurarCarteira(carteiraId) 
+{
+  try 
+  {
+    const response = await api.get(`/search/${carteiraId}`)
+    return {
+      message:"Carteira encontrada com sucesso",
+      status:response.status,
+      carteira:response.data,
+    }
+  } 
+  catch (error) {
+    console.log(error)
+    return {
+      message:"Erro ao procurar carteira",
+      status:error.response.status
+    }
+  }  
+}
 
 
 async function adicionarFiltro(data,carteiraId) 
@@ -86,6 +104,7 @@ async function adicionarFiltro(data,carteiraId)
 const walletService = {
   adicionarCarteira,
   buscarCarteiras,
+  procurarCarteira,
   deletarCarteira,
   editarCarteira,
   adicionarFiltro,

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.backend.interfaces.CotacaoProjection;
+import com.example.backend.models.CashDividends;
 import com.example.backend.models.Indicadores;
 import com.example.backend.models.IndicadoresAnual;
 import com.example.backend.services.financesService.CotacoesService;
@@ -62,8 +63,13 @@ public class CotacaoController
         return ResponseEntity.status(HttpStatus.OK).body(acoes);
     } 
 
+    @GetMapping("/dividends/{ticker}")
+    public ResponseEntity<List<CashDividends>> retornarDividendosCotacao(@PathVariable String ticker)
+    {
+        List<CashDividends> resp = cotacaoService.buscarDividendos(ticker);
+        return ResponseEntity.status(HttpStatus.OK).body(resp);
 
-
+    }
 
 
 

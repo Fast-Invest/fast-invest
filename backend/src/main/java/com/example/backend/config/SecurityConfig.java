@@ -80,6 +80,8 @@ public class SecurityConfig
                 .ignoringRequestMatchers(
                     new AntPathRequestMatcher("/swagger-ui/**"),
                     new AntPathRequestMatcher("/v3/api-docs/**"),
+                    new AntPathRequestMatcher("/cotacoes/**"),
+                    new AntPathRequestMatcher("/history/**"),
                     new AntPathRequestMatcher("/auth/login", "POST"),
                     new AntPathRequestMatcher("/auth/refresh", "POST"),    
                     new AntPathRequestMatcher("/auth/teste/**", "POST")     

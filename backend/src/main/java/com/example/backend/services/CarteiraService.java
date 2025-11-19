@@ -54,6 +54,11 @@ public class CarteiraService
     }
 
 
+    public CarteiraDTO procurarCarteira(Long carteiraId)
+    {
+        Carteira carteira = carteiraRepo.findById(carteiraId).orElseThrow(()->new CarteiraNaoEncontrada());
+        return carteiraMapper.toResponse(carteira);
+    }
 
     public CarteiraDTO atualizarCarteira(CarteiraUpdateForm form, Long carteiraId)
     {

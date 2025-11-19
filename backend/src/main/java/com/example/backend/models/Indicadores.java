@@ -5,11 +5,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Data
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "indicadores")
 public class Indicadores 
 {
@@ -189,8 +191,8 @@ public class Indicadores
     @Column(name = "ev_fcl")
     private Double evFcl;
 
-    @Column(name = "roic", columnDefinition = "text")
-    private String roic;
+    @Column(name = "roic")
+    private Double roic;
 
     @Column(name = "liquidez_media_diaria")
     private Double liquidezMediaDiaria;

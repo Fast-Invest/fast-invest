@@ -3,14 +3,19 @@ package com.example.backend.services.financesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.backend.repositories.CashDividendsRepo;
 import com.example.backend.repositories.DadosPrincipaisAcoesRepo;
 import com.example.backend.repositories.IndicadoresRepo;
 import com.example.backend.interfaces.CotacaoProjection;
 import com.example.backend.exceptions.AcaoNaoEncontrada;
+import com.example.backend.exceptions.DividendosNaoEncontrados;
 import com.example.backend.exceptions.ErroBuscaCotacoes;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.backend.models.IndicadoresAnual;
+import com.example.backend.models.CashDividends;
 import com.example.backend.models.Indicadores;
 import com.example.backend.repositories.IndicadoresAnualRepo;
 
@@ -25,6 +30,9 @@ public class CotacoesService
 
     @Autowired
     private IndicadoresAnualRepo indicadoresAnualRepo;
+
+    @Autowired
+    private CashDividendsRepo cashDividendsRepo;
 
     public List<CotacaoProjection> buscarCotacoes()
     {
@@ -67,7 +75,19 @@ public class CotacoesService
     {
         try
         {
-            return indicadoresRepo.findBySymbol(symbol).orElseThrow(()->new AcaoNaoEncontrada());
+            Indicadores indicador =  indicadoresRepo.findBySymbol(symbol).orElseThrow(()->new AcaoNaoEncontrada());
+            // A razão para as multiplicações é pois estes valores geralmente são dados em porcentagem, logo há necessidade de multiplica-los por 100
+            // Assim não terá que ocorrer as multiplicações no frontend e deixará mais leve 
+            indicador.setDy(indicador.getDy()*100);  
+            indicador.setEarningYield(indicador.getEarningYield()*100); 
+            indicador.setMargemBruta(indicador.getMargemBruta()*100);  
+            indicador.setMargemLiquida(indicador.getMargemLiquida()*100);
+            indicador.setMargemEbit(indicador.getMargemEbit()*100);
+            indicador.setRoa(indicador.getRoa()*100) ;
+            indicador.setRoe(indicador.getRoe()*100);
+            indicador.setRoic(indicador.getRoic()*100);
+
+            return indicador;
         }
         catch(Exception e)
         {
@@ -79,7 +99,19 @@ public class CotacoesService
     {
         try
         {
-            return indicadoresAnualRepo.findBySymbol(symbol);
+            List<IndicadoresAnual> indicadoresPorAno =  indicadoresAnualRepo.findBySymbol(symbol);
+            // A razão para as multiplicações é pois estes valores geralmente são dados em porcentagem, logo há necessidade de multiplica-los por 100
+            // Assim não terá que ocorrer as multiplicações no frontend e deixará mais leve 
+            return indicadoresPorAno.stream()
+                                            .peek(indicador->indicador.setDy(indicador.getDy()*100))  
+                                            .peek(indicador->indicador.setEarningYield(indicador.getEarningYield()*100))  
+                                            .peek(indicador->indicador.setMargemBruta(indicador.getMargemBruta()*100))  
+                                            .peek(indicador->indicador.setMargemLiquida(indicador.getMargemLiquida()*100))  
+                                            .peek(indicador->indicador.setMargemEbit(indicador.getMargemEbit()*100))  
+                                            .peek(indicador->indicador.setRoa(indicador.getRoa()*100))  
+                                            .peek(indicador->indicador.setRoe(indicador.getRoe()*100))  
+                                            .peek(indicador->indicador.setRoic(indicador.getRoic()*100))  
+                                            .collect(Collectors.toList());
         }
         catch(Exception e)
         {
@@ -89,7 +121,17 @@ public class CotacoesService
 
 
 
+    public List<CashDividends> buscarDividendos(String symbol)
+    {   
+        try 
+        {
+            return cashDividendsRepo.findByTicker(symbol);
 
+        } catch (Exception e) {
+            throw new DividendosNaoEncontrados();
+        }
+
+    }
 
 
 

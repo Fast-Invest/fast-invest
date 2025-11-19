@@ -7,11 +7,13 @@ import jakarta.persistence.Id;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "indicadores_anual")
 public class IndicadoresAnual 
 {
@@ -197,8 +199,8 @@ public class IndicadoresAnual
     @Column(name = "ev_fcl")
     private Double evFcl;
 
-    @Column(name = "roic", columnDefinition = "text")
-    private String roic;
+    @Column(name = "roic")
+    private Double roic;
 
     @Column(name = "liquidez_media_diaria")
     private Double liquidezMediaDiaria;

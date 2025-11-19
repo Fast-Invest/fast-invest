@@ -53,6 +53,15 @@ public class CarteiraController
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
+    @GetMapping("/search/{carteiraId}")
+    public ResponseEntity<CarteiraDTO> buscarCarteira(@PathVariable Long carteiraId)
+    {
+        CarteiraDTO resp = carteiraService.procurarCarteira(carteiraId);
+        
+        return ResponseEntity.status(HttpStatus.OK).body(resp);
+    }
+
+
 
 
     @PutMapping("/{carteiraId}")
