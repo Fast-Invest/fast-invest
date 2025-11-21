@@ -1,0 +1,20 @@
+FROM gradle:8.14.3-jdk21-alpine AS build
+
+WORKDIR /app
+
+
+COPY gradlew gradlew.bat ./
+COPY gradle ./gradle
+COPY build.gradle settings.gradle ./
+COPY src ./src
+
+
+RUN ./gradlew clean bootJar --no-daemon --refresh-dependencies
+
+FROM eclipse-temurin:21-jdk
+
+COPY --from=build /app/build/libs/*.jar app.jar
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "app.jar"]

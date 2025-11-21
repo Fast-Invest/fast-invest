@@ -4,7 +4,7 @@ import Sidebar from "../components/utils/sideBar";
 import NavBar from "../components/utils/navBar";
 import Footer from "../components/utils/footer";
 import ContentDetails from "../components/quotation/contentDetails";
-import NotFoundError from "../components/utils/NotFoundError";
+import NotFoundError from "../components/utils/notFoundError";
 import quotationService from "../services/quotationService";
 
 export default function QuotationDetails() {

@@ -1,4 +1,3 @@
-#OBS: Não fiz um dockerfile pro backend ta
 services:
   backend:
     build: ./backend
@@ -10,13 +9,13 @@ services:
       - app-network
     
   frontend:
-    build:
-      context: . 
-      dockerfile: frontend/dockerfile
+    build: ./frontend
     container_name: frontend
     restart: unless-stopped
+    ports:
+      - "80:80"
     networks:
-      app-network
+      - app-network
 
   db:
     build: ./db
@@ -25,8 +24,9 @@ services:
     env_file:
       - .env
     volumes:
-      - mysql_data:var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - mysql_data:/var/lib/mysql
+      - ./db/fastinvest.sql:/docker-entrypoint-initdb.d/fastinvest.sql:ro
+      - ./db/historicos.sql:/docker-entrypoint-initdb.d/historicos.sql:ro
     ports:
       - "3307:3306"
     networks:
@@ -38,7 +38,7 @@ networks:
 
 volumes:
   mysql_data:
-
+    driver: local
   #Buildar e subir container
 #docker compose up -d --build
 
