@@ -1,15 +1,19 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useUser } from "../contexts/userContext";
-import NavBar from "../components/home/navBar";
+import NavBar from "../components/utils/navBar";
 import Footer from "../components/utils/footer";
-import Sidebar from "../components/home/sideBar";
+import Sidebar from "../components/utils/sideBar";
 import ContentWallet from "../components/wallet/contentWallet";
 
 export default function Wallet() {
-  const { wallet,user,setWallet } = useUser();
-  const [carteiras, setCarteiras] = useState([{id: 0,nome: "Carteira Tutorial", data: "12/05/2024",filtros: [],},]);
+  const { wallet, user, setWallet } = useUser();
+  const [carteiras, setCarteiras] = useState([
+    { id: 0, nome: "Carteira Tutorial", data: "12/05/2024", filtros: [] },
+  ]);
 
-  useEffect(() => {if (wallet) setCarteiras(wallet);}, [wallet]);
+  useEffect(() => {
+    if (wallet) setCarteiras(wallet);
+  }, [wallet]);
 
   return (
     <>
@@ -19,8 +23,12 @@ export default function Wallet() {
         </div>
 
         <div className="flex flex-col flex-1">
-          <NavBar setCarteiras={setCarteiras}/>
-          <ContentWallet carteiras={carteiras} setCarteiras={setWallet} userId={user?.id}/>
+          <NavBar setCarteiras={setCarteiras} />
+          <ContentWallet
+            carteiras={carteiras}
+            setCarteiras={setWallet}
+            userId={user?.id}
+          />
           <Footer />
         </div>
       </div>

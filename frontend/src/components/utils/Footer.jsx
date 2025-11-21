@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Footer() {
+  const navigate = useNavigate();
+
   return (
     <footer className="bg-black text-gray-300 py-10">
       <div className="container mx-auto px-6 lg:px-20 flex flex-col lg:flex-row justify-between gap-8">
@@ -11,26 +15,6 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Links de navegação */}
-        <div className="flex flex-col gap-4">
-          <h2 className="text-lg font-semibold text-white">Links Rápidos</h2>
-          <a href="#home" className="hover:text-green-400 transition-colors">
-            Home
-          </a>
-          <a href="#sobre" className="hover:text-green-400 transition-colors">
-            Sobre
-          </a>
-          <a
-            href="#servicos"
-            className="hover:text-green-400 transition-colors"
-          >
-            Serviços
-          </a>
-          <a href="#contato" className="hover:text-green-400 transition-colors">
-            Contato
-          </a>
-        </div>
-
         {/* Call to Action */}
         <div className="flex flex-col gap-4">
           <h2 className="text-lg font-semibold text-white">
@@ -40,12 +24,12 @@ export default function Footer() {
             Abra sua conta gratuita e comece a investir em minutos com total
             segurança.
           </p>
-          <a
-            href="#abrir-conta"
-            className="px-6 py-3 bg-green-400 text-black font-semibold rounded-lg hover:bg-green-500 transition-colors text-center"
+          <button
+            onClick={() => navigate("/login")}
+            className="px-6 py-3 bg-primary cursor-pointer text-bg font-semibold rounded-lg hover:bg-primary-dark transition-colors text-center"
           >
             Abrir conta agora
-          </a>
+          </button>
         </div>
       </div>
 

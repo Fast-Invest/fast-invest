@@ -1,39 +1,30 @@
 import axios from "axios";
 
-export function getCookie(name) 
-{
+export function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
 const api = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "http://localhost:9090",
   withCredentials: true,
-  headers: { "Content-Type": "application/json" }
+  headers: { "Content-Type": "application/json" },
 });
 
 // ✅ Deixa o Axios cuidar do XSRF sozinho
 api.defaults.xsrfCookieName = "XSRF-TOKEN";
 api.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
 
-
-
-
 // ✅ Logs úteis
 api.interceptors.request.use((config) => {
-
-
   const token = getCookie("XSRF-TOKEN");
-  if (token && !config.headers["X-XSRF-TOKEN"]) 
-  {
+  if (token && !config.headers["X-XSRF-TOKEN"]) {
     config.headers["X-XSRF-TOKEN"] = token;
   }
 
   return config;
 });
-
-
 
 // ✅ Refresh automático com novo CSRF
 api.interceptors.response.use(
@@ -47,7 +38,7 @@ api.interceptors.response.use(
 
     if ([401, 403].includes(err.response?.status)) {
       req._retry = true;
-      
+
       await api.post("/auth/refresh");
 
       await api.get("/auth/csrf");

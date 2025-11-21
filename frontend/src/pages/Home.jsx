@@ -1,11 +1,10 @@
 import "../App.css";
-import NavBar from "../components/home/navBar.jsx";
-import Sidebar from "../components/home/sideBar.jsx";
+import NavBar from "../components/utils/navBar.jsx";
+import Sidebar from "../components/utils/sideBar.jsx";
 import ContentHome from "../components/home/contentHome.jsx";
 import Footer from "../components/utils/footer.jsx";
 
 function Home() {
-
   return (
     <div className="flex bg-bg min-h-screen text-text">
       <div className="border-r border-white/10">
@@ -13,7 +12,7 @@ function Home() {
       </div>
 
       <div className="flex flex-col flex-1">
-        <NavBar/>
+        <NavBar />
         <ContentHome />
         <Footer />
       </div>

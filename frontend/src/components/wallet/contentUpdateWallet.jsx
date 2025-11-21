@@ -1,4 +1,5 @@
 import { useState } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FaQuestionCircle, FaUndoAlt, FaWallet } from "react-icons/fa";
 import { Range } from "react-range";
@@ -7,36 +8,25 @@ import walletService from "../../services/walletService";
 import toast, { Toaster } from "react-hot-toast";
 import indicadores from "./indicadores";
 
-
-
-
-
-export default function ContentUpdateWallet({carteira})
-{
-
+export default function ContentUpdateWallet({ carteira }) {
   const explicacoesMap = indicadores.reduce((acc, ind) => {
     acc[ind.nome] = ind.explicacao;
     return acc;
   }, {});
 
   // Mapeia os filtros adicionando a explicação
-  const walletFilters = carteira.filtros.map(filtro => ({...filtro,explicacao: explicacoesMap[filtro.tipo] || null, }));
+  const walletFilters = carteira.filtros.map((filtro) => ({
+    ...filtro,
+    explicacao: explicacoesMap[filtro.tipo] || null,
+  }));
 
-
-
- 
   const initialState = Object.fromEntries(
     walletFilters.map((i) => [i.tipo, [i.valorMin, i.valorMax]])
   );
 
-
-
-
   const [valores, setValores] = useState(initialState);
   const navigate = useNavigate();
   const [nomeCarteira, setNomeCarteira] = useState(carteira.nome);
-
-
 
   const resetar = (nome) => {
     setValores((prev) => ({
@@ -57,36 +47,35 @@ export default function ContentUpdateWallet({carteira})
   };
 
   const handleAtualizarCarteira = async () => {
-        try 
-        {
-            const idCarteira=carteira.id
-            const dataCriacaoCarteira=carteira.data
+    try {
+      const idCarteira = carteira.id;
+      const dataCriacaoCarteira = carteira.data;
 
-            const filtros = Object.entries(valores).map(([nome, [min, max]]) => ({
-                id: walletFilters.find(walletFilter => walletFilter.tipo==nome).id,
-                tipo: String(nome),
-                valorMin: parseFloat(min),
-                valorMax: parseFloat(max),
-                }));
+      const filtros = Object.entries(valores).map(([nome, [min, max]]) => ({
+        id: walletFilters.find((walletFilter) => walletFilter.tipo == nome).id,
+        tipo: String(nome),
+        valorMin: parseFloat(min),
+        valorMax: parseFloat(max),
+      }));
 
-            const data={nome:nomeCarteira,data:dataCriacaoCarteira,filtros:filtros}
-            console.log(data)
-            const response = await walletService.editarCarteira(data,idCarteira)
-            if (response.status !== 200) 
-            {
-                 toast.error("Erro ao cadastrar a carteira")
-                 return ;
-            }  
-            console.log(response)
-        }
-        catch(error)
-        {
-            toast.error("Erro ao atualizar a carteira");
-            console.log(error);
-            return;        
-        }
+      const data = {
+        nome: nomeCarteira,
+        data: dataCriacaoCarteira,
+        filtros: filtros,
+      };
+      console.log(data);
+      const response = await walletService.editarCarteira(data, idCarteira);
+      if (response.status !== 200) {
+        toast.error("Erro ao cadastrar a carteira");
+        return;
+      }
+      console.log(response);
+    } catch (error) {
+      toast.error("Erro ao atualizar a carteira");
+      console.log(error);
+      return;
     }
-
+  };
 
   return (
     <div className="flex flex-col bg-bg min-h-screen px-8 py-12 relative overflow-visible">

@@ -1,13 +1,10 @@
 import "../App.css";
-import NavBar from "../components/home/navBar.jsx";
-import Sidebar from "../components/home/sideBar.jsx";
+import NavBar from "../components/utils/navBar.jsx";
+import Sidebar from "../components/utils/sideBar.jsx";
 import ContentQuotation from "../components/quotation/contentQuotation.jsx";
 import Footer from "../components/utils/footer.jsx";
 
-export default function Quotation() 
-{
-
-
+export default function Quotation() {
   return (
     <>
       <div className="flex bg-bg min-h-screen text-text">
@@ -16,7 +13,7 @@ export default function Quotation()
         </div>
 
         <div className="flex flex-col flex-1">
-          <NavBar/>
+          <NavBar />
           <ContentQuotation />
           <Footer />
         </div>

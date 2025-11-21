@@ -8,11 +8,9 @@ import walletService from "../../services/walletService";
 import toast, { Toaster } from "react-hot-toast";
 import indicadores from "./indicadores";
 import { useUser } from "../../contexts/userContext";
-export default function ContentCreateWallet()
-{
-
+export default function ContentCreateWallet() {
   //TODO: atualizar o estado das carteiras para o contentWallet
-  const { user,setWallet } = useUser()
+  const { user, setWallet } = useUser();
 
   const initialState = Object.fromEntries(
     indicadores.map((i) => [i.nome, [i.min, i.max]])
@@ -40,12 +38,11 @@ export default function ContentCreateWallet()
   };
 
   const handleCriarCarteira = async () => {
-    try 
-    {
+    try {
       const date = new Date();
-      const ano=String(date.getFullYear())
-      const mes=String((date.getMonth() + 1)).padStart(2,"0")
-      const dia=String(date.getDate()).padStart(2,"0")
+      const ano = String(date.getFullYear());
+      const mes = String(date.getMonth() + 1).padStart(2, "0");
+      const dia = String(date.getDate()).padStart(2, "0");
 
       const data_criacao = `${ano}-${mes}-${dia}`;
 
@@ -56,36 +53,34 @@ export default function ContentCreateWallet()
 
       //if (resp) setIdCarteira(resp.carteira.id);
       if (resp.status !== 201) {
-        toast.error("Erro ao cadastrar a carteira")
-        return ;
+        toast.error("Erro ao cadastrar a carteira");
+        return;
       }
       toast.success("Carteira cadastrada com sucesso");
-    
 
       const filtros = Object.entries(valores).map(([nome, [min, max]]) => ({
         tipo: String(nome),
         valorMin: parseFloat(min),
         valorMax: parseFloat(max),
       }));
-      console.log('carteira adicionada: ',resp.carteira)
-      const res = await walletService.adicionarFiltro(filtros,resp.carteira.id)
+      console.log("carteira adicionada: ", resp.carteira);
+      const res = await walletService.adicionarFiltro(
+        filtros,
+        resp.carteira.id
+      );
       if (res.status !== 201) {
-        toast.error("Erro ao cadastrar a filtros")
-        return ;
+        toast.error("Erro ao cadastrar a filtros");
+        return;
       }
 
-      const response = await walletService.buscarCarteiras(user?.id)
-      if (response.status===200) setWallet(response?.carteiras)
-    }
-    catch (error) 
-    {
+      const response = await walletService.buscarCarteiras(user?.id);
+      if (response.status === 200) setWallet(response?.carteiras);
+    } catch (error) {
       toast.error("Erro ao cadastrar filtros na carteira");
       console.log(error);
       return;
     }
-    }
-  
-
+  };
 
   return (
     <div className="flex flex-col bg-bg min-h-screen px-8 py-12 relative overflow-visible">

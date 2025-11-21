@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FaWallet, FaPlusCircle, FaTrash, FaPencilAlt } from "react-icons/fa";
@@ -8,28 +8,22 @@ import toast, { Toaster } from "react-hot-toast";
 
 import walletService from "../../services/walletService.jsx";
 
-export default function ContentWallet({ carteiras,setCarteiras,userId }) {
+export default function ContentWallet({ carteiras, setCarteiras, userId }) {
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
 
-
-
-
-    const handleDeletar=async (carteiraId)=>{
-      try 
-      {
-        if (!carteiraId) throw new Error("Nenhum carteira com id especificado");
-        await walletService.deletarCarteira(carteiraId);
-        const updatedCarteiras = await walletService.buscarCarteiras(userId);
-        if (updatedCarteiras && updatedCarteiras.carteiras) setCarteiras(updatedCarteiras.carteiras);
-      } 
-      catch (error) 
-      {
-        toast.error("Erro ao deletar carteira")
-        console.log(error)
-      }
+  const handleDeletar = async (carteiraId) => {
+    try {
+      if (!carteiraId) throw new Error("Nenhum carteira com id especificado");
+      await walletService.deletarCarteira(carteiraId);
+      const updatedCarteiras = await walletService.buscarCarteiras(userId);
+      if (updatedCarteiras && updatedCarteiras.carteiras)
+        setCarteiras(updatedCarteiras.carteiras);
+    } catch (error) {
+      toast.error("Erro ao deletar carteira");
+      console.log(error);
     }
-    
+  };
 
   return (
     <div className="flex flex-col bg-bg min-h-screen px-6 relative overflow-hidden">
@@ -123,8 +117,12 @@ export default function ContentWallet({ carteiras,setCarteiras,userId }) {
                   >
                     <button
                       className="flex items-center gap-2 text-gray-300 hover:text-primary 
-                      px-2 py-1 rounded-lg transition-colors duration-200 text-sm" 
-                      onClick={() =>{navigate("/carteira/editarcarteira",{ state:{wallet: carteira}})} }
+                      px-2 py-1 rounded-lg transition-colors duration-200 text-sm"
+                      onClick={() => {
+                        navigate("/carteira/editarcarteira", {
+                          state: { wallet: carteira },
+                        });
+                      }}
                     >
                       <FaPencilAlt className="text-xs" />
                       Editar
@@ -133,7 +131,9 @@ export default function ContentWallet({ carteiras,setCarteiras,userId }) {
                     <button
                       className="flex items-center gap-2 text-gray-300 hover:text-primary 
                       px-2 py-1 rounded-lg transition-colors duration-200 text-sm"
-                      onClick={() => {handleDeletar(carteira.id)}}
+                      onClick={() => {
+                        handleDeletar(carteira.id);
+                      }}
                     >
                       <FaTrash className="text-xs" />
                       Excluir

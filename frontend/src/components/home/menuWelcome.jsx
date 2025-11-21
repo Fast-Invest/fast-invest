@@ -1,4 +1,4 @@
-export default function MenuWelcome({nome,isLogged}) {
+export default function MenuWelcome({ nome, isLogged }) {
   return (
     <>
       <h1 className="text-5xl font-black text-white tracking-tight">

@@ -1,12 +1,9 @@
-import NavBar from "../components/home/navBar";
+import NavBar from "../components/utils/navBar";
 import Footer from "../components/utils/footer";
-import Sidebar from "../components/home/sideBar";
+import Sidebar from "../components/utils/sideBar";
 import ContentCreateWallet from "../components/wallet/contentCreateWallet";
 
-export default function CreateWallet() 
-{
-
-
+export default function CreateWallet() {
   return (
     <>
       <div className="flex bg-bg min-h-screen text-text">
@@ -15,8 +12,8 @@ export default function CreateWallet()
         </div>
 
         <div className="flex flex-col flex-1">
-          <NavBar/>
-          <ContentCreateWallet/>
+          <NavBar />
+          <ContentCreateWallet />
           <Footer />
         </div>
       </div>
