@@ -8,7 +8,7 @@ COPY gradle ./gradle
 COPY build.gradle settings.gradle ./
 COPY src ./src
 
-
+RUN chmod +x ./gradlew
 RUN ./gradlew clean bootJar --no-daemon --refresh-dependencies
 
 FROM eclipse-temurin:21-jdk
