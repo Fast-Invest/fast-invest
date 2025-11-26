@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.backend.interfaces.BalanceSheet;
-import com.example.backend.interfaces.Cashflow;
-import com.example.backend.interfaces.IncomeStatement;
+import com.example.backend.interfaces.BalanceTableProjection;
+import com.example.backend.interfaces.CashflowProjection;
+import com.example.backend.interfaces.DRETableProjection;
 import com.example.backend.services.financesService.HistoryService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,7 +31,7 @@ public class HistoryController
     @Operation(summary = "Busca o historico de fluxo de caixa de uma ação especificado, tendo o periodo e a ação definidos no path")
     @ApiResponse(responseCode = "200", description = "Historico de fluxo de caixa da ação encontrado")
     @GetMapping("cashflow/{periodo}/{ticker}")
-    public ResponseEntity<List<Cashflow>> buscarHistoricoCashflow(@PathVariable("periodo") String periodo,@PathVariable("ticker") String ticker) 
+    public ResponseEntity<List<CashflowProjection>> buscarHistoricoCashflow(@PathVariable("periodo") String periodo,@PathVariable("ticker") String ticker) 
     {
         if(periodo.equalsIgnoreCase("anual"))
         {
@@ -50,7 +50,7 @@ public class HistoryController
     @Operation(summary = "Busca o historico de renda especificado, tendo o periodo e a ação definidos no path")
     @ApiResponse(responseCode = "200", description = "Historico de renda encontrado")
     @GetMapping("income/{periodo}/{ticker}")
-    public ResponseEntity<List<IncomeStatement>> buscarHistoricoRenda(@PathVariable("periodo") String periodo,@PathVariable("ticker") String ticker) 
+    public ResponseEntity<List<DRETableProjection>> buscarHistoricoRenda(@PathVariable("periodo") String periodo,@PathVariable("ticker") String ticker) 
     {
         if(periodo.equalsIgnoreCase("anual"))
         {
@@ -69,7 +69,7 @@ public class HistoryController
     @Operation(summary = "Busca o historico de balanço de uma ação especificado, tendo o periodo e a ação definidos no path")
     @ApiResponse(responseCode = "200", description = "Historico de balanço encontrado")
     @GetMapping("balance/{periodo}/{ticker}")
-    public ResponseEntity<List<BalanceSheet>> buscarHistoricoBalanco(@PathVariable("periodo") String periodo,@PathVariable("ticker") String ticker) 
+    public ResponseEntity<List<BalanceTableProjection>> buscarHistoricoBalanco(@PathVariable("periodo") String periodo,@PathVariable("ticker") String ticker) 
     {
         if(periodo.equalsIgnoreCase("anual"))
         {

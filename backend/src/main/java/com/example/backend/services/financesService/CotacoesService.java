@@ -34,6 +34,8 @@ public class CotacoesService
     @Autowired
     private CashDividendsRepo cashDividendsRepo;
 
+    private Double safeMultiply(Double value, double multiplier) {return value != null ? value * multiplier : null;}
+
     public List<CotacaoProjection> buscarCotacoes()
     {
         try
@@ -78,14 +80,14 @@ public class CotacoesService
             Indicadores indicador =  indicadoresRepo.findBySymbol(symbol).orElseThrow(()->new AcaoNaoEncontrada());
             // A razão para as multiplicações é pois estes valores geralmente são dados em porcentagem, logo há necessidade de multiplica-los por 100
             // Assim não terá que ocorrer as multiplicações no frontend e deixará mais leve 
-            indicador.setDy(indicador.getDy()*100);  
-            indicador.setEarningYield(indicador.getEarningYield()*100); 
-            indicador.setMargemBruta(indicador.getMargemBruta()*100);  
-            indicador.setMargemLiquida(indicador.getMargemLiquida()*100);
-            indicador.setMargemEbit(indicador.getMargemEbit()*100);
-            indicador.setRoa(indicador.getRoa()*100) ;
-            indicador.setRoe(indicador.getRoe()*100);
-            indicador.setRoic(indicador.getRoic()*100);
+            indicador.setDy(safeMultiply(indicador.getDy(),100));  
+            indicador.setEarningYield(safeMultiply(indicador.getEarningYield(),100)); 
+            indicador.setMargemBruta(safeMultiply(indicador.getMargemBruta(),100));  
+            indicador.setMargemLiquida(safeMultiply(indicador.getMargemLiquida(),100));
+            indicador.setMargemEbit(safeMultiply(indicador.getMargemEbit(),100));
+            indicador.setRoa(safeMultiply(indicador.getRoa(),100)) ;
+            indicador.setRoe(safeMultiply(indicador.getRoe(),100));
+            indicador.setRoic(safeMultiply(indicador.getRoic(),100));
 
             return indicador;
         }
@@ -103,14 +105,14 @@ public class CotacoesService
             // A razão para as multiplicações é pois estes valores geralmente são dados em porcentagem, logo há necessidade de multiplica-los por 100
             // Assim não terá que ocorrer as multiplicações no frontend e deixará mais leve 
             return indicadoresPorAno.stream()
-                                            .peek(indicador->indicador.setDy(indicador.getDy()*100))  
-                                            .peek(indicador->indicador.setEarningYield(indicador.getEarningYield()*100))  
-                                            .peek(indicador->indicador.setMargemBruta(indicador.getMargemBruta()*100))  
-                                            .peek(indicador->indicador.setMargemLiquida(indicador.getMargemLiquida()*100))  
-                                            .peek(indicador->indicador.setMargemEbit(indicador.getMargemEbit()*100))  
-                                            .peek(indicador->indicador.setRoa(indicador.getRoa()*100))  
-                                            .peek(indicador->indicador.setRoe(indicador.getRoe()*100))  
-                                            .peek(indicador->indicador.setRoic(indicador.getRoic()*100))  
+                                            .peek(indicador->indicador.setDy(safeMultiply(indicador.getDy(),100)))  
+                                            .peek(indicador->indicador.setEarningYield(safeMultiply(indicador.getEarningYield(),100)))  
+                                            .peek(indicador->indicador.setMargemBruta(safeMultiply(indicador.getMargemBruta(),100)))  
+                                            .peek(indicador->indicador.setMargemLiquida(safeMultiply(indicador.getMargemLiquida(),100)))  
+                                            .peek(indicador->indicador.setMargemEbit(safeMultiply(indicador.getMargemEbit(),100)))  
+                                            .peek(indicador->indicador.setRoa(safeMultiply(indicador.getRoa(),100)))  
+                                            .peek(indicador->indicador.setRoe(safeMultiply(indicador.getRoe(),100)))  
+                                            .peek(indicador->indicador.setRoic(safeMultiply(indicador.getRoic(),100)))  
                                             .collect(Collectors.toList());
         }
         catch(Exception e)

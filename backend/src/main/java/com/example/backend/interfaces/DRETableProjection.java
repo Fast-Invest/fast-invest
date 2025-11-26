@@ -2,7 +2,7 @@ package com.example.backend.interfaces;
 
 public interface DRETableProjection {
 
-    Integer getAno();
+    String getData();
 
     String getTicker();
 

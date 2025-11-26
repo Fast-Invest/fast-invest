@@ -20,7 +20,7 @@ public interface CashflowHistoryAnualRepo extends JpaRepository<CashflowHistoryA
 
     @Query(value="""
             SELECT
-                YEAR(COALESCE(c.endDate, i.data_demonstrativo_resultados)) AS ano,
+                YEAR(COALESCE(c.endDate, i.data_demonstrativo_resultados)) AS data,
                 c.symbol as symbol,
                 COALESCE(c.operatingCashFlow, i.fluxo_caixa_operacional) AS fluxoDeCaixaOperacional,
                 c.cashGeneratedInOperations AS caixaGeradoNasOperacoes,
@@ -35,8 +35,8 @@ public interface CashflowHistoryAnualRepo extends JpaRepository<CashflowHistoryA
             LEFT JOIN indicadores_anual i
                 ON c.symbol = i.symbol
                 AND YEAR(c.endDate) = YEAR(i.data_demonstrativo_resultados)
-            where c.symbol= : ticker
-            ORDER BY ano DESC, c.symbol;
+            where c.symbol=:ticker
+            ORDER BY data DESC, c.symbol;
             """,nativeQuery=true)
-    List<CashflowProjection> getAnualCashflowTable(String ticker);
+    Optional<List<CashflowProjection>> getAnualCashflowTable(String ticker);
 }

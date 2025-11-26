@@ -9,6 +9,7 @@ import static java.util.Map.entry;
 
 import java.lang.reflect.Field;
 
+import org.antlr.v4.runtime.atn.SemanticContext.AND;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +70,7 @@ public class FiltroService
     }
 
 
+    //Mapper do nome/tipo presente no filtro, e nome do atribuyo referente na classe indicadores
     private static final Map<String, String> TIPO_CAMPO_MAP = Map.ofEntries(
             entry("DY", "dy"),
             entry("P/L", "pl"),
@@ -99,50 +101,8 @@ public class FiltroService
 
 
 
+//SELECT * FROM indicadores WHERE pl BETWEEN ? AND ? AND dy BETWEEN ? AND ?
 
-
-    // ISSO FOI COPIADO DO GPT, TODO: LER,COOMPREENDER, MELHORAR E COM TODA CERTEZA CONSERTAR
-    public List<Indicadores> aplicarFiltros(Long carteiraId) 
-    {
-        List<Filtro> filtros = filtroRepo.findByCarteiraId(carteiraId).orElseThrow(()->new CarteiraNaoEncontrada());
-        List<Indicadores> indicadores = indicadoresRepo.findAll();
-
-        return indicadores.stream()
-                .filter(indicador -> filtrarIndicador(indicador, filtros))
-                .collect(Collectors.toList());
-    }
-
-    // Método que aplica os filtros ao indicador
-    private boolean filtrarIndicador(Indicadores indicador, List<Filtro> filtros) {
-        for (Filtro filtro : filtros) 
-        {
-            String campo = TIPO_CAMPO_MAP.get(filtro.getTipo());
-            if (campo == null) continue; // Se não houver mapeamento, ignora o filtro
-
-            try 
-            {
-                Field field = Indicadores.class.getDeclaredField(campo);
-                field.setAccessible(true);
-                Object valorCampo = field.get(indicador);
-
-                // Se o valor do campo não for nulo, aplica o filtro
-                if (valorCampo != null && !(valorCampo instanceof String)) 
-                {
-                    double valor = valorCampo instanceof Double ? (Double) valorCampo : ((Number) valorCampo).doubleValue();
-                    if (valor < filtro.getValorMin() || valor > filtro.getValorMax()) 
-                    {
-                        return false; // Se não passar no filtro, retorna false
-                    }
-                }
-            } 
-            catch (NoSuchFieldException | IllegalAccessException e) 
-            {
-                e.printStackTrace();
-                return false; // Se ocorrer erro, o indicador é descartado
-            }
-        }
-        return true; // Passou por todos os filtros
-    }
 
 
 }

@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.FiltrosCarteiraDTO;
 import com.example.backend.forms.FiltroForm;
+import com.example.backend.models.Indicadores;
 import com.example.backend.services.FiltroService;
 
 import jakarta.validation.Valid;
@@ -63,7 +64,20 @@ public class FiltrosController
         }
     }
 
-
+    @GetMapping("/filtragem/{carteiraId}")
+    public ResponseEntity<List<Indicadores>> filtrarCotacoes(@PathVariable Long carteiraId)
+    {
+        try
+        {
+            List<Indicadores> resp = filtroService.aplicarFiltros(carteiraId); 
+            return ResponseEntity.status(HttpStatus.CREATED).body(resp);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 
 
 

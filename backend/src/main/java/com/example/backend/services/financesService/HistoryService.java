@@ -1,8 +1,8 @@
 package com.example.backend.services.financesService;
 import com.example.backend.exceptions.AcaoNaoEncontrada;
-import com.example.backend.interfaces.BalanceSheet;
-import com.example.backend.interfaces.Cashflow;
-import com.example.backend.interfaces.IncomeStatement;
+import com.example.backend.interfaces.BalanceTableProjection;
+import com.example.backend.interfaces.CashflowProjection;
+import com.example.backend.interfaces.DRETableProjection;
 
 import java.util.List;
 
@@ -42,42 +42,41 @@ public class HistoryService
 
 
     
-    public List<BalanceSheet> buscarHistoricoBalancoAnual(String symbol)
+    public List<BalanceTableProjection> buscarHistoricoBalancoAnual(String symbol)
     {
-        return balanceSheetAnualRepo.findBySymbol(symbol)
-                                        .orElseThrow(()->new AcaoNaoEncontrada("Erro ao buscar historico de balanço da ação de ticker" + symbol));
-         
+        return balanceSheetAnualRepo.getAnualBalanceTable(symbol)
+                                    .orElseThrow(()->new AcaoNaoEncontrada("Erro ao buscar historico de balanço da ação de ticker" + symbol));
     }
 
-    public List<BalanceSheet> buscarHistoricoBalancoTrimestal(String symbol)
+    public List<BalanceTableProjection> buscarHistoricoBalancoTrimestal(String symbol)
     {
-        return balanceSheetTrimestalRepo.findBySymbol(symbol)
+        return balanceSheetTrimestalRepo.getTrimestalBalanceTable(symbol)
                                         .orElseThrow(()->new AcaoNaoEncontrada("Erro ao buscar historico de balanço da ação de ticker" + symbol));
     }   
 
 
-    public List<IncomeStatement> buscarHistoricoIncomeStatementAnual(String symbol) 
+    public List<DRETableProjection> buscarHistoricoIncomeStatementAnual(String symbol) 
     {
-        return incomeStatementAnualRepo.findByTicker(symbol)
+        return incomeStatementAnualRepo.getAnualIncomeTable(symbol)
                 .orElseThrow(() -> new AcaoNaoEncontrada("Erro ao buscar histórico anual de renda  da ação de ticker " + symbol));
     }
 
-    public List<IncomeStatement> buscarHistoricoIncomeStatementTrimestral(String symbol) 
+    public List<DRETableProjection> buscarHistoricoIncomeStatementTrimestral(String symbol) 
     {
-        return incomeStatementTrimestalRepo.findByTicker(symbol)
+        return incomeStatementTrimestalRepo.getTrimestalIncomeTable(symbol)
                 .orElseThrow(() -> new AcaoNaoEncontrada("Erro ao buscar histórico trimestral de renda da ação de ticker " + symbol));
     }
 
 
-    public List<Cashflow> buscarHistoricoCashflowAnual(String symbol) 
+    public List<CashflowProjection> buscarHistoricoCashflowAnual(String symbol) 
     {
-        return cashflowHistoryAnualRepo.findBySymbol(symbol)
+        return cashflowHistoryAnualRepo.getAnualCashflowTable(symbol)
                 .orElseThrow(() -> new AcaoNaoEncontrada("Erro ao buscar histórico anual de fluxo de caixa da ação de ticker " + symbol));
     }
 
-    public List<Cashflow> buscarHistoricoCashflowTrimestral(String symbol) 
+    public List<CashflowProjection> buscarHistoricoCashflowTrimestral(String symbol) 
     {
-        return cashflowHistoryTrimestalRepo.findBySymbol(symbol)
+        return cashflowHistoryTrimestalRepo.getTrimestalCashflowTable(symbol)
                 .orElseThrow(() -> new AcaoNaoEncontrada("Erro ao buscar histórico trimestral de fluxo de caixa da ação de ticker " + symbol));
     }
 

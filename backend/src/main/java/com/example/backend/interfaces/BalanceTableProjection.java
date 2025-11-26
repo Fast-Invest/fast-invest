@@ -2,7 +2,7 @@ package com.example.backend.interfaces;
 
 public interface BalanceTableProjection {
 
-    Integer getAno();
+    String getData();
 
     String getTicker();
 

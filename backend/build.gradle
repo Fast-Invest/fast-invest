@@ -33,6 +33,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.security:spring-security-oauth2-jose'
 
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 
 	//mexer com o jwt

@@ -81,7 +81,7 @@ export default function ContentWallet({ carteiras, setCarteiras, userId }) {
                 shadow-lg shadow-primary/20 hover:shadow-primary/60 hover:-translate-y-2 
                 transition-all duration-300 backdrop-blur-md relative overflow-hidden"
               whileHover={{ scale: 1.02 }}
-              onClick={() => navigate(`/carteira/${carteira.id}`)}
+              onClick={() => navigate(`/carteira/detalhes`,{state: { wallet: carteira }})}
             >
               {/* Brilho animado */}
               <div

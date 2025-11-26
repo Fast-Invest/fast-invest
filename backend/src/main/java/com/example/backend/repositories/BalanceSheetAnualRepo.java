@@ -4,7 +4,6 @@ package com.example.backend.repositories;
 import java.util.List;
 import java.util.Optional;
 
-import org.antlr.v4.runtime.atn.SemanticContext.AND;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -21,7 +20,7 @@ public interface BalanceSheetAnualRepo extends JpaRepository<BalanceSheetAnual, 
 
     @Query(value="""
     SELECT
-        EXTRACT(YEAR FROM COALESCE(b.endDate, i.data_balanco)) AS Ano,
+        EXTRACT(YEAR FROM COALESCE(b.endDate, i.data_balanco)) AS data,
         b.symbol as ticker,
         COALESCE(b.totalAssets, i.ativos_totais) AS "ativosTotais",
         COALESCE(b.totalCurrentAssets, i.ativos_circulantes) AS "ativosCirculante",
@@ -35,8 +34,8 @@ public interface BalanceSheetAnualRepo extends JpaRepository<BalanceSheetAnual, 
     FROM balance_sheet_anual b
     LEFT JOIN indicadores_anual i
     ON b.symbol = i.symbol
-    where b.symbol = :ticker
+    where b.symbol =:ticker
     AND EXTRACT(YEAR FROM b.endDate) = EXTRACT(YEAR FROM i.data_balanco)
-    ORDER BY Ano DESC, b.symbol;""", nativeQuery=true)
-    List<BalanceTableProjection> getAnualBalanceTable(String ticker);
+    ORDER BY data DESC, b.symbol;""", nativeQuery=true)
+    Optional<List<BalanceTableProjection>> getAnualBalanceTable(String ticker);
 }

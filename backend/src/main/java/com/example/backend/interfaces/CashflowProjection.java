@@ -2,7 +2,7 @@ package com.example.backend.interfaces;
 
 public interface CashflowProjection {
 
-    Integer getAno();
+    String getData();
 
     String getSymbol();
 

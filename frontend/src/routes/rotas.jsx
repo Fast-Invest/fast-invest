@@ -10,7 +10,7 @@ import Info from "../pages/Info.jsx";
 import CreateWallet from "../pages/CreateWallet.jsx";
 import UpdateWallet from "../pages/UpdateWallet.jsx";
 import QuotationDetails from "../pages/QuotationDetails.jsx";
-
+import WalletDetails from "../pages/WalletDetails.jsx";
 export default function Rotas() {
   return (
     <Routes>
@@ -24,6 +24,8 @@ export default function Rotas() {
       <Route path="/carteira" element={<Wallet />} />
       <Route path="/carteira/criarcarteira" element={<CreateWallet />} />
       <Route path="/carteira/editarcarteira" element={<UpdateWallet />} />
+      <Route path="/carteira/detalhes" element={<WalletDetails />} />
+
       <Route path="/grafico" element={<Graph />} />
       <Route path="/configuracoes" element={<Config />} />
       <Route path="/sobre" element={<Info />} />

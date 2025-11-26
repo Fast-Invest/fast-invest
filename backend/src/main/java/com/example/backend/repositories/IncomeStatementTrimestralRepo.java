@@ -17,7 +17,7 @@ public interface IncomeStatementTrimestralRepo extends JpaRepository<IncomeState
     Optional<List<IncomeStatement>> findByTicker(String ticker);
     @Query(value="""
             SELECT
-                COALESCE(s.endDate, i.data_demonstrativo_resultados) AS Ano,
+                COALESCE(s.endDate, i.data_demonstrativo_resultados) AS data,
                 s.ticker as ticker,
                 COALESCE(s.totalRevenue, i.receita) AS `receitaLiquida`,
                 s.grossProfit AS `lucroBruto`,
@@ -33,8 +33,8 @@ public interface IncomeStatementTrimestralRepo extends JpaRepository<IncomeState
             LEFT JOIN indicadores_anual i
                 ON s.ticker = i.symbol
                 AND YEAR(s.endDate) = YEAR(i.data_demonstrativo_resultados)
-            WHERE s.ticker :ticker
-            ORDER BY Ano DESC, s.ticker;
+            WHERE s.ticker=:ticker
+            ORDER BY data DESC, s.ticker;
             """,nativeQuery=true)
-    List<DRETableProjection> getAnualIncomeTable(String ticker);
+    Optional<List<DRETableProjection>> getTrimestalIncomeTable(String ticker);
 }

@@ -19,7 +19,7 @@ public interface IncomeStatementAnualRepo extends JpaRepository<IncomeStatementA
 
     @Query(value="""
             SELECT
-                YEAR(COALESCE(s.endDate, i.data_demonstrativo_resultados)) AS Ano,
+                YEAR(COALESCE(s.endDate, i.data_demonstrativo_resultados)) AS data,
                 s.ticker as ticker,
                 COALESCE(s.totalRevenue, i.receita) AS `receitaLiquida`,
                 s.grossProfit AS `lucroBruto`,
@@ -35,10 +35,10 @@ public interface IncomeStatementAnualRepo extends JpaRepository<IncomeStatementA
             LEFT JOIN indicadores_anual i
                 ON s.ticker = i.symbol
                 AND YEAR(s.endDate) = YEAR(i.data_demonstrativo_resultados)
-            WHERE s.ticker = :ticker
-            ORDER BY Ano DESC, s.ticker;
+            WHERE s.ticker=:ticker
+            ORDER BY data DESC, s.ticker;
             """,nativeQuery=true)
-    List<DRETableProjection> getAnualIncomeTable(String ticker);
+    Optional<List<DRETableProjection>> getAnualIncomeTable(String ticker);
 
 
 }
