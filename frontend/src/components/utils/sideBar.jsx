@@ -4,6 +4,7 @@ import { AiFillHome } from "react-icons/ai";
 import { FaWallet, FaMoneyBillWave, FaInfoCircle } from "react-icons/fa";
 import { GoGraph } from "react-icons/go";
 import { RiSettings3Fill } from "react-icons/ri";
+import fav from "/jpg/favicon.jpg"
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function Sidebar() {
     <aside className=" h-screen w-18 bg-bg text-white flex flex-col items-center justify-between py-4 ">
       <div className="flex flex-col items-center gap-10">
         {/* Logo */}
-        <div className="w-10 h-10 bg-gray-200 rounded-full m-6" />
+        <img src={fav} className="w-10 h-10 bg-gray-200 rounded-full m-6" />
 
         {/* Ícones */}
         <AiFillHome

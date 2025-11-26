@@ -7,7 +7,7 @@ export function getCookie(name) {
 }
 
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: "http://localhost:8080",
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
