@@ -26,7 +26,7 @@ export default function Rotas() {
       <Route path="/carteira/editarcarteira" element={<UpdateWallet />} />
       <Route path="/carteira/detalhes" element={<WalletDetails />} />
 
-      <Route path="/grafico" element={<Graph />} />
+      <Route path="/graficos" element={<Graph />} />
       <Route path="/configuracoes" element={<Config />} />
       <Route path="/sobre" element={<Info />} />
     </Routes>
