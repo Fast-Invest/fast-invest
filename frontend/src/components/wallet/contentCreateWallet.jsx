@@ -63,7 +63,6 @@ export default function ContentCreateWallet() {
         valorMin: parseFloat(min),
         valorMax: parseFloat(max),
       }));
-      console.log("carteira adicionada: ", resp.carteira);
       const res = await walletService.adicionarFiltro(
         filtros,
         resp.carteira.id

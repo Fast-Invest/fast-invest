@@ -37,7 +37,6 @@ public class FiltrosController
     {
         try
         {
-            System.out.println(forms);
             List<FiltrosCarteiraDTO> resp = filtroService.AdicionarFiltros(forms, carteiraId); 
             return ResponseEntity.status(HttpStatus.CREATED).body(resp);
         }
@@ -64,13 +63,17 @@ public class FiltrosController
         }
     }
 
+
+
     @GetMapping("/filtragem/{carteiraId}")
     public ResponseEntity<List<Indicadores>> filtrarCotacoes(@PathVariable Long carteiraId)
     {
         try
         {
             List<Indicadores> resp = filtroService.aplicarFiltros(carteiraId); 
-            return ResponseEntity.status(HttpStatus.CREATED).body(resp);
+            if(resp==null) return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+
+            return ResponseEntity.status(HttpStatus.OK).body(resp);
         }
         catch(Exception e)
         {

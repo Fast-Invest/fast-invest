@@ -2,14 +2,13 @@ import Sidebar from "../components/utils/sideBar";
 import NavBar from "../components/utils/navBar";
 import Footer from "../components/utils/footer";
 import { useLocation } from "react-router-dom";
+import ContentWalletDetails from "../components/wallet/contentWalletDetails";
 
 export default function QuotationDetails() {
     const location = useLocation();
     const carteira = location.state.wallet
 
-    useEffect(() => {
-        
-    }, []);
+
     
     return (
       <>
@@ -19,7 +18,7 @@ export default function QuotationDetails() {
           </div>
           <div className="flex flex-col flex-1">
             <NavBar />
-            {JSON.stringify(carteira)}
+            <ContentWalletDetails wallet={carteira}/>
             <Footer />
           </div>
         </div>

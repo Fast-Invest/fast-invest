@@ -101,6 +101,22 @@ async function adicionarFiltro(data,carteiraId)
   catch(error){throw error;}
 }
 
+async function aplicarFiltros(carteiraId)
+{
+  try {
+    const resp = await api.get(`/filtro/filtragem/${carteiraId}`)
+    return {
+      message:"Ações buscadas com base nos filtros passados",
+      status: resp.status,
+      filtros:resp?.data || null
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
 const walletService = {
   adicionarCarteira,
   buscarCarteiras,
@@ -108,6 +124,7 @@ const walletService = {
   deletarCarteira,
   editarCarteira,
   adicionarFiltro,
+  aplicarFiltros
 };
 
 export default walletService;
