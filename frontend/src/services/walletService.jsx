@@ -9,15 +9,15 @@ async function adicionarCarteira(data, id) {
       carteira: resp.data || null,
     };
   } catch (error) {
-    console.log(error);
+    console.error("Erro ao adicionar carteira:", error);
     return {
       message: "Erro ao cadastrar carteira",
-      status: error.response.status,
+      status: error.response?.status || 500,
+      error: error.message,
     };
   }
 }
 
-// Isso tá errado ele teria que volta para o """"carteira/criarcarteira"""" pq ele vai pra tela de filtros de volta só que com tudo setado dele
 async function buscarCarteiras(userId) {
   try {
     const resp = await api.get(`/carteira/${userId}`);
@@ -27,10 +27,11 @@ async function buscarCarteiras(userId) {
       carteiras: resp.data || null,
     };
   } catch (error) {
-    console.log(error);
+    console.error("Erro ao buscar carteiras:", error);
     return {
       message: "Erro ao buscar carteira",
       status: error?.response?.status || 500,
+      error: error.message,
     };
   }
 }
@@ -38,16 +39,24 @@ async function buscarCarteiras(userId) {
 async function deletarCarteira(idCarteira) {
   try {
     const res = await api.delete(`/carteira/${idCarteira}`);
-    return { message: res.data, status: res.status };
+    return {
+      message: res.data,
+      status: res.status,
+    };
   } catch (error) {
-    console.log("erro: ", error);
+    console.error("Erro ao deletar carteira:", error);
+    return {
+      message: "Erro ao deletar carteira",
+      status: error.response?.status || 500,
+      error: error.message,
+    };
   }
 }
 
 async function editarCarteira(data, idCarteira) {
   try {
-    console.log('info carteira:',data)
-    console.log('id carteira:',idCarteira)
+    console.log("Info carteira:", data);
+    console.log("ID carteira:", idCarteira);
 
     const resp = await api.put(`/carteira/${idCarteira}`, data);
     return {
@@ -55,67 +64,77 @@ async function editarCarteira(data, idCarteira) {
       status: resp.status,
       carteira: resp.data || null,
     };
-  } 
-  catch (error) 
-  {
-    console.log(error);
+  } catch (error) {
+    console.error("Erro ao editar carteira:", error);
     return {
-      message: "Erro ao cadastrar carteira",
-      status: error.response.status,
+      message: "Erro ao atualizar carteira",
+      status: error.response?.status || 500,
+      error: error.message,
     };
   }
 }
 
-
-async function procurarCarteira(carteiraId) 
-{
-  try 
-  {
-    const response = await api.get(`/search/${carteiraId}`)
+async function procurarCarteira(carteiraId) {
+  try {
+    const response = await api.get(`/search/${carteiraId}`);
     return {
-      message:"Carteira encontrada com sucesso",
-      status:response.status,
-      carteira:response.data,
-    }
-  } 
-  catch (error) {
-    console.log(error)
+      message: "Carteira encontrada com sucesso",
+      status: response.status,
+      carteira: response.data,
+    };
+  } catch (error) {
+    console.error("Erro ao procurar carteira:", error);
     return {
-      message:"Erro ao procurar carteira",
-      status:error.response.status
-    }
-  }  
+      message: "Erro ao procurar carteira",
+      status: error.response?.status || 500,
+      error: error.message,
+    };
+  }
 }
 
-
-async function adicionarFiltro(data,carteiraId) 
-{
+async function adicionarFiltro(data, carteiraId) {
   try {
-  const resp = await api.post(`/filtro/${carteiraId}`, data);
+    const resp = await api.post(`/filtro/${carteiraId}`, data);
     return {
-      message: "Filtros cadastrada com sucesso",
+      message: "Filtros cadastrados com sucesso",
       status: resp.status,
       filtros: resp.data || null,
     };
-  }
-  catch(error){throw error;}
-}
-
-async function aplicarFiltros(carteiraId)
-{
-  try {
-    const resp = await api.get(`/filtro/filtragem/${carteiraId}`)
-    return {
-      message:"Ações buscadas com base nos filtros passados",
-      status: resp.status,
-      filtros:resp?.data || null
-    }
   } catch (error) {
+    console.error("Erro ao adicionar filtro:", error);
     throw error;
   }
 }
 
+async function aplicarFiltros(carteiraId) {
+  try {
+    console.log(`[walletService] Buscando filtros para carteira ID: ${carteiraId}`);
+    
+    const resp = await api.get(`/filtro/filtragem/${carteiraId}`);
+    
+    console.log(`[walletService] Resposta recebida:`, resp);
+    console.log(`[walletService] Dados (resp.data):`, resp.data);
+    console.log(`[walletService] Quantidade de ações:`, Array.isArray(resp.data) ? resp.data.length : "não é array");
 
+    // Verificar a estrutura da resposta
+    const filtros = Array.isArray(resp.data) ? resp.data : resp.data?.filtros || [];
+
+    return {
+      message: "Ações buscadas com base nos filtros passados",
+      status: resp.status,
+      filtros: filtros,
+      totalAcoes: filtros.length,
+    };
+  } catch (error) {
+    console.error("[walletService] Erro ao aplicar filtros:", error);
+    console.error("[walletService] Detalhes do erro:", {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+    });
+    throw error;
+  }
+}
 
 const walletService = {
   adicionarCarteira,
@@ -124,7 +143,7 @@ const walletService = {
   deletarCarteira,
   editarCarteira,
   adicionarFiltro,
-  aplicarFiltros
+  aplicarFiltros,
 };
 
 export default walletService;
