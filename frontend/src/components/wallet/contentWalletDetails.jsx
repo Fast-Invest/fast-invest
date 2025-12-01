@@ -11,21 +11,22 @@ export default function ContentWalletDetails({ wallet }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const formatNumber = (value,decimals = 2,placeholder = "—") => value === null || value === undefined || Number.isNaN(value) ? placeholder : Number(value).toFixed(decimals);
   useEffect(() => {
     const getFilteredQuotations = async (walletId) => {
       try {
         setLoading(true);
         setError(null);
 
-        console.log(`[ContentWalletDetails] Iniciando busca de filtros para wallet ID: ${walletId}`);
+        // console.log(`[ContentWalletDetails] Iniciando busca de filtros para wallet ID: ${walletId}`);
 
         const resp = await walletService.aplicarFiltros(walletId);
 
-        console.log(`[ContentWalletDetails] Resposta do serviço:`, resp);
-        console.log(`[ContentWalletDetails] resp.filtros:`, resp.filtros);
-        console.log(`[ContentWalletDetails] Tipo de resp.filtros:`, typeof resp.filtros);
-        console.log(`[ContentWalletDetails] É array?:`, Array.isArray(resp.filtros));
-        console.log(`[ContentWalletDetails] Quantidade:`, Array.isArray(resp.filtros) ? resp.filtros.length : "N/A");
+        // console.log(`[ContentWalletDetails] Resposta do serviço:`, resp);
+        // console.log(`[ContentWalletDetails] resp.filtros:`, resp.filtros);
+        // console.log(`[ContentWalletDetails] Tipo de resp.filtros:`, typeof resp.filtros);
+        // console.log(`[ContentWalletDetails] É array?:`, Array.isArray(resp.filtros));
+        // console.log(`[ContentWalletDetails] Quantidade:`, Array.isArray(resp.filtros) ? resp.filtros.length : "N/A");
 
         // Garantir que sempre temos um array
         const quotations = Array.isArray(resp.filtros) ? resp.filtros : [];
@@ -138,7 +139,7 @@ export default function ContentWalletDetails({ wallet }) {
                 <div className="mb-6 pb-6 border-b border-primary/20">
                   <div className="flex items-baseline gap-3 mb-2">
                     <span className="text-3xl font-bold text-white">
-                      R$ {quotation.precoAtual.toFixed(2)}
+                      R$ {formatNumber(quotation.precoAtual)}
                     </span>
                     <span
                       className={`text-sm font-semibold ${getVariationColor(
@@ -146,7 +147,7 @@ export default function ContentWalletDetails({ wallet }) {
                       )}`}
                     >
                       {quotation.variacaoPercentualValor > 0 ? "↑" : "↓"}{" "}
-                      {Math.abs(quotation.variacaoPercentualValor).toFixed(2)}%
+                      {formatNumber(Math.abs(quotation.variacaoPercentualValor))}%
                     </span>
                   </div>
                   <p className="text-xs text-gray-500">

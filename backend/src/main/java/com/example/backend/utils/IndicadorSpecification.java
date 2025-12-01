@@ -68,12 +68,18 @@ public class IndicadorSpecification
                 Path<Double> atribColuna = tabelaIndicadores.get(campo);
 
                 if (filtro.getValorMin() != null) {
-                    Predicate minPredicate = criteriaBuilder.greaterThanOrEqualTo(atribColuna, filtro.getValorMin());
+                    Predicate minPredicate = criteriaBuilder.or(
+                                                                criteriaBuilder.isNull(atribColuna),
+                                                                criteriaBuilder.greaterThanOrEqualTo(atribColuna, filtro.getValorMin())
+                                                               );
                     condicoes.add(minPredicate);
                 }
 
                 if (filtro.getValorMax() != null) {
-                    Predicate maxPredicate = criteriaBuilder.lessThanOrEqualTo(atribColuna, filtro.getValorMax());
+                    Predicate maxPredicate = criteriaBuilder.or(
+                                                                criteriaBuilder.isNull(atribColuna),
+                                                                criteriaBuilder.lessThanOrEqualTo(atribColuna, filtro.getValorMax())
+                                                               );
                     condicoes.add(maxPredicate);
                 }
             }
