@@ -99,4 +99,5 @@ LEFT JOIN indicadores_anual i
 ORDER BY ano DESC, c.symbol;
 
 
-
+use fastinvest;
+desc indicadores_anual;

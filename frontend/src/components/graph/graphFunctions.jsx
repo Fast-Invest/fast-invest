@@ -1,8 +1,15 @@
 import { FaSearchDollar } from "react-icons/fa";
 
-export function TickerSearcher({setSearchInput,searchInput,cotacoes,updateCharts})
+export function TickerSearcher({setSearchInput,searchInput,setInputedSymbols,cotacoes,updateCharts})
 {
-
+    const handleAddTicker=(searchInput)=>{
+        setInputedSymbols(prev => {
+        const updated = [...prev, searchInput];
+        updateCharts(updated);
+        setSearchInput('')
+        return updated;
+    });
+    }
     return(
         <div className="flex justify-center flex-col">
             <h2 className="text-4xl font-bold text-text mb-8 text-center">
@@ -37,10 +44,10 @@ export function TickerSearcher({setSearchInput,searchInput,cotacoes,updateCharts
                 </datalist> 
 
                 <button 
-                    onClick={()=>updateCharts()}
+                    onClick={()=>handleAddTicker(searchInput)}
                     className="cursor-pointer rounded-2xl px-8 py-2 bg-primary  text-black text-lg font-bold shadow-md shadow-primary-dark/50 
                     hover:scale-105 active:scale-95 transition-all duration-300 ease-out ml-12" >
-                    Pesquisar
+                    Adicionar a lista
                 </button> 
             </div>
             
