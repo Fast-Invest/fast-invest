@@ -19,7 +19,7 @@ public interface BalanceSheetAnualRepo extends JpaRepository<BalanceSheetAnual, 
     Optional<List<BalanceSheet>> findBySymbol(String symbol);
 
     @Query(value="""
-    SELECT
+    SELECT DISTINCT 
         EXTRACT(YEAR FROM COALESCE(b.endDate, i.data_balanco)) AS data,
         b.symbol as ticker,
         COALESCE(b.totalAssets, i.ativos_totais) AS "ativosTotais",

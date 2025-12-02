@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.backend.interfaces.CotacaoPerfilProjection;
 import com.example.backend.interfaces.CotacaoProjection;
 import com.example.backend.models.CashDividends;
 import com.example.backend.models.Indicadores;
@@ -38,8 +40,12 @@ public class CotacaoController
         return ResponseEntity.status(HttpStatus.OK).body(cotacoes);
     }
  
-
-
+    @GetMapping("/perfil/{ticker}")
+    public ResponseEntity<CotacaoPerfilProjection> retornarCotacaoOutros(@PathVariable String ticker) 
+    {
+        CotacaoPerfilProjection resp = cotacaoService.dadosRestantes(ticker);
+        return ResponseEntity.status(HttpStatus.OK).body(resp);
+    }    
 
 
     @Operation(summary = "Busca informações completas sobre uma ação")
@@ -51,6 +57,7 @@ public class CotacaoController
         Indicadores acao = cotacaoService.buscarInformacoesCompletasRecentesAcao(ticker);
         return ResponseEntity.status(HttpStatus.OK).body(acao);
     }    
+
 
 
     @Operation(summary = "Busca informações completas sobre uma ação, buscando indicadores em todos anos")

@@ -230,7 +230,7 @@ return(
 
 
 export function WalletQuotationDetailModal({ selectedQuotation, formatNumber, handleCloseModal }){
-    const navigate = useNavigate()
+    //const navigate = useNavigate()
     return(
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
         <div className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-2xl shadow-2xl shadow-primary/20 max-w-2xl w-full max-h-[90vh] custom-overflow">

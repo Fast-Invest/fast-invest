@@ -1,10 +1,12 @@
 package com.example.backend.repositories;
 
 import com.example.backend.interfaces.CotacaoProjection;
+import com.example.backend.interfaces.CotacaoPerfilProjection;
 
 import com.example.backend.models.DadosPrincipaisAcoes;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,6 +29,19 @@ public interface DadosPrincipaisAcoesRepo extends JpaRepository<DadosPrincipaisA
     List<CotacaoProjection> buscarCotacoes();
 
 
-
+    @Query(value="""
+        SELECT DISTINCT
+            dp.symbol as symbol,
+            dp.longName AS nome,
+            dpe.address1 AS endereco,
+            dpe.city AS cidade,
+            dpe.country AS pais,
+            dp.currency AS moeda,
+            dp.logourl AS logo
+        FROM dados_principais_acoes AS dp
+        JOIN dados_perfil_empresa AS dpe ON dp.symbol=dpe.symbol
+        where dp.symbol=:symbol ;
+        """,nativeQuery=true)
+    Optional<CotacaoPerfilProjection> buscarDadosPerfilCotacao(String symbol);
 
 }

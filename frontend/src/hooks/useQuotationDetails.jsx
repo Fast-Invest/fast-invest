@@ -28,6 +28,7 @@ async function getData(ticker,setState)
         const [
                 mostRecentIndicators,
                 allTimeIndicators,
+                perfilCotacao,
                 dividendosPagos,
                 balancoAnual,
                 balancoTrimestral,
@@ -38,6 +39,7 @@ async function getData(ticker,setState)
             ] = await Promise.all([
                     quotationService.procurarDetalhesCotacao(ticker),
                     quotationService.buscarDetalhesCotacaoAlltime(ticker),
+                    quotationService.procurarDadosPerfilCotacao(ticker),
                     quotationService.buscarDividendosCotacao(ticker),
                     historyService.procurar_historico_balanco('anual',ticker),
                     historyService.procurar_historico_balanco('trimestral',ticker),
@@ -50,12 +52,14 @@ async function getData(ticker,setState)
             if (!mostRecentIndicators?.dados_acao) {
                 throw new Error("Cotação não encontrada");
             }
+            console.log('teste',perfilCotacao?.profile)
             setState({
             loading: false,
             error: null,
             data: {
                 mostRecentIndicators: mostRecentIndicators?.dados_acao || null,
                 allTimeIndicators: allTimeIndicators.dados_acao || null,
+                perfilCotacao:perfilCotacao?.profile || null,
                 dividendos: dividendosPagos?.dividendos || null,
                 balancoAnual: balancoAnual?.historico || null,
                 balancoTrimestral: balancoTrimestral?.historico || null,

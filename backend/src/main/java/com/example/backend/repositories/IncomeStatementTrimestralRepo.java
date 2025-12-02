@@ -16,7 +16,7 @@ public interface IncomeStatementTrimestralRepo extends JpaRepository<IncomeState
 {
     Optional<List<IncomeStatement>> findByTicker(String ticker);
     @Query(value="""
-            SELECT
+            SELECT DISTINCT
                 COALESCE(s.endDate, i.data_demonstrativo_resultados) AS data,
                 s.ticker as ticker,
                 COALESCE(s.totalRevenue, i.receita) AS `receitaLiquida`,

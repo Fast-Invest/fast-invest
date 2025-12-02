@@ -62,6 +62,7 @@ export default function QuotationDetails() {
             <ContentDetails
               cotacao={data?.mostRecentIndicators}
               historico_indicadores={data?.allTimeIndicators}
+              profile={data?.perfilCotacao}
               dividendos={data?.dividendos}
               balanco_anual={data?.balancoAnual}
               balanco_trimestral={data?.balancoTrimestral}

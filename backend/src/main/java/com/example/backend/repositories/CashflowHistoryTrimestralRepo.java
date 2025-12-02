@@ -16,7 +16,7 @@ public interface CashflowHistoryTrimestralRepo extends JpaRepository<CashflowHis
 {
     Optional<List<Cashflow>> findBySymbol(String symbol);
     @Query(value="""
-            SELECT
+            SELECT DISTINCT
                 COALESCE(c.endDate, i.data_demonstrativo_resultados) AS data,
                 c.symbol as symbol,
                 COALESCE(c.operatingCashFlow, i.fluxo_caixa_operacional) AS fluxoDeCaixaOperacional,

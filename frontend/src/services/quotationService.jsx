@@ -22,7 +22,25 @@ async function buscar_cotacoes()
 }
 
 
-
+async function procurarDadosPerfilCotacao(ticker) {
+    try 
+  {
+    const response = await api.get(`/cotacoes/perfil/${ticker}`);
+    return {
+      message: "Dados encontrados com sucesso",
+      status: response.status,
+      profile: response.data,
+    };
+  } 
+  catch (error) 
+  {
+    console.log("Erro:", error);
+    return {
+      message: "erro ao buscar cotacoes",
+      status: error.response.status,
+    };
+  }
+}
 
 async function procurarDetalhesCotacao(ticker) 
 {
@@ -90,6 +108,7 @@ async function buscarDividendosCotacao(symbol)
 const quotationService={
                         procurarDetalhesCotacao,
                         buscarDividendosCotacao,
+                        procurarDadosPerfilCotacao,
                         buscarDetalhesCotacaoAlltime,
                         buscar_cotacoes,
                       };

@@ -1,6 +1,7 @@
 export default function ContentDetails({
   cotacao,
   historico_indicadores,
+  profile,
   dividendos,
   balanco_anual,
   balanco_trimestral,
@@ -26,6 +27,18 @@ export default function ContentDetails({
         cols={30}
         rows={10}
         value={JSON.stringify(historico_indicadores)}
+        readOnly
+      ></textarea>
+      <br />
+      <br />
+      <br />
+      <h1>Perfil</h1>
+      <br />
+      <textarea
+        className="overflow-scroll max-w-[1000px]"
+        cols={30}
+        rows={10}
+        value={JSON.stringify(profile)}
         readOnly
       ></textarea>
       <br />

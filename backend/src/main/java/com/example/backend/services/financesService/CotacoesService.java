@@ -7,6 +7,7 @@ import com.example.backend.repositories.CashDividendsRepo;
 import com.example.backend.repositories.DadosPrincipaisAcoesRepo;
 import com.example.backend.repositories.IndicadoresRepo;
 import com.example.backend.interfaces.CotacaoProjection;
+import com.example.backend.interfaces.CotacaoPerfilProjection;
 import com.example.backend.exceptions.AcaoNaoEncontrada;
 import com.example.backend.exceptions.DividendosNaoEncontrados;
 import com.example.backend.exceptions.ErroBuscaCotacoes;
@@ -135,7 +136,10 @@ public class CotacoesService
 
     }
 
-
+    public CotacaoPerfilProjection dadosRestantes(String symbol)
+    {
+        return dadosPrincipaisAcoesRepo.buscarDadosPerfilCotacao(symbol).orElseThrow(()->new AcaoNaoEncontrada());
+    }
 
 
 

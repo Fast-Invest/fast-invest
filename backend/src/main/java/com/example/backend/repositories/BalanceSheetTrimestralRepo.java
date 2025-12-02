@@ -19,7 +19,7 @@ public interface BalanceSheetTrimestralRepo extends JpaRepository<BalanceSheetTr
     Optional<List<BalanceSheet>> findBySymbol(String symbol);
 
     @Query(value="""
-    SELECT
+    SELECT DISTINCT
         COALESCE(b.endDate, i.data_balanco) AS data,
         b.symbol as ticker,
         COALESCE(b.totalAssets, i.ativos_totais) AS "ativosTotais",
