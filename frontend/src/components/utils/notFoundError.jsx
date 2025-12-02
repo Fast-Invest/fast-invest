@@ -14,7 +14,7 @@ export default function NotFoundError({ nomeCotacao }) {
               <p className=" text-primary-dark font-bold text-3xl">Erro ao buscar informações sobre a cotação  { `de ticker ${nomeCotacao}` || ""} </p>
             </div>  
             <div>
-              <p className=" text-primary-dark font-bold text-3xl">Ação inexistente ou servidor fora do ar</p>
+              <p className=" text-primary-dark font-bold text-3xl">Ação inexistente, servidor fora do ar ou erro ao buscar detalhes da ação</p>
             </div>
             
         </div>

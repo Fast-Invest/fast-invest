@@ -108,13 +108,9 @@ async function adicionarFiltro(data, carteiraId) {
 
 async function aplicarFiltros(carteiraId) {
   try {
-    console.log(`[walletService] Buscando filtros para carteira ID: ${carteiraId}`);
     
     const resp = await api.get(`/filtro/filtragem/${carteiraId}`);
     
-    console.log(`[walletService] Resposta recebida:`, resp);
-    console.log(`[walletService] Dados (resp.data):`, resp.data);
-    console.log(`[walletService] Quantidade de ações:`, Array.isArray(resp.data) ? resp.data.length : "não é array");
 
     // Verificar a estrutura da resposta
     const filtros = Array.isArray(resp.data) ? resp.data : resp.data?.filtros || [];

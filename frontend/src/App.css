@@ -91,3 +91,13 @@
   }
 }
 
+
+.custom-overflow{
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-dark) transparent;
+}
+.html-scroller{
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-dark) var(--color-bg-card) ;
+}

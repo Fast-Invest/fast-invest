@@ -7,7 +7,11 @@ export function useQuotationDetails(ticker)
   const [state, setState] = useState({loading: true, error: null,data: null});
 
   useEffect(() => {
-    if (!ticker) return;
+    if (!ticker){
+        setState({ loading: false, error: true, data: null });
+        return ;    
+    };
+    setState({ loading: true, error: null, data: null });
     getData(ticker, setState);
   }, [ticker]);
 
@@ -42,12 +46,16 @@ async function getData(ticker,setState)
                     historyService.procurar_fluxo_de_caixa('anual',ticker),
                     historyService.procurar_fluxo_de_caixa('trimestral',ticker),
             ])
+
+            if (!mostRecentIndicators?.dados_acao) {
+                throw new Error("Cotação não encontrada");
+            }
             setState({
             loading: false,
             error: null,
             data: {
                 mostRecentIndicators: mostRecentIndicators?.dados_acao || null,
-                allTimeIndicators: allTimeIndicators?.dados_acao || null,
+                allTimeIndicators: allTimeIndicators.dados_acao || null,
                 dividendos: dividendosPagos?.dividendos || null,
                 balancoAnual: balancoAnual?.historico || null,
                 balancoTrimestral: balancoTrimestral?.historico || null,
@@ -60,8 +68,8 @@ async function getData(ticker,setState)
         }
         catch(error)
         {
-            console.log(error)
-            setState({ loading: false, error: error, data:null });
+            console.log('caiu aki:')
+            setState({ loading: false, error: true, data:null });
         }
         
     }

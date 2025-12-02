@@ -11,10 +11,11 @@ import { useQuotationDetails } from "../hooks/useQuotationDetails";
 export default function QuotationDetails() {
   const { ticker } = useParams();
   const { loading,error,data } = useQuotationDetails(ticker)
-
-  if(loading && !data?.mostRecentIndicators)
-  {
-  return (
+  console.log(error)
+ 
+  
+  if (loading && !data?.mostRecentIndicators) {
+    return (
       <>
         <div className="flex bg-bg min-h-screen text-text">
           <div className="border-r border-white/10">
@@ -22,16 +23,35 @@ export default function QuotationDetails() {
           </div>
           <div className="flex flex-col flex-1">
             <NavBar />
-            <LoadingCard nomeCotacao={ticker}/>
+            <LoadingCard nomeCotacao={ticker} />
             <Footer />
           </div>
         </div>
       </>
-    );   
+    );
   }
 
-  if (data?.mostRecentIndicators) {
+  if (error) {
     return (
+      <>
+        <div className="flex bg-bg min-h-screen text-text">
+          <div className="border-r border-white/10">
+            <Sidebar />
+          </div>
+          <div className="flex flex-col flex-1">
+            <NavBar />
+            <NotFoundError nomeCotacao={ticker} />
+            <Footer />
+          </div>
+        </div>
+      </>
+    );
+  }
+
+
+
+
+  return (
       <>
         <div className="flex bg-bg min-h-screen text-text">
           <div className="border-r border-white/10">
@@ -55,25 +75,9 @@ export default function QuotationDetails() {
         </div>
       </>
     );
-  } 
+} 
 
-  if(error)
-  {
-    return (
-      <>
-        <div className="flex bg-bg min-h-screen text-text">
-          <div className="border-r border-white/10">
-            <Sidebar />
-          </div>
-          <div className="flex flex-col flex-1">
-            <NavBar />
-            <NotFoundError nomeCotacao={ticker} />
-            <Footer />
-          </div>
-        </div>
-      </>
-    );
-  }
+
 
   
-}
+
