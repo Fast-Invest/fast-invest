@@ -8,9 +8,7 @@ export function ViewButton({ children, mode, setViewMode, modoAtual }) {
     <button
       onClick={() => setViewMode(mode)}
       className={`min-h-[2.75rem] aspect-square cursor-pointer flex items-center border-2 justify-center rounded-xl ${
-        modoAtual === mode
-          ? "text-[#00ff9c]"
-          : "text-white/20 hover:text-[#00ff9c]"
+        modoAtual === mode ? "text-primary" : "text-white/20 hover:text-primary"
       }`}
     >
       {children}
@@ -135,14 +133,14 @@ export function QuotationViewer({ cotacoes, viewMode }) {
                 <td className="px-4 py-3">R${cotacao.preco}</td>
                 <td
                   className={`px-4 py-3 font-medium ${
-                    cotacao.variacao >= 0 ? "text-[#00ff9c]" : "text-red-500"
+                    cotacao.variacao >= 0 ? "text-primary" : "text-red-500"
                   }`}
                 >
                   {cotacao.variacao.toFixed(2)}%
                 </td>
                 <td className="px-4 py-3 text-white/70">{cotacao.setor}</td>
                 <td>
-                  <span className="bg-[#00ff9c]/10 text-[#00ff9c] text-xs px-2 py-1 rounded-full font-semibold">
+                  <span className="bg-bg/10 text-primary text-xs px-2 py-1 rounded-full font-semibold">
                     {cotacao.tipo}
                   </span>
                 </td>

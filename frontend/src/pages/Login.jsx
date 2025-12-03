@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
-import { useUser } from "../contexts/userContext.jsx"
+import { useUser } from "../contexts/userContext.jsx";
 import "../App.css";
 import authService from "../services/authService.jsx";
 import LinkVoltar from "../components/utils/linkVoltar.jsx";
@@ -14,7 +14,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const {setIsLoggedIn,user} = useUser()
+  const { setIsLoggedIn, user } = useUser();
   const navigate = useNavigate();
 
   const validateEmail = (email) => {
@@ -62,10 +62,10 @@ export default function Login() {
       const resp = await authService.logar({ email: email, senha: password });
       if (resp.status !== 200) {
         toast.error("Erro no login.");
-        setIsLoggedIn(false)
+        setIsLoggedIn(false);
         return;
       }
-      setIsLoggedIn(true)
+      setIsLoggedIn(true);
       navigate("/");
     }
   };

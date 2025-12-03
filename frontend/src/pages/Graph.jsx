@@ -4,21 +4,17 @@ import NavBar from "../components/utils/navBar";
 import Footer from "../components/utils/footer";
 
 export default function Graph() {
-  
-  
-  return(
-      <div className="flex bg-bg min-h-screen text-text">
-        <div className="border-r border-white/10">
-          <Sidebar />
-        </div>
-
-        <div className="flex flex-col flex-1">
-          <NavBar />
-          <ContentGraph/>
-          <Footer />
-        </div>
+  return (
+    <div className="flex bg-bg min-h-screen text-text">
+      <div className="border-r border-white/10">
+        <Sidebar />
       </div>
 
-
+      <div className="flex flex-col flex-1 pl-18">
+        <NavBar />
+        <ContentGraph />
+        <Footer />
+      </div>
+    </div>
   );
 }

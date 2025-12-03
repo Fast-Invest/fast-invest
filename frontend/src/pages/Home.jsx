@@ -11,7 +11,7 @@ function Home() {
         <Sidebar />
       </div>
 
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 pl-18">
         <NavBar />
         <ContentHome />
         <Footer />

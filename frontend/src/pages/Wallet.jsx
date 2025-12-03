@@ -22,7 +22,7 @@ export default function Wallet() {
           <Sidebar />
         </div>
 
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 pl-18">
           <NavBar setCarteiras={setCarteiras} />
           <ContentWallet
             carteiras={carteiras}

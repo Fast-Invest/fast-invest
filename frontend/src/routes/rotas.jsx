@@ -5,12 +5,11 @@ import ForgotPassword from "../pages/ForgotPassword.jsx";
 import Quotation from "../pages/Quotation.jsx";
 import Wallet from "../pages/Wallet.jsx";
 import Graph from "../pages/Graph.jsx";
-import Config from "../pages/Config.jsx";
-import Info from "../pages/Info.jsx";
 import CreateWallet from "../pages/CreateWallet.jsx";
 import UpdateWallet from "../pages/UpdateWallet.jsx";
 import QuotationDetails from "../pages/QuotationDetails.jsx";
 import WalletDetails from "../pages/WalletDetails.jsx";
+import About from "../pages/About.jsx";
 export default function Rotas() {
   return (
     <Routes>
@@ -27,8 +26,7 @@ export default function Rotas() {
       <Route path="/carteira/detalhes" element={<WalletDetails />} />
 
       <Route path="/graficos" element={<Graph />} />
-      <Route path="/configuracoes" element={<Config />} />
-      <Route path="/sobre" element={<Info />} />
+      <Route path="/sobre" element={<About />} />
     </Routes>
   );
 }
