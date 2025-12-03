@@ -91,28 +91,6 @@ export default function QuotationChart({ quotation }) {
   // Dados finais com todos os indicadores
   const chartData = dataWithBB;
 
-  // Função para exportar dados como CSV
-  const exportToCSV = () => {
-    const headers = ["Data", "Preço", "Volume", "RSI"];
-    if (showMA) headers.push("Média Móvel (7)");
-    if (showBB) headers.push("BB Superior", "BB Média", "BB Inferior");
-
-    const rows = chartData.map((item) => {
-      const row = [item.day, item.preco, item.volume, item.rsi];
-      if (showMA) row.push(item.ma || "N/A");
-      if (showBB)
-        row.push(item.bbUpper || "N/A", item.bbMiddle || "N/A", item.bbLower || "N/A");
-      return row.join(",");
-    });
-
-    const csv = [headers.join(","), ...rows].join("\n");
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${quotation.symbol}_dados.csv`;
-    a.click();
-  };
 
   // Cores do tema dark
   const chartColors = {
@@ -371,14 +349,7 @@ export default function QuotationChart({ quotation }) {
           </div>
         </div>
 
-        {/* Botão de Download */}
-        <button
-          onClick={exportToCSV}
-          className="w-full px-4 py-2 bg-primary/20 border border-primary/40 text-primary rounded-lg text-sm font-semibold hover:bg-primary/30 transition-all flex items-center justify-center gap-2"
-        >
-          <Download className="w-4 h-4" />
-          Exportar Dados (CSV)
-        </button>
+
       </div>
 
       {/* Gráfico Principal */}

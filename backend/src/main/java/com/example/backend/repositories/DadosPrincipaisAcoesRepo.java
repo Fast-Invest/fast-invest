@@ -21,8 +21,8 @@ public interface DadosPrincipaisAcoesRepo extends JpaRepository<DadosPrincipaisA
                 dp.longName as nome,
                 dp.regularMarketChangePercent as variacao,
                 dp.regularMarketPrice as preco,
-                COALESCE(dp.sector,'Unknown') as setor,
-                COALESCE(dp.type, "Unkown") as tipo,	
+                COALESCE(dp.sector,'Desconhecido') as setor,
+                COALESCE(dp.type, "Desconhecido") as tipo,	
                 dp.logourl as logo 
             from dados_principais_acoes as dp;
         """,nativeQuery=true)
