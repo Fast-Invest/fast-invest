@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { FaWallet, FaMoneyBillWave, FaInfoCircle } from "react-icons/fa";
 import { GoGraph } from "react-icons/go";
-import { RiSettings3Fill } from "react-icons/ri";
 import fav from "/jpg/favicon.jpg";
 
 export default function Sidebar() {
@@ -38,10 +37,6 @@ export default function Sidebar() {
         <GoGraph
           className={`w-7 h-7 ${iconClass("/graficos")}`}
           onClick={() => navigate("/graficos")}
-        />
-        <RiSettings3Fill
-          className={`w-7 h-7 ${iconClass("/configuracoes")}`}
-          onClick={() => navigate("/configuracoes")}
         />
       </div>
 
