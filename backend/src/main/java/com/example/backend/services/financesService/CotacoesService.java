@@ -102,7 +102,7 @@ public class CotacoesService
     {
         try
         {
-            List<IndicadoresAnual> indicadoresPorAno =  indicadoresAnualRepo.findBySymbol(symbol);
+            List<IndicadoresAnual> indicadoresPorAno =  indicadoresAnualRepo.findBySymbolOrdered(symbol);
             // A razão para as multiplicações é pois estes valores geralmente são dados em porcentagem, logo há necessidade de multiplica-los por 100
             // Assim não terá que ocorrer as multiplicações no frontend e deixará mais leve 
             return indicadoresPorAno.stream()

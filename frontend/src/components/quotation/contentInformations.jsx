@@ -35,8 +35,73 @@ export default function ContentInformations({
   const navigate = useNavigate();
   const variacaoPositiva = cotacao.variacaoValor > 0;
 
+  function exportarCSV() {
+    const ticker = cotacao?.symbol || "dados";
+
+    const dados = {
+      cotacao,
+      perfil,
+      dividendos,
+      historico_indicadores,
+      balanco_anual,
+      balanco_trimestral,
+      dre_anual,
+      dre_trimestral,
+      cashflow_anual,
+      cashflow_trimestral,
+    };
+
+    function toCSV(obj) {
+      if (Array.isArray(obj)) {
+        if (obj.length === 0) return "";
+        const headers = Object.keys(obj[0]);
+        const rows = obj.map((o) =>
+          headers.map((h) => JSON.stringify(o[h] ?? "")).join(",")
+        );
+        return headers.join(",") + "\n" + rows.join("\n");
+      } else {
+        const headers = Object.keys(obj || {});
+        const values = headers.map((h) => JSON.stringify(obj[h] ?? ""));
+        return headers.join(",") + "\n" + values.join(",");
+      }
+    }
+
+    let csv = "";
+
+    csv += "=== COTACAO ===\n" + toCSV(cotacao) + "\n\n";
+    csv += "=== PERFIL ===\n" + toCSV(perfil) + "\n\n";
+    csv +=
+      "=== HISTORICO INDICADORES ===\n" + toCSV(historico_indicadores) + "\n\n";
+    csv +=
+      "=== DIVIDENDOS ===\n" + toCSV(dividendos?.lista || dividendos) + "\n\n";
+    csv += "=== BALANCO ANUAL ===\n" + toCSV(balanco_anual) + "\n\n";
+    csv += "=== BALANCO TRIMESTRAL ===\n" + toCSV(balanco_trimestral) + "\n\n";
+    csv += "=== DRE ANUAL ===\n" + toCSV(dre_anual) + "\n\n";
+    csv += "=== DRE TRIMESTRAL ===\n" + toCSV(dre_trimestral) + "\n\n";
+    csv += "=== CASHFLOW ANUAL ===\n" + toCSV(cashflow_anual) + "\n\n";
+    csv +=
+      "=== CASHFLOW TRIMESTRAL ===\n" + toCSV(cashflow_trimestral) + "\n\n";
+
+    // UTF-8 COM BOM
+    const BOM = "\uFEFF";
+
+    const blob = new Blob([BOM + csv], {
+      type: "text/csv;charset=utf-8;",
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `dados_${ticker}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   return (
-    <div id="info" className="text-text min-h-screen">
+    <div id="info" className="text-text w-full min-h-screen max-w-7xl mx-auto">
+      {/* Breadcrumb */}
       <div className="flex items-center gap-2 px-8 pt-6 text-text-muted">
         <button
           onClick={() => navigate("/")}
@@ -55,6 +120,7 @@ export default function ContentInformations({
         <strong className="text-text font-semibold">{cotacao.symbol}</strong>
       </div>
 
+      {/* Card principal */}
       <div className="mx-8 mt-6 p-10 rounded-xl border border-gray flex justify-between items-center">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-lg overflow-hidden">
@@ -72,7 +138,9 @@ export default function ContentInformations({
                 {perfil?.moeda || "Não encontrado"}
               </span>
             </h1>
-            <p className="text-text-muted mt-1">{perfil?.nome || "Não encontrado"}</p>
+            <p className="text-text-muted mt-1">
+              {perfil?.nome || "Não encontrado"}
+            </p>
           </div>
         </div>
 
@@ -224,8 +292,22 @@ export default function ContentInformations({
         dreTrimestral={dre_trimestral}
         fluxoTrimestral={cashflow_trimestral}
       />
-      <ContentHistory cotacao={cotacao} historico_indicadores={historico_indicadores}/>
-      <ContentDividends historico_indicadores={historico_indicadores} dividends={dividendos} />
+      <ContentHistory
+        cotacao={cotacao}
+        historico_indicadores={historico_indicadores}
+      />
+      <ContentDividends
+        historico_indicadores={historico_indicadores}
+        dividends={dividendos}
+      />
+      <div className="w-full flex justify-center py-10">
+        <button
+          onClick={exportarCSV}
+          className="px-6 py-3 rounded-lg bg-primary text-bg font-semibold hover:bg-primary/80 transition shadow-md"
+        >
+          Exportar CSV
+        </button>
+      </div>
     </div>
   );
 }

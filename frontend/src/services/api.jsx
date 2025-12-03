@@ -7,7 +7,7 @@ export function getCookie(name) {
 }
 
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: "http://localhost:9090",
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
@@ -26,7 +26,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// ✅ Refresh automático com novo CSRF
 api.interceptors.response.use(
   (res) => res,
   async (err) => {

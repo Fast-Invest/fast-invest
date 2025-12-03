@@ -31,7 +31,7 @@ export default function ContentHome() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 1 }}
           >
-            <h1 className="text-4xl md:text-7xl font-bold leading-tight">
+            <h1 className="text-3xl md:text-6xl font-bold leading-tight">
               Investir é comum. <br />
               Investir do <span className="text-primary">seu jeito</span> <br />
               é <span className="text-primary">único</span>
