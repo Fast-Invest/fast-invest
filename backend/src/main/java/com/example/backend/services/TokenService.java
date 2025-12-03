@@ -35,8 +35,7 @@ public class TokenService {
 
     public static String gerarTokenEmail(int tamanho)// gera um token de tamanho especificado
     {
-        StringBuilder token = new StringBuilder(tamanho);// constroi uma string sem caracteres de tamanho maximo
-                                                         // especificado
+        StringBuilder token = new StringBuilder(tamanho);// constroi uma string sem caracteres de tamanho maximo especificado
 
         for (int i = 0; i < tamanho; i++) 
         {
@@ -84,14 +83,14 @@ public class TokenService {
 
             if (!codigo.equals(tokenUsuario)) 
             {
-                return null; // código incorreto
+                return null;
             }
             return email;
 
         } 
         catch (Exception e) 
         {
-            return null; // token inválido ou expirado
+            return null;
         }
     }
 

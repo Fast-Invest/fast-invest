@@ -67,7 +67,6 @@ public class FiltroService
     }
 
 
-    //Mapper do nome/tipo presente no filtro, e nome do atribuyo referente na classe indicadores
 
 
 

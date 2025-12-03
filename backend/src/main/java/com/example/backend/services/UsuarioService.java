@@ -30,7 +30,7 @@ public class UsuarioService
 
 
     /////////////////////////////////////////////////////////////////// Metodo para POST
-    public UsuarioDTO criarUsuario(UsuarioForm form)//basicamente antes é criado um usuario na camada dto, pode validar la
+    public UsuarioDTO criarUsuario(UsuarioForm form)
     {
         if(usuario_repo.existsByEmail(form.getEmail()))
         { 

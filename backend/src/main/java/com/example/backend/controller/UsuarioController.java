@@ -41,7 +41,6 @@ public class UsuarioController
 {
     
 
-    //inicializa o serviço de usuario que realiza o crud em si
     @Autowired
     private UsuarioService service;
 
@@ -67,7 +66,7 @@ public class UsuarioController
     @Operation(summary = "Busca novo usuario no banco pelo id")
     @ApiResponse(responseCode = "200", description = "usuario encontrado")
     @ApiResponse(responseCode = "400", description = "id passado pelo frontend é invalido")
-    @GetMapping("/{id}") //busca o usuario por id
+    @GetMapping("/{id}") 
     public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable Long id)
     {
         UsuarioDTO resp=service.listarUsuarioId(id);
@@ -77,7 +76,7 @@ public class UsuarioController
     @Operation(summary = "Busca um usuario no banco pelo email")
     @ApiResponse(responseCode = "200", description = "usuario encontrado")
     @ApiResponse(responseCode = "400", description = "email passado pelo frontend é invalido")    
-    @GetMapping("/email") //busca o usuario pelo email
+    @GetMapping("/email")
     public ResponseEntity<UsuarioDTO> buscarPorEmail() 
     {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -90,7 +89,7 @@ public class UsuarioController
 
     @Operation(summary = "Busca todos usuarios")
     @ApiResponse(responseCode = "200", description = "usuarios encontrados")
-    @GetMapping //busca todos usuarios
+    @GetMapping 
     public ResponseEntity<List<UsuarioDTO>> buscarUsuarios()
     {
         List<UsuarioDTO> resp=service.listarUsuarios();
@@ -111,7 +110,7 @@ public class UsuarioController
     @Operation(summary = "deleta um usuario baseado no id")
     @ApiResponse(responseCode = "200", description = "usuario deletado com sucesso")
     @ApiResponse(responseCode = "400", description = "usuario não encontrado ou inexistente")
-    @DeleteMapping("/{id}") //deleta por id
+    @DeleteMapping("/{id}") 
     public ResponseEntity<String> deletarPorId(@PathVariable Long id)
     {
         service.deletarUsuarioId(id);
@@ -121,7 +120,7 @@ public class UsuarioController
     @Operation(summary = "deleta um usuario baseado no email")
     @ApiResponse(responseCode = "200", description = "usuario deletado com sucesso")
     @ApiResponse(responseCode = "400", description = "usuario não encontrado ou inexistente")    
-    @DeleteMapping("/email") //deleta por email
+    @DeleteMapping("/email") 
     public ResponseEntity<String> deletarPorEmail(@RequestBody String email)
     {
         service.deletarUsuarioEmail(email);

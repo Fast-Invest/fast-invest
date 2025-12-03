@@ -47,7 +47,7 @@ public class JwtFilter extends OncePerRequestFilter
 
         String token = cookieUtils.ExtrairTokenDoCookie(request, "ACCESS-TOKEN");
 
-        var authContext = SecurityContextHolder.getContext().getAuthentication(); //verifica se ja existe autenticação, pq se ja ter autenticar de novo é perda de tempo
+        var authContext = SecurityContextHolder.getContext().getAuthentication(); 
         if (token != null && (authContext == null || authContext instanceof AnonymousAuthenticationToken))
         {
             String email = jwtService.validarTokenAcesso(token); //extrai o email do token
@@ -69,7 +69,7 @@ public class JwtFilter extends OncePerRequestFilter
 
 
 
-    // não aplicar o filtro nas rotas passadas ali
+    // não aplicar o filtro nas rotas passadas aki, ou diretamente colocadas como liberadas no security
     @Override
     protected boolean shouldNotFilter(@NonNull HttpServletRequest request) 
     {

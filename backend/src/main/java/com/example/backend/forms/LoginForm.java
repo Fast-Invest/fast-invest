@@ -15,7 +15,6 @@ public class LoginForm
     @NotBlank(message = "O email é obrigatorio") @Email(message="Email deve ser valido") //validacao
     private String email;
 
-    //regex da senha em teoria diz pelo menos 1 letra maiuscula, pelo menos 1 letra minuscula, pelo menos 1 numero e pelo menos 1 caracter especial
     @NotBlank(message = "A senha é obrigatoria")
     private String senha;
  

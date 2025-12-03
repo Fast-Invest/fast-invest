@@ -21,7 +21,7 @@ public class CookieUtils
                                               .secure(false)     // so usa isso como true se for ter https 
                                               .path("/")           // dominio/caminho base
                                               .maxAge(tempoMax)         // tempo de expiracao
-                                              .sameSite("Lax") //
+                                              .sameSite("Lax") 
                                               .build();
         resp.addHeader("Set-Cookie", cookie.toString());
     }

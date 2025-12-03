@@ -98,7 +98,7 @@ public class SecurityConfig
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
             )
-            .addFilterAfter(new CsrfCookieFilter(), UsernamePasswordAuthenticationFilter.class) // ✅ FIX 2
+            .addFilterAfter(new CsrfCookieFilter(), UsernamePasswordAuthenticationFilter.class) 2
             .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

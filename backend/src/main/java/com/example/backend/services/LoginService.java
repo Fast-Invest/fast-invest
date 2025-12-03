@@ -42,7 +42,7 @@ public class LoginService
         if (valido)
         { //sendo a senha valida
             UsuarioDTO resp = mapper.toResponse(usuario); //mapeia pro usuario de resposta
-            return resp ;//retorna 200 pro cliente
+            return resp ;
         }
 
 

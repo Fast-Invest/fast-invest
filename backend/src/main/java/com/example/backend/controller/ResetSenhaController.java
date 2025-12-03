@@ -32,7 +32,6 @@ import com.example.backend.forms.ResetSenhaForm;
 public class ResetSenhaController 
 {
     
-    //inicializa o serviço de envio de email
     @Autowired
     private EmailService mailService;
 
@@ -52,11 +51,11 @@ public class ResetSenhaController
         try
         {
             TokenPair tokens = tokenService.gerarToken(form.getEmail());
-            mailService.enviarEmail(form.getEmail(),tokens.tokenUsuario() );                        // envia o email com o token
-            return ResponseEntity.status(HttpStatus.OK).body(tokens.tokenSeguranca());     // se nao deu erro confirma que foi enviado
+            mailService.enviarEmail(form.getEmail(),tokens.tokenUsuario() );                        
+            return ResponseEntity.status(HttpStatus.OK).body(tokens.tokenSeguranca());     
         }
         catch(Exception ex)
-        { //se der erro cai aqui e retira
+        { 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro interno: " + ex.getMessage());
         }
 

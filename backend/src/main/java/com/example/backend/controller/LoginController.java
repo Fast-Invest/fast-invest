@@ -1,8 +1,5 @@
 package com.example.backend.controller;
 
-
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -11,7 +8,6 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +23,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import com.example.backend.dto.UsuarioDTO;
 import com.example.backend.exceptions.TokenInvalido;
-import com.example.backend.forms.FiltroForm;
 import com.example.backend.forms.LoginForm;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -66,7 +61,7 @@ public class LoginController
     @Operation(summary = "Faz o login do usuário")
     @ApiResponse(responseCode ="200", description = "Usuario encontrado com sucesso")
     @ApiResponse(responseCode ="400", description = "Usuario envio credenciais invalidas")
-    @PostMapping("/login") //Metodo POST
+    @PostMapping("/login") 
     public ResponseEntity<UsuarioDTO> logar(@RequestBody @Valid LoginForm form,HttpServletResponse response)
     {    
         UsuarioDTO resp  = loginService.logar_usuario(form); //recebe o usuario, o logar usuario ja checa a senha tbm. Em caso de usuario não encontrado retorna null
@@ -90,7 +85,7 @@ public class LoginController
     @Operation(summary = "Reseta os tokens jwt e csrf do usuario")
     @ApiResponse(responseCode ="200", description = "Token resetado com sucesso")
     @ApiResponse(responseCode ="401", description = "Sem permissão pois o token está invalido ou expirado")
-    @PostMapping("/refresh") //Metodo POST
+    @PostMapping("/refresh") 
     public ResponseEntity<String> refresh(@CookieValue(name = "REFRESH-TOKEN", defaultValue = "") String refreshToken,HttpServletResponse response)
     {   
         // Se o token estiver vazio ou não presente retorna 401, não autorizado
@@ -116,10 +111,9 @@ public class LoginController
 
     @Operation(summary = "Realiza o logout do usuario")
     @ApiResponse(responseCode = "200", description = "Retira os cookies e assim desloga o usuario")
-    @PostMapping("/logout") //Metodo POST
+    @PostMapping("/logout") 
     public ResponseEntity<String> sair(HttpServletResponse response)
     {   
-        // Deleta os cookies
         cookieUtils.deletarCookie(response, "ACCESS-TOKEN");
         cookieUtils.deletarCookie(response, "REFRESH-TOKEN");
         //cookieUtils.deletarCookie(response,  "XSRF-TOKEN");
@@ -135,24 +129,6 @@ public class LoginController
     }
 
 
-    @PostMapping("teste/{carteiraId}")
-    public ResponseEntity<Object> criarfiltro(@RequestBody @Valid ArrayList<FiltroForm> filtros, @PathVariable Long carteiraId)
-    {
-        try
-        {
-            System.out.println("Tipo de filtros: " + filtros.getClass().getName());
-            System.out.println("Conteúdo de filtros: " + filtros);
-            System.out.println("id carteira: "+carteiraId);
-            // List<Filtro> resp = filtroService.AdicionarFiltros(filtros, carteiraId);
-            // return ResponseEntity.status(HttpStatus.CREATED).body(resp);
-            throw new Exception();
-        }    
-        catch(Exception e)
-        { 
-            System.out.println("Erro ao processar filtros: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
-
+ 
 
 }
