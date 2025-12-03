@@ -1,16 +1,28 @@
 import QuotationChart from "./QuotationChart";
 import { X, TrendingUp  } from "lucide-react";
-// import { FaArrowRight } from "react-icons/fa";
-// import { useNavigate } from 'react-router-dom'
+import { FaWallet, FaArrowRight } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom'
 
 export function WalletErrorDiv(){ 
     return(
-        <div className="flex items-center justify-center h-96">
-            <div className="text-center">
-                <p className="text-red-400 text-lg mb-4">❌ Erro ao carregar cotações</p>
-                <p className="text-gray-400">{error}</p>
+    <div className="flex justify-center items-center p-10">
+
+        <div className="flex justify-center flex-col items-center rounded-xl border-2 border-primary-dark p-12 shadow-lg shadow-primary/30 gap-4">
+            
+            <div className="w-full justify-center flex flex-row">
+                    <FaWallet size={50} className="text-red-500" /><span className="text-red-500 text-5xl font-extrabold ml-8">Erro ao carregar cotações</span>
             </div>
-        </div>        
+
+            <div>
+              <p className=" text-primary-dark font-bold text-3xl"></p>
+            </div>  
+            <div>
+              <p className=" text-white font-bold text-3xl">Servidor fora do ar, nenhuma ação encontrada</p>
+            </div>
+            
+        </div>
+
+    </div> 
     );
 }
 
@@ -39,7 +51,7 @@ return(
             {allQuotations.map((quotation) => (
                 <div
                     key={quotation.id}
-                    className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-2xl shadow-lg shadow-primary/10 hover:shadow-primary/30 hover:border-primary/60 transition-all duration-300 p-6 group"
+                    className="bg-bg-card from-gray-900 to-black border border-primary/30 rounded-2xl shadow-lg shadow-primary/10 hover:shadow-primary/30 hover:border-primary/60 transition-all duration-300 p-6 group"
                 >
                     {/* Header Card */}
                     <div className="flex items-start justify-between mb-6">
@@ -230,7 +242,7 @@ return(
 
 
 export function WalletQuotationDetailModal({ selectedQuotation, formatNumber, handleCloseModal }){
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
     return(
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
         <div className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-2xl shadow-2xl shadow-primary/20 max-w-2xl w-full max-h-[90vh] custom-overflow">
@@ -246,13 +258,13 @@ export function WalletQuotationDetailModal({ selectedQuotation, formatNumber, ha
 
                 </div>
 
-{/* 
+ 
                 
                 
                 <div onClick={() => navigate(`/cotacoes/${selectedQuotation.symbol}`)}  className="flex flex-row justify-center bg-primary hover:bg-primary-dark text-black p-2 rounded-2xl cursor-pointer transition-all duration-300 transform hover:scale-105 active:outline-none active:ring-4 active:ring-primary/50">
                     <FaArrowRight size={25} /> 
                     <p className="font-extrabold">Página da cotação</p>
-                </div> */}
+                </div> 
 
                 <button
                     onClick={handleCloseModal}
