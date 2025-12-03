@@ -44,6 +44,7 @@ public class CotacaoController
     public ResponseEntity<CotacaoPerfilProjection> retornarCotacaoOutros(@PathVariable String ticker) 
     {
         CotacaoPerfilProjection resp = cotacaoService.dadosRestantes(ticker);
+        System.out.println(resp);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }    
 

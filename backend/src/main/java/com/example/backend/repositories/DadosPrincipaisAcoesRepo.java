@@ -38,8 +38,8 @@ public interface DadosPrincipaisAcoesRepo extends JpaRepository<DadosPrincipaisA
             dpe.country AS pais,
             dp.currency AS moeda,
             dp.logourl AS logo
-        LEFT FROM dados_principais_acoes AS dp
-        JOIN dados_perfil_empresa AS dpe ON dp.symbol=dpe.symbol
+        FROM dados_principais_acoes AS dp
+        LEFT JOIN dados_perfil_empresa AS dpe ON dp.symbol=dpe.symbol
         where dp.symbol=:symbol ;
         """,nativeQuery=true)
     Optional<CotacaoPerfilProjection> buscarDadosPerfilCotacao(String symbol);

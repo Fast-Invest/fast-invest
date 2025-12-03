@@ -18,7 +18,7 @@ export default function ContentFinancialStatement({ balanco, dre, fluxo }) {
         empresa
       </p>
 
-      <div className="flex w-full mt-8 rounded-xl overflow-hidden border border-gray">
+      <div className="flex w-full mt-8 rounded-xl overflow-x-scroll max-w-screen border border-gray">
         <button
           onClick={() => setActiveTab("balanco")}
           className={`flex items-center justify-center gap-2 py-3 flex-1 transition ${
@@ -56,7 +56,7 @@ export default function ContentFinancialStatement({ balanco, dre, fluxo }) {
         </button>
       </div>
 
-      <div className="mt-10 bg-card p-6 rounded-2xl border border-gray">
+      <div className="mt-10 bg-card p-6 rounded-2xl border border-gray overflow-x-scroll max-w-screen">
         {activeTab === "balanco" && <BalancoTable data={balanco} />}
         {activeTab === "dre" && <DRETable data={dre} />}
         {activeTab === "fluxo" && <FluxoTable data={fluxo} />}

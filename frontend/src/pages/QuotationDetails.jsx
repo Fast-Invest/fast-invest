@@ -10,7 +10,6 @@ import { useQuotationDetails } from "../hooks/useQuotationDetails";
 export default function QuotationDetails() {
   const { ticker } = useParams();
   const { loading, error, data } = useQuotationDetails(ticker);
-  console.log(error);
 
   if (loading && !data?.mostRecentIndicators) {
     return (

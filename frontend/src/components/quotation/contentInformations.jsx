@@ -22,6 +22,7 @@ import ContentDividends from "./contentDividends";
 
 export default function ContentInformations({
   cotacao,
+  historico_indicadores,
   perfil,
   balanco_anual,
   balanco_trimestral,
@@ -32,7 +33,6 @@ export default function ContentInformations({
   dividendos,
 }) {
   const navigate = useNavigate();
-
   const variacaoPositiva = cotacao.variacaoValor > 0;
 
   return (
@@ -52,27 +52,27 @@ export default function ContentInformations({
           Cotações
         </button>
         <FaChevronRight size={12} />
-        <strong className="text-text font-semibold">{perfil.symbol}</strong>
+        <strong className="text-text font-semibold">{cotacao.symbol}</strong>
       </div>
 
       <div className="mx-8 mt-6 p-10 rounded-xl border border-gray flex justify-between items-center">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-lg overflow-hidden">
             <img
-              src={perfil.logo}
-              alt={perfil.nome}
+              src={perfil?.logo}
+              alt={perfil?.nome || "nao encontrado"}
               className="w-full h-full object-cover"
             />
           </div>
 
           <div>
             <h1 className="text-3xl font-semibold flex items-center gap-2">
-              {perfil.symbol}
+              {cotacao.symbol}
               <span className="text-xs bg-gray px-2 py-1 rounded">
-                {perfil.moeda}
+                {perfil?.moeda || "Não encontrado"}
               </span>
             </h1>
-            <p className="text-text-muted mt-1">{perfil.nome}</p>
+            <p className="text-text-muted mt-1">{perfil?.nome || "Não encontrado"}</p>
           </div>
         </div>
 
@@ -144,7 +144,7 @@ export default function ContentInformations({
               <span className="flex items-center gap-2">
                 <FaBuilding /> Nome
               </span>
-              <span className="text-text">{perfil.nome || "N/A"}</span>
+              <span className="text-text">{perfil?.nome || "N/A"}</span>
             </li>
 
             <li className="flex justify-between border-b border-gray pb-3">
@@ -161,7 +161,7 @@ export default function ContentInformations({
                 <BsBuildingsFill /> Endereço
               </span>
               <span className="text-text max-w-sm text-right">
-                {perfil.endereco || "N/A"}
+                {perfil?.endereco || "N/A"}
               </span>
             </li>
 
@@ -224,8 +224,8 @@ export default function ContentInformations({
         dreTrimestral={dre_trimestral}
         fluxoTrimestral={cashflow_trimestral}
       />
-      <ContentHistory cotacao={cotacao} />
-      <ContentDividends dividends={dividendos} />
+      <ContentHistory cotacao={cotacao} historico_indicadores={historico_indicadores}/>
+      <ContentDividends historico_indicadores={historico_indicadores} dividends={dividendos} />
     </div>
   );
 }

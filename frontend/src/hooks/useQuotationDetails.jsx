@@ -50,7 +50,6 @@ async function getData(ticker, setState) {
     if (!mostRecentIndicators?.dados_acao) {
       throw new Error("Cotação não encontrada");
     }
-    console.log("teste", perfilCotacao?.profile);
     setState({
       loading: false,
       error: null,

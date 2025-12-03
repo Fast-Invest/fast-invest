@@ -98,6 +98,7 @@
   scrollbar-color: var(--color-primary-dark) transparent;
 }
 .html-scroller{
+  background: #15151A;
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary-dark) var(--color-bg-card) ;
 }
