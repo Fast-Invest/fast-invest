@@ -8,10 +8,8 @@ export default function ContentHome() {
 
   return (
     <div className="flex flex-col">
-      {/* === Seção 1: Banner (Imagem + Texto) === */}
       <section className="flex flex-1 items-center justify-center bg-bg px-6 py-10 min-h-screen">
         <div className="flex flex-col md:flex-row items-center justify-between gap-24 max-w-[1600px] w-full">
-          {/* Imagem com glow */}
           <div className="flex-1 flex justify-center relative">
             <div className="absolute w-[400px] h-[400px] bg-primary/20 rounded-full blur-[120px]"></div>
             <motion.img
@@ -24,7 +22,6 @@ export default function ContentHome() {
             />
           </div>
 
-          {/* Texto */}
           <motion.div
             className="flex-1 text-center"
             initial={{ opacity: 0, y: 50 }}
@@ -49,9 +46,7 @@ export default function ContentHome() {
         </div>
       </section>
 
-      {/* === Seção 2: Informações === */}
       <section className="bg-bg px-6 py-20 flex flex-col items-center gap-20 max-w-[1600px] mx-auto w-full">
-        {/* Nossa Proposta */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start w-full"
           initial={{ opacity: 0, y: 60 }}
@@ -99,7 +94,6 @@ export default function ContentHome() {
           </div>
         </motion.div>
 
-        {/* Texto O que é o Fast Invest */}
         <motion.div
           className="text-center max-w-4xl"
           initial={{ opacity: 0, y: 60 }}
@@ -119,7 +113,6 @@ export default function ContentHome() {
           </p>
         </motion.div>
 
-        {/* Cards superiores */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full md:w-auto self-start"
           initial={{ opacity: 0, y: 60 }}

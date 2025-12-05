@@ -12,11 +12,10 @@ const api = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-// ✅ Deixa o Axios cuidar do XSRF sozinho
+// Deixa o Axios cuidar do XSRF sozinho
 api.defaults.xsrfCookieName = "XSRF-TOKEN";
 api.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
 
-// ✅ Logs úteis
 api.interceptors.request.use((config) => {
   const token = getCookie("XSRF-TOKEN");
   if (token && !config.headers["X-XSRF-TOKEN"]) {
@@ -49,7 +48,6 @@ api.interceptors.response.use(
   }
 );
 
-// ✅ Force fetch CSRF at startup
 api.get("/auth/csrf").catch(() => {});
 
 export default api;

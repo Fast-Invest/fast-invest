@@ -82,7 +82,6 @@ export default function ContentInformations({
     csv +=
       "=== CASHFLOW TRIMESTRAL ===\n" + toCSV(cashflow_trimestral) + "\n\n";
 
-    // UTF-8 COM BOM
     const BOM = "\uFEFF";
 
     const blob = new Blob([BOM + csv], {
@@ -101,7 +100,6 @@ export default function ContentInformations({
 
   return (
     <div id="info" className="text-text w-full min-h-screen max-w-7xl mx-auto">
-      {/* Breadcrumb */}
       <div className="flex items-center gap-2 px-8 pt-6 text-text-muted">
         <button
           onClick={() => navigate("/")}
@@ -120,7 +118,6 @@ export default function ContentInformations({
         <strong className="text-text font-semibold">{cotacao.symbol}</strong>
       </div>
 
-      {/* Card principal */}
       <div className="mx-8 mt-6 p-10 rounded-xl border border-gray flex justify-between items-center">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-lg overflow-hidden">

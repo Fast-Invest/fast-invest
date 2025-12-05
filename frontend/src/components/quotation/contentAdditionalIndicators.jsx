@@ -21,7 +21,6 @@ export default function ContentAdditionalIndicators({ cotacao }) {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
-        {/* ENDIVIDAMENTO */}
         <div className="bg-card p-6 rounded-2xl border border-gray">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
             <FaShieldAlt className="text-primary" />
@@ -43,7 +42,6 @@ export default function ContentAdditionalIndicators({ cotacao }) {
           </div>
         </div>
 
-        {/* EFICIÊNCIA */}
         <div className="bg-card p-6 rounded-2xl border border-gray">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
             <FaBolt className="text-primary" />
@@ -70,7 +68,6 @@ export default function ContentAdditionalIndicators({ cotacao }) {
           ))}
         </div>
 
-        {/* RENTABILIDADE */}
         <div className="bg-card p-6 rounded-2xl border border-gray">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
             <FaChartLine className="text-primary" />
@@ -96,7 +93,6 @@ export default function ContentAdditionalIndicators({ cotacao }) {
           ))}
         </div>
 
-        {/* CRESCIMENTO */}
         <div className="p-6 rounded-2xl border border-gray">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
             <MdOutlineShowChart className="text-primary" />

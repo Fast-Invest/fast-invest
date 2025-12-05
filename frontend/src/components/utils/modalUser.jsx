@@ -1,4 +1,4 @@
-import authService from "../../services/authService"
+import authService from "../../services/authService";
 export default function ModalUser({
   nome,
   email,
@@ -6,7 +6,7 @@ export default function ModalUser({
   onClose,
   isLogged,
   setIsLogged,
-  setCarteiras
+  setCarteiras,
 }) {
   // const [showPassword, setShowPassword] = useState(false);
   // const password = "minhasenha123";
@@ -18,9 +18,12 @@ export default function ModalUser({
         console.log("erro:", resp.message);
         return;
       }
-      console.log("fez logout")
+      console.log("fez logout");
       setIsLogged(false);
-      if(setCarteiras) setCarteiras([{id: 0,nome: "Carteira Tutorial", data: "12/05/2024",filtros: [],},])
+      if (setCarteiras)
+        setCarteiras([
+          { id: 0, nome: "Carteira Tutorial", data: "12/05/2024", filtros: [] },
+        ]);
       onClose();
     } catch (error) {
       console.log("error:", error);
@@ -49,11 +52,15 @@ export default function ModalUser({
         <div className="space-y-4">
           <div>
             <p className="text-text-muted text-sm">Nome:</p>
-            <p className="text-text text-lg font-medium">{isLogged ? nome : "Usuário"}</p>
+            <p className="text-text text-lg font-medium">
+              {isLogged ? nome : "Usuário"}
+            </p>
           </div>
           <div>
             <p className="text-text-muted text-sm">Email:</p>
-            <p className="text-text text-lg font-medium">{isLogged ? email : "emailexamplo@gmail.com"}</p>
+            <p className="text-text text-lg font-medium">
+              {isLogged ? email : "emailexamplo@gmail.com"}
+            </p>
           </div>
           {/* <div>
             <p className="text-text-muted text-sm">Senha:</p>
@@ -72,7 +79,6 @@ export default function ModalUser({
           <div>
             <p className="text-text-muted text-sm">Carteiras Criadas:</p>
             <p className="text-text text-lg font-medium">{numCarteiras}</p>
-            {/* TODO: Chamar função para obter o número real de carteiras */}
           </div>
 
           <div>

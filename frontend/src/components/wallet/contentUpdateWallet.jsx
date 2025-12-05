@@ -98,7 +98,6 @@ export default function ContentUpdateWallet({ carteira }) {
         }}
       />
 
-      {/* Hero */}
       <motion.div
         className="text-center mb-10"
         initial={{ opacity: 0, y: -30 }}
@@ -117,7 +116,6 @@ export default function ContentUpdateWallet({ carteira }) {
         </p>
       </motion.div>
 
-      {/* Input Nome Carteira */}
       <div className="flex justify-center mt-6 mb-8">
         <div className="relative w-full max-w-md">
           <FaWallet className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
@@ -133,7 +131,6 @@ export default function ContentUpdateWallet({ carteira }) {
         </div>
       </div>
 
-      {/* Indicadores */}
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 max-w-[1500px] mx-auto relative"
         initial={{ opacity: 0, y: 30 }}
@@ -168,7 +165,6 @@ export default function ContentUpdateWallet({ carteira }) {
               </div>
             </div>
 
-            {/* Slider */}
             <Range
               step={0.5}
               min={min}
@@ -212,7 +208,6 @@ export default function ContentUpdateWallet({ carteira }) {
               }}
             />
 
-            {/* Inputs */}
             <div className="flex justify-between mt-3 text-gray-400 text-sm font-medium gap-2">
               <input
                 value={valores[nome][0]}
@@ -237,7 +232,6 @@ export default function ContentUpdateWallet({ carteira }) {
         ))}
       </motion.div>
 
-      {/* Botões */}
       <div className="flex justify-center gap-6 mt-16">
         <motion.button
           onClick={() => navigate("/carteira")}

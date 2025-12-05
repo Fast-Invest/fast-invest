@@ -9,7 +9,6 @@ import toast, { Toaster } from "react-hot-toast";
 import indicadores from "./indicadores";
 import { useUser } from "../../contexts/userContext";
 export default function ContentCreateWallet() {
-  //TODO: atualizar o estado das carteiras para o contentWallet
   const { user, setWallet } = useUser();
 
   const initialState = Object.fromEntries(
@@ -137,7 +136,6 @@ export default function ContentCreateWallet() {
         </div>
       </div>
 
-      {/* Indicadores */}
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 max-w-[1500px] mx-auto relative"
         initial={{ opacity: 0, y: 30 }}
@@ -172,7 +170,6 @@ export default function ContentCreateWallet() {
               </div>
             </div>
 
-            {/* Slider */}
             <Range
               step={0.5}
               min={min}
@@ -216,7 +213,6 @@ export default function ContentCreateWallet() {
               }}
             />
 
-            {/* Inputs */}
             <div className="flex justify-between mt-3 text-gray-400 text-sm font-medium gap-2">
               <input
                 value={valores[nome][0]}
@@ -241,7 +237,6 @@ export default function ContentCreateWallet() {
         ))}
       </motion.div>
 
-      {/* Botões */}
       <div className="flex justify-center gap-6 mt-16">
         <motion.button
           onClick={() => navigate("/carteira")}

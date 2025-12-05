@@ -56,17 +56,14 @@ export default function TokenFase({ mudarEtapa, tokenSeguranca }) {
 
   return (
     <>
-      {/* Toaster com o estilo*/}
       <Toaster
         position="top-right"
         toastOptions={{
-          // Estilos padrão para todos os toasts
           style: {
             background: "#15151a",
             color: "#fff",
             border: `1px solid #00ff9c`,
           },
-          // Estilos específicos para cada tipo de toast
           success: {
             style: {
               border: `1px solid #00ff9c`,

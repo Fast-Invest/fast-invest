@@ -66,7 +66,6 @@ export default function ContentDividends({
     dyTTM = ((sumLast12 / precoAtual) * 100).toFixed(2);
   }
 
-  // total do ano: prioriza dividends.totalAno, senão soma rates com paymentDate no ano atual
   const currentYear = new Date().getFullYear();
   const totalAno =
     dividends?.totalAno !== undefined && dividends?.totalAno !== null
@@ -88,7 +87,6 @@ export default function ContentDividends({
 
   return (
     <div id="dividendos" className="w-full text-white mt-16 p-8">
-      {/* Título */}
       <h2 className="text-2xl font-semibold mb-1 flex items-center gap-2">
         <span className="text-primary text-3xl">$</span> Histórico de Dividendos
       </h2>
@@ -96,7 +94,6 @@ export default function ContentDividends({
         Análise dos dividendos pagos ao longo dos anos
       </p>
 
-      {/* Cards superiores */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
         <div className="p-5 border border-gray-700 rounded-xl">
           <p className="text-gray-400 text-sm">Último Dividendo</p>
@@ -125,13 +122,10 @@ export default function ContentDividends({
         </div>
       </div>
 
-      {/* Gráfico: coloquei o chart diretamente no container com h-80 (ResponsiveContainer precisa disso) */}
       <div className="w-full h-80 border border-gray-700 rounded-xl overflow-hidden">
-        {/* renderiza chart só se houver historico; o próprio ContentDividendsChart deve lidar com validação */}
         <ContentDividendsChart historico_indicadores={historico_indicadores} />
       </div>
 
-      {/* Tabela histórica */}
       <div className="mt-10 border border-gray-700 rounded-xl p-6">
         <h3 className="text-lg font-semibold mb-4">Histórico de Pagamentos</h3>
         <p className="text-gray-400 text-sm mb-6">

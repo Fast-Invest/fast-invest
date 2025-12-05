@@ -7,7 +7,6 @@ export default function Footer()
   return (
     <footer className="bg-black text-gray-300 py-10">
       <div className="container mx-auto px-6 lg:px-20 flex flex-col lg:flex-row justify-between gap-8">
-        {/* Logo e descrição */}
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl font-bold text-green-400">Fast Invest</h1>
           <p className="max-w-xs text-gray-400">
@@ -16,7 +15,6 @@ export default function Footer()
           </p>
         </div>
 
-        {/* Call to Action */}
         <div className="flex flex-col gap-4">
           <h2 className="text-lg font-semibold text-white">
             Pronto para investir?

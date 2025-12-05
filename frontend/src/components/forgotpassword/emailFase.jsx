@@ -29,17 +29,14 @@ export default function EmailFase({
   };
   return (
     <>
-      {/* Toaster com o estilo*/}
       <Toaster
         position="top-right"
         toastOptions={{
-          // Estilos padrão para todos os toasts
           style: {
             background: "#15151a",
             color: "#fff",
             border: `1px solid #00ff9c`,
           },
-          // Estilos específicos para cada tipo de toast
           success: {
             style: {
               border: `1px solid #00ff9c`,
@@ -61,7 +58,6 @@ export default function EmailFase({
         }}
       />
 
-      {/* Lado Direito: Formulário */}
       <div className="w-full max-w-md">
         <h2 className="text-4xl font-bold text-text mb-8 text-center border-2-primary">
           Insira seu email para recuperar a senha

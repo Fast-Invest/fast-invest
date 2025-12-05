@@ -47,7 +47,6 @@ export default function ContentValuation({ cotacao }) {
           </div>
         </div>
 
-        {/* MULTIPLOS DE PREÇO */}
         <div className="bg-card p-6 rounded-2xl border border-gray">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
             <FaCalculator className="text-primary" />
@@ -76,7 +75,6 @@ export default function ContentValuation({ cotacao }) {
           ))}
         </div>
 
-        {/* INDICADORES POR AÇÃO */}
         <div className="bg-card p-6 rounded-2xl border border-gray">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
             <BsCurrencyDollar className="text-primary" />
@@ -105,7 +103,6 @@ export default function ContentValuation({ cotacao }) {
         </div>
       </div>
 
-      {/* ENTERPRISE VALUE */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
         <div className="bg-card p-6 rounded-2xl border border-gray">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
@@ -134,7 +131,6 @@ export default function ContentValuation({ cotacao }) {
           ))}
         </div>
 
-        {/* FLUXO DE CAIXA */}
         <div className="bg-card p-6 rounded-2xl border border-gray">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
             <MdOutlineShowChart className="text-primary" />
@@ -162,7 +158,6 @@ export default function ContentValuation({ cotacao }) {
           </div>
         </div>
 
-        {/* VALOR DE MERCADO */}
         <div className="bg-card p-6 rounded-2xl border border-gray">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
             <LuCoins className="text-primary" />

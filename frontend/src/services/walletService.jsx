@@ -108,12 +108,12 @@ async function adicionarFiltro(data, carteiraId) {
 
 async function aplicarFiltros(carteiraId) {
   try {
-    
     const resp = await api.get(`/filtro/filtragem/${carteiraId}`);
-    
 
     // Verificar a estrutura da resposta
-    const filtros = Array.isArray(resp.data) ? resp.data : resp.data?.filtros || [];
+    const filtros = Array.isArray(resp.data)
+      ? resp.data
+      : resp.data?.filtros || [];
 
     return {
       message: "Ações buscadas com base nos filtros passados",

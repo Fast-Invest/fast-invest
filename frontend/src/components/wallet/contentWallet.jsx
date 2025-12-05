@@ -45,7 +45,7 @@ export default function ContentWallet({ carteiras, setCarteiras, userId }) {
           },
         }}
       />
-      {/* Hero*/}
+
       <motion.div
         className="text-center m-10 relative z-10"
         initial={{ opacity: 0, y: -40 }}
@@ -64,7 +64,6 @@ export default function ContentWallet({ carteiras, setCarteiras, userId }) {
         </p>
       </motion.div>
 
-      {/* Cards de carteiras */}
       <section className="max-w-[1600px] mx-auto w-full flex flex-col gap-20 items-center relative z-10">
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 w-full"
@@ -81,9 +80,10 @@ export default function ContentWallet({ carteiras, setCarteiras, userId }) {
                 shadow-lg shadow-primary/20 hover:shadow-primary/60 hover:-translate-y-2 
                 transition-all duration-300 backdrop-blur-md relative overflow-hidden"
               whileHover={{ scale: 1.02 }}
-              onClick={() => navigate(`/carteira/detalhes`,{state: { wallet: carteira }})}
+              onClick={() =>
+                navigate(`/carteira/detalhes`, { state: { wallet: carteira } })
+              }
             >
-              {/* Brilho animado */}
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-10 
                   bg-gradient-to-r from-primary via-green-400 to-blue-400 
@@ -93,7 +93,6 @@ export default function ContentWallet({ carteiras, setCarteiras, userId }) {
               <div className="flex justify-between items-center mb-4 relative">
                 <FaWallet className="text-primary text-3xl drop-shadow-lg" />
 
-                {/* Botão de menu ⋮ */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation(); // evita navegação
@@ -104,7 +103,6 @@ export default function ContentWallet({ carteiras, setCarteiras, userId }) {
                   <BsThreeDotsVertical className="text-2xl" />
                 </button>
 
-                {/* Menu suspenso */}
                 {menuAberto && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
@@ -154,7 +152,6 @@ export default function ContentWallet({ carteiras, setCarteiras, userId }) {
             </motion.div>
           ))}
 
-          {/* Card para criar nova carteira */}
           <motion.div
             className="cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-primary rounded-2xl p-8 text-center hover:bg-primary/10 hover:-translate-y-2 transition-all duration-300 backdrop-blur-md"
             onClick={() => navigate("/carteira/criarcarteira")}

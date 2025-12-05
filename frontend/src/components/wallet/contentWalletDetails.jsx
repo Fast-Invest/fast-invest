@@ -5,7 +5,12 @@ import {
   FaAngleRight,
   FaAngleLeft,
 } from "react-icons/fa";
-import { WalletErrorDiv, WalletLoadingDiv, WalletQuotationDetailModal,WalletQuotations  } from "./functionsWallet"
+import {
+  WalletErrorDiv,
+  WalletLoadingDiv,
+  WalletQuotationDetailModal,
+  WalletQuotations,
+} from "./functionsWallet";
 import walletService from "../../services/walletService";
 
 export default function ContentWalletDetails({ wallet }) {
@@ -17,9 +22,8 @@ export default function ContentWalletDetails({ wallet }) {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
 
-  const quotationsPerPage=10;
+  const quotationsPerPage = 10;
   const totalPages = Math.ceil(allQuotations.length / quotationsPerPage);
-
 
   useEffect(() => {
     if (page > totalPages && totalPages > 0) {
@@ -29,10 +33,9 @@ export default function ContentWalletDetails({ wallet }) {
     }
   }, [page, totalPages]);
 
-
   const startIndex = (page - 1) * quotationsPerPage;
   const endIndex = startIndex + quotationsPerPage;
-  const currentQuotations = allQuotations.slice(startIndex, endIndex-1);
+  const currentQuotations = allQuotations.slice(startIndex, endIndex - 1);
 
   const getPageNumbers = () => {
     const maxPagesToShow = 5;
@@ -126,11 +129,10 @@ export default function ContentWalletDetails({ wallet }) {
     </div>
   );
 
-
-
-  
-
-  const formatNumber = (value,decimals = 2,placeholder = "N/A") => value === null || value === undefined || Number.isNaN(value) ? placeholder : Number(value).toFixed(decimals);
+  const formatNumber = (value, decimals = 2, placeholder = "N/A") =>
+    value === null || value === undefined || Number.isNaN(value)
+      ? placeholder
+      : Number(value).toFixed(decimals);
   useEffect(() => {
     const getFilteredQuotations = async (walletId) => {
       try {
@@ -139,7 +141,6 @@ export default function ContentWalletDetails({ wallet }) {
 
         const resp = await walletService.aplicarFiltros(walletId);
         const quotations = Array.isArray(resp.filtros) ? resp.filtros : [];
-
 
         setAllQuotations(quotations);
       } catch (error) {
@@ -174,13 +175,8 @@ export default function ContentWalletDetails({ wallet }) {
     return "text-gray-400";
   };
 
-
-
-
-
   return (
     <div className="min-h-screen bg-bg px-6 py-10">
-      {/* Header */}
       <div className="mb-12 max-w-[1600px] mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-3">
           Suas <span className="text-primary">cotações</span>
@@ -189,23 +185,19 @@ export default function ContentWalletDetails({ wallet }) {
           {allQuotations.length} aç{allQuotations.length > 1 ? "ões " : "ão "}
           encontrada{allQuotations.length !== 1 ? "s" : ""} na sua carteira
         </p>
-
-
       </div>
 
-
-      {loading && (<WalletLoadingDiv/>)}
-      {error && !loading && ( <WalletErrorDiv/>)}
+      {loading && <WalletLoadingDiv />}
+      {error && !loading && <WalletErrorDiv />}
 
       {!loading && !error && allQuotations.length > 0 ? (
-                                                          <WalletQuotations 
-                                                            allQuotations={currentQuotations} 
-                                                            handleOpenChart={handleOpenChart}
-                                                            getVariationColor={getVariationColor} 
-                                                            formatNumber={formatNumber} 
-                                                          />
-                                                      ) 
-      : !loading && !error && allQuotations.length === 0 ? (
+        <WalletQuotations
+          allQuotations={currentQuotations}
+          handleOpenChart={handleOpenChart}
+          getVariationColor={getVariationColor}
+          formatNumber={formatNumber}
+        />
+      ) : !loading && !error && allQuotations.length === 0 ? (
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
             <p className="text-gray-400 text-lg">
@@ -220,13 +212,13 @@ export default function ContentWalletDetails({ wallet }) {
 
       {totalPages > 1 && <PaginationControls />}
 
-      {/* Modal */}
       {isModalOpen && selectedQuotation && (
-        <WalletQuotationDetailModal 
+        <WalletQuotationDetailModal
           selectedQuotation={selectedQuotation}
           formatNumber={formatNumber}
           handleCloseModal={handleCloseModal}
-        />)}
+        />
+      )}
     </div>
   );
 }

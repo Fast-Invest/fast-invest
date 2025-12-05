@@ -91,7 +91,6 @@ export default function QuotationChart({ quotation }) {
   // Dados finais com todos os indicadores
   const chartData = dataWithBB;
 
-
   // Cores do tema dark
   const chartColors = {
     primary: "#00FF88",
@@ -152,8 +151,16 @@ export default function QuotationChart({ quotation }) {
           <>
             <defs>
               <linearGradient id="colorPreco" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={chartColors.primary} stopOpacity={0.8} />
-                <stop offset="95%" stopColor={chartColors.primary} stopOpacity={0.1} />
+                <stop
+                  offset="5%"
+                  stopColor={chartColors.primary}
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="95%"
+                  stopColor={chartColors.primary}
+                  stopOpacity={0.1}
+                />
               </linearGradient>
             </defs>
             <Area
@@ -228,34 +235,32 @@ export default function QuotationChart({ quotation }) {
     if (chartType === "area") {
       return (
         <ResponsiveContainer width="100%" height={300}>
-          <AreaChart {...commonProps}>
-            {baseChart}
-          </AreaChart>
+          <AreaChart {...commonProps}>{baseChart}</AreaChart>
         </ResponsiveContainer>
       );
     } else if (chartType === "bar") {
       return (
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart {...commonProps}>
-            {baseChart}
-          </BarChart>
+          <BarChart {...commonProps}>{baseChart}</BarChart>
         </ResponsiveContainer>
       );
     } else {
       return (
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart {...commonProps}>
-            {baseChart}
-          </LineChart>
+          <LineChart {...commonProps}>{baseChart}</LineChart>
         </ResponsiveContainer>
       );
     }
   };
 
   return (
-    <div className={`space-y-6 ${isFullscreen ? "fixed inset-0 bg-bg z-50 p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-black/40" : ""}`}>
-
-      {/* Header com Controles */}
+    <div
+      className={`space-y-6 ${
+        isFullscreen
+          ? "fixed inset-0 bg-bg z-50 p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-black/40"
+          : ""
+      }`}
+    >
       <div className="bg-black/40 border border-primary/20 p-4 rounded-lg">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-white">
@@ -270,9 +275,10 @@ export default function QuotationChart({ quotation }) {
           </button>
         </div>
 
-        {/* Controles de Tipo de Gráfico */}
         <div className="mb-4 pb-4 border-b border-primary/20">
-          <p className="text-xs text-gray-400 font-semibold mb-2">Tipo de Gráfico</p>
+          <p className="text-xs text-gray-400 font-semibold mb-2">
+            Tipo de Gráfico
+          </p>
           <div className="flex gap-2 flex-wrap">
             {[
               { value: "line", label: "Linha" },
@@ -294,7 +300,6 @@ export default function QuotationChart({ quotation }) {
           </div>
         </div>
 
-        {/* Controles de Período */}
         <div className="mb-4 pb-4 border-b border-primary/20">
           <p className="text-xs text-gray-400 font-semibold mb-2">Período</p>
           <div className="flex gap-2 flex-wrap">
@@ -319,9 +324,10 @@ export default function QuotationChart({ quotation }) {
           </div>
         </div>
 
-        {/* Controles de Indicadores */}
         <div className="mb-4 pb-4 border-b border-primary/20">
-          <p className="text-xs text-gray-400 font-semibold mb-2">Indicadores</p>
+          <p className="text-xs text-gray-400 font-semibold mb-2">
+            Indicadores
+          </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {[
               { state: showVolume, setState: setShowVolume, label: "Volume" },
@@ -348,11 +354,8 @@ export default function QuotationChart({ quotation }) {
             ))}
           </div>
         </div>
-
-
       </div>
 
-      {/* Gráfico Principal */}
       <div className="bg-black/40 border border-primary/20 p-6 rounded-lg">
         <h3 className="text-lg font-semibold text-white mb-4">
           Evolução de Preço
@@ -360,7 +363,6 @@ export default function QuotationChart({ quotation }) {
         {renderChart()}
       </div>
 
-      {/* Gráfico de Volume (se ativado) */}
       {showVolume && (
         <div className="bg-black/40 border border-primary/20 p-6 rounded-lg">
           <h3 className="text-lg font-semibold text-white mb-4">
@@ -368,7 +370,10 @@ export default function QuotationChart({ quotation }) {
           </h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke={chartColors.gridStroke} />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke={chartColors.gridStroke}
+              />
               <XAxis
                 dataKey="day"
                 stroke={chartColors.text}
@@ -398,7 +403,6 @@ export default function QuotationChart({ quotation }) {
         </div>
       )}
 
-      {/* Gráfico de RSI (se ativado) */}
       {showRSI && (
         <div className="bg-black/40 border border-primary/20 p-6 rounded-lg">
           <h3 className="text-lg font-semibold text-white mb-4">
@@ -406,7 +410,10 @@ export default function QuotationChart({ quotation }) {
           </h3>
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke={chartColors.gridStroke} />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke={chartColors.gridStroke}
+              />
               <XAxis
                 dataKey="day"
                 stroke={chartColors.text}
@@ -431,13 +438,23 @@ export default function QuotationChart({ quotation }) {
                 y={70}
                 stroke={chartColors.danger}
                 strokeDasharray="5 5"
-                label={{ value: "Sobrecompra (70)", position: "right", fill: chartColors.danger, fontSize: 12 }}
+                label={{
+                  value: "Sobrecompra (70)",
+                  position: "right",
+                  fill: chartColors.danger,
+                  fontSize: 12,
+                }}
               />
               <ReferenceLine
                 y={30}
                 stroke={chartColors.success}
                 strokeDasharray="5 5"
-                label={{ value: "Sobrevenda (30)", position: "right", fill: chartColors.success, fontSize: 12 }}
+                label={{
+                  value: "Sobrevenda (30)",
+                  position: "right",
+                  fill: chartColors.success,
+                  fontSize: 12,
+                }}
               />
               <Line
                 type="monotone"
@@ -452,8 +469,6 @@ export default function QuotationChart({ quotation }) {
         </div>
       )}
 
-
-      {/* Botão para Sair do Fullscreen */}
       {isFullscreen && (
         <button
           onClick={() => setIsFullscreen(false)}

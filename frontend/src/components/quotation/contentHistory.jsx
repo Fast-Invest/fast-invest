@@ -1,5 +1,5 @@
-import {EvMultiplesChart} from "./QuotationCharts"
-export default function ContentHistory({ historico_indicadores,cotacao }) {
+import { EvMultiplesChart } from "./QuotationCharts";
+export default function ContentHistory({ historico_indicadores, cotacao }) {
   return (
     <div id="historico" className="w-full text-white p-8 rounded-2xl">
       <h2 className="text-2xl font-semibold mb-2">
@@ -13,11 +13,9 @@ export default function ContentHistory({ historico_indicadores,cotacao }) {
       {/* Placeholder do gráfico */}
       <div className="w-full h-72 border border-gray-700 rounded-xl flex items-center justify-center">
         <div className="w-full h-72 border border-gray-700 rounded-xl p-4">
-          <EvMultiplesChart historico_indicadores={historico_indicadores }/>
+          <EvMultiplesChart historico_indicadores={historico_indicadores} />
         </div>
       </div>
-
-
     </div>
   );
 }

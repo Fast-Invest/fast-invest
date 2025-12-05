@@ -28,14 +28,11 @@ export default function LogoBranding() {
         toast.error("As senhas não coincidem.");
         return;
       }
-
       const resp = await cadastrarUsuario({
         nome: username,
         email: email,
         senha: password,
       });
-      //console.log("Errrrrroooooo")
-      //console.log(resp)
       if (resp.status !== 201) {
         toast.error("Erro ao cadastrar usuario");
         return;
